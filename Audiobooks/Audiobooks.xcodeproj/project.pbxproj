@@ -7,8 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A384B8B12322C8B700F9D07A /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A384B8B02322C8B700F9D07A /* Helper.swift */; };
 		A3B5A17B232297DC00E97290 /* LibraryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B5A17A232297DC00E97290 /* LibraryTableViewController.swift */; };
 		A3B5A17D232297FC00E97290 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B5A17C232297FC00E97290 /* PlayerViewController.swift */; };
+		A3B5A17F2322A18B00E97290 /* UIColor+SpotifyColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B5A17E2322A18B00E97290 /* UIColor+SpotifyColor.swift */; };
 		A3C1D29D2322648300977415 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C1D29C2322648300977415 /* AppDelegate.swift */; };
 		A3C1D29F2322648300977415 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C1D29E2322648300977415 /* LoginViewController.swift */; };
 		A3C1D2A22322648300977415 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3C1D2A02322648300977415 /* Main.storyboard */; };
@@ -21,8 +23,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A384B8B02322C8B700F9D07A /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		A3B5A17A232297DC00E97290 /* LibraryTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryTableViewController.swift; sourceTree = "<group>"; };
 		A3B5A17C232297FC00E97290 /* PlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
+		A3B5A17E2322A18B00E97290 /* UIColor+SpotifyColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+SpotifyColor.swift"; sourceTree = "<group>"; };
 		A3C1D2992322648300977415 /* Audiobooks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Audiobooks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3C1D29C2322648300977415 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A3C1D29E2322648300977415 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -75,8 +79,10 @@
 				A3C1D2A02322648300977415 /* Main.storyboard */,
 				A3B5A17C232297FC00E97290 /* PlayerViewController.swift */,
 				A3B5A17A232297DC00E97290 /* LibraryTableViewController.swift */,
+				A384B8B02322C8B700F9D07A /* Helper.swift */,
 				A3C1D2C023228C5000977415 /* AudiobookDetailViewController.swift */,
 				A3C1D2BE232281F400977415 /* SearchTableViewController.swift */,
+				A3B5A17E2322A18B00E97290 /* UIColor+SpotifyColor.swift */,
 				A3C1D2A62322648600977415 /* Assets.xcassets */,
 				A3C1D2A82322648600977415 /* LaunchScreen.storyboard */,
 				A3C1D2AB2322648600977415 /* Info.plist */,
@@ -164,8 +170,10 @@
 			files = (
 				A3B5A17B232297DC00E97290 /* LibraryTableViewController.swift in Sources */,
 				A3C1D2A52322648300977415 /* Audiobooks.xcdatamodeld in Sources */,
+				A3B5A17F2322A18B00E97290 /* UIColor+SpotifyColor.swift in Sources */,
 				A3C1D29F2322648300977415 /* LoginViewController.swift in Sources */,
 				A3B5A17D232297FC00E97290 /* PlayerViewController.swift in Sources */,
+				A384B8B12322C8B700F9D07A /* Helper.swift in Sources */,
 				A3C1D29D2322648300977415 /* AppDelegate.swift in Sources */,
 				A3C1D2BF232281F400977415 /* SearchTableViewController.swift in Sources */,
 				A3C1D2C123228C5000977415 /* AudiobookDetailViewController.swift in Sources */,
@@ -326,7 +334,7 @@
 					"@executable_path/Frameworks",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.Audiobooks;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.AudiobooksMiau;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Audiobooks/audiobooks-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -350,7 +358,7 @@
 					"@executable_path/Frameworks",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.Audiobooks;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.AudiobooksMiau;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Audiobooks/audiobooks-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;

@@ -8,16 +8,34 @@
 
 import UIKit
 
-class SearchTableViewController: UITableViewController {
+class SearchTableViewController: UITableViewController, UISearchBarDelegate {
 
+    @IBOutlet weak var searchBar: UISearchBar!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        searchBar.delegate = self
+        Helper.app.adjustStyle(obj: self, tableView: self.tableView, searchBarItem: self.searchBar)
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+    }
+    
+    //function that get's called when text of searchbar changes
+    func searchBar(_searchBar: UISearchBar, textDidChange searchText: String){
+        //search for results
+       
+        //finally
+        //tableView.reloadData()
+    }
+    
+    //function that gets called when you touch the searchbar
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        //self.navigationController?.navigationBar.barTintColor = UIColor.SpotifyColor.Black
+       
     }
 
     // MARK: - Table view data source
@@ -30,6 +48,10 @@ class SearchTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return 0
+    }
+    
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.backgroundColor = UIColor.clear
     }
 
     /*

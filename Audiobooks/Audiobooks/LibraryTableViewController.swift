@@ -8,17 +8,21 @@
 
 import UIKit
 
-class LibraryTableViewController: UITableViewController {
+class LibraryTableViewController: UITableViewController, UISearchBarDelegate {
 
+    @IBOutlet weak var searchBar: UISearchBar!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        searchBar.delegate = self
+        Helper.app.adjustStyle(obj: self, tableView: self.tableView, searchBarItem: self.searchBar)
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
+    
 
     // MARK: - Table view data source
 
