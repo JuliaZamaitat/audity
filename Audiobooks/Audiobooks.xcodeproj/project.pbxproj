@@ -7,19 +7,25 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A3B5A17B232297DC00E97290 /* LibraryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B5A17A232297DC00E97290 /* LibraryTableViewController.swift */; };
+		A3B5A17D232297FC00E97290 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B5A17C232297FC00E97290 /* PlayerViewController.swift */; };
 		A3C1D29D2322648300977415 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C1D29C2322648300977415 /* AppDelegate.swift */; };
-		A3C1D29F2322648300977415 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C1D29E2322648300977415 /* ViewController.swift */; };
+		A3C1D29F2322648300977415 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C1D29E2322648300977415 /* LoginViewController.swift */; };
 		A3C1D2A22322648300977415 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3C1D2A02322648300977415 /* Main.storyboard */; };
 		A3C1D2A52322648300977415 /* Audiobooks.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A3C1D2A32322648300977415 /* Audiobooks.xcdatamodeld */; };
 		A3C1D2A72322648600977415 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A3C1D2A62322648600977415 /* Assets.xcassets */; };
 		A3C1D2AA2322648600977415 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3C1D2A82322648600977415 /* LaunchScreen.storyboard */; };
 		A3C1D2B4232268E000977415 /* SpotifyiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3C1D2B3232268E000977415 /* SpotifyiOS.framework */; };
+		A3C1D2BF232281F400977415 /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C1D2BE232281F400977415 /* SearchTableViewController.swift */; };
+		A3C1D2C123228C5000977415 /* AudiobookDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C1D2C023228C5000977415 /* AudiobookDetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A3B5A17A232297DC00E97290 /* LibraryTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryTableViewController.swift; sourceTree = "<group>"; };
+		A3B5A17C232297FC00E97290 /* PlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
 		A3C1D2992322648300977415 /* Audiobooks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Audiobooks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3C1D29C2322648300977415 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		A3C1D29E2322648300977415 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		A3C1D29E2322648300977415 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		A3C1D2A12322648300977415 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A3C1D2A42322648300977415 /* Audiobooks.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Audiobooks.xcdatamodel; sourceTree = "<group>"; };
 		A3C1D2A62322648600977415 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -27,6 +33,8 @@
 		A3C1D2AB2322648600977415 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A3C1D2B3232268E000977415 /* SpotifyiOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SpotifyiOS.framework; sourceTree = SOURCE_ROOT; };
 		A3C1D2B923226EB700977415 /* audiobooks-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "audiobooks-Bridging-Header.h"; sourceTree = "<group>"; };
+		A3C1D2BE232281F400977415 /* SearchTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
+		A3C1D2C023228C5000977415 /* AudiobookDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudiobookDetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,8 +71,12 @@
 			children = (
 				A3C1D2B923226EB700977415 /* audiobooks-Bridging-Header.h */,
 				A3C1D29C2322648300977415 /* AppDelegate.swift */,
-				A3C1D29E2322648300977415 /* ViewController.swift */,
+				A3C1D29E2322648300977415 /* LoginViewController.swift */,
 				A3C1D2A02322648300977415 /* Main.storyboard */,
+				A3B5A17C232297FC00E97290 /* PlayerViewController.swift */,
+				A3B5A17A232297DC00E97290 /* LibraryTableViewController.swift */,
+				A3C1D2C023228C5000977415 /* AudiobookDetailViewController.swift */,
+				A3C1D2BE232281F400977415 /* SearchTableViewController.swift */,
 				A3C1D2A62322648600977415 /* Assets.xcassets */,
 				A3C1D2A82322648600977415 /* LaunchScreen.storyboard */,
 				A3C1D2AB2322648600977415 /* Info.plist */,
@@ -105,15 +117,21 @@
 				TargetAttributes = {
 					A3C1D2982322648300977415 = {
 						CreatedOnToolsVersion = 10.3;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
 			buildConfigurationList = A3C1D2942322648300977415 /* Build configuration list for PBXProject "Audiobooks" */;
 			compatibilityVersion = "Xcode 9.3";
-			developmentRegion = en;
+			developmentRegion = German;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
+				German,
+				de,
 				Base,
 			);
 			mainGroup = A3C1D2902322648300977415;
@@ -144,9 +162,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A3B5A17B232297DC00E97290 /* LibraryTableViewController.swift in Sources */,
 				A3C1D2A52322648300977415 /* Audiobooks.xcdatamodeld in Sources */,
-				A3C1D29F2322648300977415 /* ViewController.swift in Sources */,
+				A3C1D29F2322648300977415 /* LoginViewController.swift in Sources */,
+				A3B5A17D232297FC00E97290 /* PlayerViewController.swift in Sources */,
 				A3C1D29D2322648300977415 /* AppDelegate.swift in Sources */,
+				A3C1D2BF232281F400977415 /* SearchTableViewController.swift in Sources */,
+				A3C1D2C123228C5000977415 /* AudiobookDetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
