@@ -13,6 +13,7 @@
 		A3C1D2A52322648300977415 /* Audiobooks.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A3C1D2A32322648300977415 /* Audiobooks.xcdatamodeld */; };
 		A3C1D2A72322648600977415 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A3C1D2A62322648600977415 /* Assets.xcassets */; };
 		A3C1D2AA2322648600977415 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3C1D2A82322648600977415 /* LaunchScreen.storyboard */; };
+		A3C1D2B4232268E000977415 /* SpotifyiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3C1D2B3232268E000977415 /* SpotifyiOS.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,8 @@
 		A3C1D2A62322648600977415 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A3C1D2A92322648600977415 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A3C1D2AB2322648600977415 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A3C1D2B3232268E000977415 /* SpotifyiOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SpotifyiOS.framework; sourceTree = SOURCE_ROOT; };
+		A3C1D2B923226EB700977415 /* audiobooks-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "audiobooks-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +34,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A3C1D2B4232268E000977415 /* SpotifyiOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -40,6 +44,7 @@
 		A3C1D2902322648300977415 = {
 			isa = PBXGroup;
 			children = (
+				A3C1D2B3232268E000977415 /* SpotifyiOS.framework */,
 				A3C1D29B2322648300977415 /* Audiobooks */,
 				A3C1D29A2322648300977415 /* Products */,
 			);
@@ -56,6 +61,7 @@
 		A3C1D29B2322648300977415 /* Audiobooks */ = {
 			isa = PBXGroup;
 			children = (
+				A3C1D2B923226EB700977415 /* audiobooks-Bridging-Header.h */,
 				A3C1D29C2322648300977415 /* AppDelegate.swift */,
 				A3C1D29E2322648300977415 /* ViewController.swift */,
 				A3C1D2A02322648300977415 /* Main.storyboard */,
@@ -288,13 +294,19 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = RR52BD63Z6;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = Audiobooks/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.Audiobooks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Audiobooks/audiobooks-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -306,13 +318,19 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = RR52BD63Z6;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = Audiobooks/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.Audiobooks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Audiobooks/audiobooks-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
