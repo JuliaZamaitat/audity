@@ -1,0 +1,156 @@
+//
+//  SearchViewController.swift
+//  Audiobooks
+//
+//  Created by Julia Zamaitat on 07.09.19.
+//  Copyright © 2019 Julia Zamaitat. All rights reserved.
+//
+
+import UIKit
+
+class SearchViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate {
+    
+    @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var collection: UICollectionView!
+    
+    var audiobookArray = [Audiobook]()
+    var currentAudiobookArray = [Audiobook]() //to update the table
+    
+    /*override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }*/
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        //view.addSubview(searchBar
+        setUpAudiobooks()
+        setUpSearchBar()
+        adjustStyle()
+        collection.delegate = self
+        collection.dataSource = self
+    }
+    
+    private func setUpSearchBar() {
+        searchBar.delegate = self
+        searchBar.placeholder = "Titel oder Autor_in"
+        searchBar.showsCancelButton = true
+        searchBar.backgroundImage = UIImage() //needs to be added in order for the color to work
+        searchBar.barTintColor = UIColor.SpotifyColor.Black
+         searchBar.isTranslucent = false
+       
+        if let textfield = searchBar.value(forKey: "searchField") as? UITextField {
+            if let backgroundview = textfield.subviews.first {
+                // Background color
+                backgroundview.backgroundColor = UIColor.white
+                // Rounded corner
+                backgroundview.layer.cornerRadius = 7;
+                backgroundview.clipsToBounds = true;
+            }
+        }
+        
+        //sets up the cancel button
+        let cancelButtonAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        UIBarButtonItem.appearance().setTitleTextAttributes(cancelButtonAttributes , for: .normal)
+
+    }
+    
+    private func adjustStyle() {
+        //Sets up header
+        title = "Suche"
+        navigationController?.navigationBar.barStyle = .black //to keep the white system controls and titles
+        navigationController?.navigationBar.barTintColor = UIColor.SpotifyColor.Black
+        
+        navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.shadowImage = UIImage() //to make the border disappear
+        
+        //Sets up content view
+        collection.backgroundColor = UIColor.SpotifyColor.Black
+        //collection.separatorStyle = .none
+        
+        //Sets up tab bar
+        tabBarController?.tabBar.barTintColor = UIColor.SpotifyColor.Black
+        tabBarController?.tabBar.tintColor = .white
+        
+    }
+    
+    private func setUpAudiobooks() {
+        audiobookArray.append(Audiobook(title: "GRM-Brainfuck", author: "Sibylle Berg", image: "grm"))
+        audiobookArray.append(Audiobook(title: "Auch GRM-Brainfuck", author: "Sibylle Berg", image: "james"))
+        audiobookArray.append(Audiobook(title: "GRM-Brainfuck", author: "Sibylle Berg", image: "tjh"))
+        audiobookArray.append(Audiobook(title: "Mal etwas anderes", author: "Hase", image: "roosevelt"))
+        audiobookArray.append(Audiobook(title: "FML", author: "Julia Zamaitat", image: "grm"))
+        audiobookArray.append(Audiobook(title: "HAHAHA", author: "Libre", image: "james"))
+        audiobookArray.append(Audiobook(title: "Wo sind meine Fische?", author: "Norman Rittr", image: "roosevelt"))
+        audiobookArray.append(Audiobook(title: "Raus mit die Viecher", author: "Karin Ritter", image: "tjh"))
+        
+        currentAudiobookArray = audiobookArray
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return currentAudiobookArray.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collection.dequeueReusableCell(withReuseIdentifier: "searchCollectionCell", for: indexPath) as? SearchCollectionViewCell else {
+            return UICollectionViewCell()
+        }
+        cell.titleLabel.text = currentAudiobookArray[indexPath.row].title
+        cell.authorLabel.text = currentAudiobookArray[indexPath.row].author
+        cell.coverImage.image = UIImage(named: currentAudiobookArray[indexPath.row].image)
+        return cell
+    }
+    
+
+    // MARK: -Search Bar
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        guard !searchText.isEmpty else {
+            currentAudiobookArray = audiobookArray
+            
+            collection.reloadData()
+            return}
+        currentAudiobookArray = audiobookArray.filter({ audiobook -> Bool in
+            audiobook.title.lowercased().contains(searchText.lowercased())
+        })
+        collection.reloadData()
+    }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        navigationController?.setNavigationBarHidden(true, animated: true)
+         searchBar.barTintColor = UIColor.init(netHex: 0x1b1b1b)
+        collection.backgroundColor = UIColor.SpotifyColor.Black
+       
+    }
+    
+    //brings the navigation bar back
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar){
+        navigationController?.setNavigationBarHidden(false, animated: true)
+        self.view.endEditing(true)
+    }
+    
+    //Needed so search bar disappeard when "Suchen" on keyboard is pressed
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+        self.view.endEditing(true)
+        searchBar.barTintColor = UIColor.SpotifyColor.Black
+    }
+    
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    /*override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "ShowDetailSegue") {
+            navigationController?.setNavigationBarHidden(false, animated: true)
+        }
+    }*/
+    
+
+}
+
+//For custom size of the collectionView cells
+extension SearchViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 200 , height: 250)
+    }
+  
+    
+}
