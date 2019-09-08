@@ -13,6 +13,7 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var collection: UICollectionView!
     
+    var searchActive = false
     var audiobookArray = [Audiobook]()
     var currentAudiobookArray = [Audiobook]() //to update the table
     
@@ -28,6 +29,23 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
         adjustStyle()
         collection.delegate = self
         collection.dataSource = self
+    }
+    
+    //In order to hide navigation bar after clicked on search result
+    override func viewWillAppear(_ animated: Bool) {
+       view.backgroundColor = UIColor.SpotifyColor.Black //removes glitches
+        if searchActive {
+            navigationController?.setNavigationBarHidden(true, animated: false)
+        }
+    }
+ 
+    //To hide navigation bar when collectionView is crolled
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView.panGestureRecognizer.translation(in: scrollView).y < 0 {
+            navigationController?.setNavigationBarHidden(true, animated: true)
+        } else {
+            navigationController?.setNavigationBarHidden(false, animated: true)
+        }
     }
     
     private func setUpSearchBar() {
@@ -62,10 +80,9 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
         
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.shadowImage = UIImage() //to make the border disappear
-        
+       
         //Sets up content view
         collection.backgroundColor = UIColor.SpotifyColor.Black
-        //collection.separatorStyle = .none
         
         //Sets up tab bar
         tabBarController?.tabBar.barTintColor = UIColor.SpotifyColor.Black
@@ -100,12 +117,15 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        navigationController?.setNavigationBarHidden(false, animated: false)
+    }
 
     // MARK: -Search Bar
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        searchActive = true
         guard !searchText.isEmpty else {
             currentAudiobookArray = audiobookArray
-            
             collection.reloadData()
             return}
         currentAudiobookArray = audiobookArray.filter({ audiobook -> Bool in
@@ -116,15 +136,15 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         navigationController?.setNavigationBarHidden(true, animated: true)
-         searchBar.barTintColor = UIColor.init(netHex: 0x1b1b1b)
-        collection.backgroundColor = UIColor.SpotifyColor.Black
-       
+         //searchBar.barTintColor = UIColor.init(netHex: 0x1b1b1b)
+       searchActive = true
     }
     
     //brings the navigation bar back
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar){
         navigationController?.setNavigationBarHidden(false, animated: true)
         self.view.endEditing(true)
+        searchActive = false
     }
     
     //Needed so search bar disappeard when "Suchen" on keyboard is pressed
@@ -132,6 +152,7 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
         searchBar.resignFirstResponder()
         self.view.endEditing(true)
         searchBar.barTintColor = UIColor.SpotifyColor.Black
+        searchActive = false
     }
     
     // MARK: - Navigation
@@ -152,5 +173,4 @@ extension SearchViewController: UICollectionViewDelegateFlowLayout {
         return CGSize(width: 200 , height: 250)
     }
   
-    
 }

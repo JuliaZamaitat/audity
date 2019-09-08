@@ -191,6 +191,9 @@
                     <navigationItem key="navigationItem" title="Title" largeTitleDisplayMode="never" id="YYB-4i-x2r">
                         <barButtonItem key="rightBarButtonItem" title="..." id="lJw-qg-dri"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="tableView" destination="yic-ju-ENg" id="NeK-A5-xrS"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MnE-fm-17L" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
