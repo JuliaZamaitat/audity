@@ -14,14 +14,20 @@ class DetailCoverViewController: UIViewController {
     @IBOutlet weak var coverImage: UIImageView!
     @IBOutlet weak var titelLabel: UILabel!
     
+    var audiobook: Audiobook?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         adjustStyle()
+        guard let audiobook = audiobook else {return}
+        coverImage.image = UIImage(named: audiobook.image)
+        titelLabel.text = audiobook.title
         // Do any additional setup after loading the view.
     }
     
     func adjustStyle() {
         view.backgroundColor = UIColor.SpotifyColor.Black
+       
     }
 
     /*

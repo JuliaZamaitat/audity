@@ -10,9 +10,17 @@ import UIKit
 
 class DetailDescriptionViewController: UIViewController {
 
+    var audiobook: Audiobook?
+    
+    @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet weak var releaseDateLabel: UILabel!
+    @IBOutlet weak var lengthLabel: UILabel!
+   
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        view.backgroundColor = UIColor.SpotifyColor.Black
+        guard let audiobook = audiobook else {return}
+        releaseDateLabel.text = audiobook.releaseDate
         // Do any additional setup after loading the view.
     }
     

@@ -13,6 +13,7 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var collection: UICollectionView!
     
+    
     var searchActive = false
     var audiobookArray = [Audiobook]()
     var currentAudiobookArray = [Audiobook]() //to update the table
@@ -91,14 +92,14 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
     }
     
     private func setUpAudiobooks() {
-        audiobookArray.append(Audiobook(title: "GRM-Brainfuck", author: "Sibylle Berg", image: "grm"))
-        audiobookArray.append(Audiobook(title: "Auch GRM-Brainfuck", author: "Sibylle Berg", image: "james"))
-        audiobookArray.append(Audiobook(title: "GRM-Brainfuck", author: "Sibylle Berg", image: "tjh"))
-        audiobookArray.append(Audiobook(title: "Mal etwas anderes", author: "Hase", image: "roosevelt"))
-        audiobookArray.append(Audiobook(title: "FML", author: "Julia Zamaitat", image: "grm"))
-        audiobookArray.append(Audiobook(title: "HAHAHA", author: "Libre", image: "james"))
-        audiobookArray.append(Audiobook(title: "Wo sind meine Fische?", author: "Norman Rittr", image: "roosevelt"))
-        audiobookArray.append(Audiobook(title: "Raus mit die Viecher", author: "Karin Ritter", image: "tjh"))
+        audiobookArray.append(Audiobook(title: "GRM-Brainfuck", author: "Sibylle Berg", image: "grm", releaseDate: "2019-02-22"))
+        audiobookArray.append(Audiobook(title: "Auch GRM-Brainfuck", author: "Sibylle Berg", image: "james", releaseDate: "2012-12-03"))
+        audiobookArray.append(Audiobook(title: "GRM-Brainfuck", author: "Sibylle Berg", image: "tjh", releaseDate: "2001-07-22"))
+        audiobookArray.append(Audiobook(title: "Mal etwas anderes", author: "Hase", image: "roosevelt", releaseDate: "2019-02-22"))
+        audiobookArray.append(Audiobook(title: "FML", author: "Julia Zamaitat", image: "grm", releaseDate: "2019-02-22"))
+        audiobookArray.append(Audiobook(title: "HAHAHA", author: "Libre", image: "james", releaseDate: "2019-02-22"))
+        audiobookArray.append(Audiobook(title: "Wo sind meine Fische?", author: "Norman Rittr", image: "roosevelt", releaseDate: "2019-02-22"))
+        audiobookArray.append(Audiobook(title: "Raus mit die Viecher", author: "Karin Ritter", image: "tjh", releaseDate: "2019-02-22"))
         
         currentAudiobookArray = audiobookArray
     }
@@ -120,6 +121,8 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         navigationController?.setNavigationBarHidden(false, animated: false)
     }
+    
+   
 
     // MARK: -Search Bar
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -158,11 +161,18 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    /*override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if (segue.identifier == "ShowDetailSegue") {
-            navigationController?.setNavigationBarHidden(false, animated: true)
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "ShowDetailsSegue") {
+           let destinationVC = segue.destination as! AudiobookDetailViewController
+           if let cell = sender as? UICollectionViewCell,
+            let indexPath = self.collection.indexPath(for: cell){
+                let audiobook = currentAudiobookArray[indexPath.row]
+                print(audiobook.title)
+                destinationVC.audiobook = audiobook
+            }
+            
         }
-    }*/
+    }
     
 
 }

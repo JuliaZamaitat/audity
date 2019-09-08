@@ -11,32 +11,40 @@ import UIKit
 class AudiobookDetailViewController: UIViewController {
 
     private var pageViewController: UIPageViewController!
+    var audiobook: Audiobook!
    
-     lazy var viewControllers: [UIViewController] = {
+    @IBOutlet weak var containerView: UIView!
+    
+    lazy var viewControllers: [UIViewController] = {
         var viewControllers = [UIViewController]()
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let firstIntroViewController = storyboard.instantiateViewController(withIdentifier: "intro1")
-        let secondIntroViewController = storyboard.instantiateViewController(withIdentifier: "intro2")
+        let firstIntroViewController = storyboard.instantiateViewController(withIdentifier: "cover") as! DetailCoverViewController
+      
+        let secondIntroViewController = storyboard.instantiateViewController(withIdentifier: "description") as! DetailDescriptionViewController
         viewControllers.append(firstIntroViewController)
         viewControllers.append(secondIntroViewController)
+        firstIntroViewController.audiobook = audiobook
+        secondIntroViewController.audiobook = audiobook
         return viewControllers
     }()
     
     
     
     @IBOutlet weak var tableView: UITableView!
+   
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         adjustStyle()
-        
-
-        // Do any additional setup after loading the view.
+        self.view.bringSubviewToFront(tableView)
+        self.view.sendSubviewToBack(containerView)
+        self.tableView.contentInset = UIEdgeInsets(top: containerView.bounds.size.height, left: 0, bottom: 0, right: 0)
+       
     }
     
     private func adjustStyle() {
         //Sets up header
         title = ""
-    
         
         //Sets up content view
         tableView.backgroundColor = UIColor.SpotifyColor.Black
@@ -47,11 +55,9 @@ class AudiobookDetailViewController: UIViewController {
         tabBarController?.tabBar.barTintColor = UIColor.SpotifyColor.Black
         tabBarController?.tabBar.tintColor = .white
         
-        //Sets up pageView
-      
-        
     }
     
+    //MARK: - Swipe Indication
     private func setupPageControl() {
         let appearance = UIPageControl.appearance()
         appearance.pageIndicatorTintColor = UIColor.gray
@@ -68,17 +74,8 @@ class AudiobookDetailViewController: UIViewController {
         return 0
     }
     
-    
 
     // MARK: - Navigation
-
-   // In a storyboard-based application, you will often want to do a little preparation before navigation
-    //override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-     
-   // }
- 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? UIPageViewController {
             pageViewController = vc
@@ -87,8 +84,6 @@ class AudiobookDetailViewController: UIViewController {
             pageViewController.setViewControllers([viewControllers[0]], direction: .forward, animated: true, completion: nil)
         }
     }
-
-
 }
 
 // MARK: UIPageViewControllerDataSource
@@ -98,14 +93,10 @@ extension AudiobookDetailViewController: UIPageViewControllerDataSource {
         guard let viewControllerIndex = viewControllers.firstIndex(of: viewController) else {
             return nil
         }
-        
-      
         let previousIndex = viewControllerIndex - 1
-        
         guard previousIndex >= 0 else {
             return nil
         }
-        
         guard viewControllers.count > previousIndex else {
             return nil
         }
@@ -117,14 +108,11 @@ extension AudiobookDetailViewController: UIPageViewControllerDataSource {
         guard let viewControllerIndex = viewControllers.firstIndex(of: viewController) else {
             return nil
         }
-        
         let nextIndex = viewControllerIndex + 1
         let viewControllersCount = viewControllers.count
-        
         guard viewControllersCount != nextIndex else {
             return nil
         }
-        
         guard viewControllersCount > nextIndex else {
             return nil
         }
@@ -140,7 +128,7 @@ extension AudiobookDetailViewController: UIPageViewControllerDelegate {
     func presentationCountForPageViewController(pageViewController: UIPageViewController) -> Int {
         return viewControllers.count
     }
-    
+
     func presentationIndexForPageViewController(pageViewController: UIPageViewController) -> Int {
         return 0
     }
