@@ -26,6 +26,7 @@
 		A3C1D2C123228C5000977415 /* AudiobookDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C1D2C023228C5000977415 /* AudiobookDetailViewController.swift */; };
 		A3DA621923254964003A049C /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3DA621823254964003A049C /* Track.swift */; };
 		A3DA621B23254BED003A049C /* TrackTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3DA621A23254BED003A049C /* TrackTableViewCell.swift */; };
+		A3DA621D23257B02003A049C /* MyLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3DA621C23257B02003A049C /* MyLibrary.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +52,7 @@
 		A3C1D2C023228C5000977415 /* AudiobookDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudiobookDetailViewController.swift; sourceTree = "<group>"; };
 		A3DA621823254964003A049C /* Track.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
 		A3DA621A23254BED003A049C /* TrackTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTableViewCell.swift; sourceTree = "<group>"; };
+		A3DA621C23257B02003A049C /* MyLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLibrary.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +96,7 @@
 				A3DA621A23254BED003A049C /* TrackTableViewCell.swift */,
 				A37585FE232527C600B3CE09 /* DetailDescriptionViewController.swift */,
 				A37585FC2325272300B3CE09 /* DetailCoverViewController.swift */,
+				A3DA621C23257B02003A049C /* MyLibrary.swift */,
 				A3543A542323AB4700916B50 /* Audiobook.swift */,
 				A3DA621823254964003A049C /* Track.swift */,
 				A3B5A17C232297FC00E97290 /* PlayerViewController.swift */,
@@ -191,6 +194,7 @@
 				A3C1D2A52322648300977415 /* Audiobooks.xcdatamodeld in Sources */,
 				A37585FD2325272300B3CE09 /* DetailCoverViewController.swift in Sources */,
 				A3543A552323AB4700916B50 /* Audiobook.swift in Sources */,
+				A3DA621D23257B02003A049C /* MyLibrary.swift in Sources */,
 				A3B5A17F2322A18B00E97290 /* UIColor+SpotifyColor.swift in Sources */,
 				A3C1D29F2322648300977415 /* LoginViewController.swift in Sources */,
 				A3B5A17D232297FC00E97290 /* PlayerViewController.swift in Sources */,

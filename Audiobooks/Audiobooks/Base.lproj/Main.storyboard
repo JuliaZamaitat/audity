@@ -172,7 +172,7 @@
                                                     <rect key="frame" x="20" y="11" width="334" height="20"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <nil key="highlightedColor"/>
+                                                    <color key="highlightedColor" red="0.0" green="0.97680455450000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vzM-hd-m9a">
                                                     <rect key="frame" x="20" y="41" width="334" height="20"/>
@@ -251,30 +251,42 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Titel" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eUK-iI-ncP">
-                                <rect key="frame" x="0.0" y="210" width="414" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <rect key="frame" x="0.0" y="205" width="414" height="28"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="23"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qn5-4F-F5b">
+                                <rect key="frame" x="124" y="238" width="166" height="31"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <inset key="contentEdgeInsets" minX="12" minY="8" maxX="8" maxY="8"/>
+                                <state key="normal" title="Zur Bibliothek hinzufügen"/>
+                                <connections>
+                                    <action selector="addToLibraryButtonTapped:" destination="SFn-go-Lxg" eventType="touchUpInside" id="xcF-11-scl"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.098039215690000001" green="0.078431372550000003" blue="0.078431372550000003" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="GVA-3v-641" firstAttribute="top" secondItem="2XR-7v-GBw" secondAttribute="top" id="0hO-In-Le6"/>
                             <constraint firstItem="eUK-iI-ncP" firstAttribute="leading" secondItem="2XR-7v-GBw" secondAttribute="leading" id="1zt-rf-FON"/>
                             <constraint firstItem="2XR-7v-GBw" firstAttribute="trailing" secondItem="eUK-iI-ncP" secondAttribute="trailing" id="GfH-mc-ZAT"/>
-                            <constraint firstItem="eUK-iI-ncP" firstAttribute="top" secondItem="GVA-3v-641" secondAttribute="bottom" constant="20" id="juE-Qm-sja"/>
+                            <constraint firstItem="Qn5-4F-F5b" firstAttribute="top" secondItem="eUK-iI-ncP" secondAttribute="bottom" constant="5" id="Who-MX-Mqr"/>
+                            <constraint firstItem="Qn5-4F-F5b" firstAttribute="centerX" secondItem="3Yh-PT-m2h" secondAttribute="centerX" id="fqU-wD-SaH"/>
+                            <constraint firstItem="eUK-iI-ncP" firstAttribute="top" secondItem="GVA-3v-641" secondAttribute="bottom" constant="15" id="juE-Qm-sja"/>
                             <constraint firstItem="GVA-3v-641" firstAttribute="centerX" secondItem="3Yh-PT-m2h" secondAttribute="centerX" id="xL0-NI-6Qr"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="2XR-7v-GBw"/>
                     </view>
                     <connections>
+                        <outlet property="addToLibraryButton" destination="Qn5-4F-F5b" id="BCF-fN-l5V"/>
                         <outlet property="coverImage" destination="GVA-3v-641" id="haq-X1-KWp"/>
                         <outlet property="titelLabel" destination="eUK-iI-ncP" id="6mb-bP-bnR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lPv-vj-Inz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2509" y="509"/>
+            <point key="canvasLocation" x="2508.6956521739135" y="508.69565217391306"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="OOT-kv-w6J">

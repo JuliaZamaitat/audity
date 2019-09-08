@@ -106,8 +106,13 @@ class AudiobookDetailViewController: UIViewController, UITableViewDataSource, UI
             return UITableViewCell()
         }
         cell.titelLabel.text = audiobook.trackList[indexPath.row].title
+        cell.titelLabel.highlightedTextColor = UIColor.SpotifyColor.Green
         cell.lengthLabel.text = audiobook.trackList[indexPath.row].length
         
+        //To make titels of cells green but selection style same color as table view
+        let customColorView = UIView()
+        customColorView.backgroundColor = UIColor.SpotifyColor.Black
+        cell.selectedBackgroundView = customColorView
         return cell
     }
     

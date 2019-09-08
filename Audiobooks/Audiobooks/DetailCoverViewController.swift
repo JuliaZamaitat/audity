@@ -14,6 +14,8 @@ class DetailCoverViewController: UIViewController {
     @IBOutlet weak var coverImage: UIImageView!
     @IBOutlet weak var titelLabel: UILabel!
     
+    @IBOutlet weak var addToLibraryButton: UIButton!
+   
     var audiobook: Audiobook?
     
     override func viewDidLoad() {
@@ -27,9 +29,28 @@ class DetailCoverViewController: UIViewController {
     
     func adjustStyle() {
         view.backgroundColor = UIColor.SpotifyColor.Black
-       
+        
+        addToLibraryButton.layer.borderWidth = 0.5
+        addToLibraryButton.layer.cornerRadius = 15
+        
+        addToLibraryButton.layer.borderColor = UIColor.white.cgColor
     }
 
+    @IBAction func addToLibraryButtonTapped(_ sender: Any) {
+       
+        if MyLibrary.myBooks.contains(audiobook!) {
+            let alert = UIAlertController(title: "Ups", message: "Du hast das Hörbuch bereits gespeichert", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "Schließen", style: UIAlertAction.Style.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        } else {
+            MyLibrary.myBooks.append(audiobook!)
+            let alert = UIAlertController(title: "Yeay", message: "Erfolgreich hinzugefügt", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "Schließen", style: UIAlertAction.Style.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    
     /*
     // MARK: - Navigation
 
