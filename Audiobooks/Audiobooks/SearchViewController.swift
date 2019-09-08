@@ -92,14 +92,19 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
     }
     
     private func setUpAudiobooks() {
-        audiobookArray.append(Audiobook(title: "GRM-Brainfuck", author: "Sibylle Berg", image: "grm", releaseDate: "2019-02-22"))
-        audiobookArray.append(Audiobook(title: "Auch GRM-Brainfuck", author: "Sibylle Berg", image: "james", releaseDate: "2012-12-03"))
-        audiobookArray.append(Audiobook(title: "GRM-Brainfuck", author: "Sibylle Berg", image: "tjh", releaseDate: "2001-07-22"))
-        audiobookArray.append(Audiobook(title: "Mal etwas anderes", author: "Hase", image: "roosevelt", releaseDate: "2019-02-22"))
-        audiobookArray.append(Audiobook(title: "FML", author: "Julia Zamaitat", image: "grm", releaseDate: "2019-02-22"))
-        audiobookArray.append(Audiobook(title: "HAHAHA", author: "Libre", image: "james", releaseDate: "2019-02-22"))
-        audiobookArray.append(Audiobook(title: "Wo sind meine Fische?", author: "Norman Rittr", image: "roosevelt", releaseDate: "2019-02-22"))
-        audiobookArray.append(Audiobook(title: "Raus mit die Viecher", author: "Karin Ritter", image: "tjh", releaseDate: "2019-02-22"))
+        var tracksArray = [Track]()
+        for n in 1...10 {
+            tracksArray.append(Track(title: "Kapitel \(n)", length: "12 minutes"))
+        }
+        
+        audiobookArray.append(Audiobook(title: "GRM-Brainfuck", author: "Sibylle Berg", image: "grm", releaseDate: "2019-02-22", trackList: tracksArray))
+        audiobookArray.append(Audiobook(title: "Auch GRM-Brainfuck", author: "Sibylle Berg", image: "james", releaseDate: "2012-12-03", trackList: tracksArray))
+        audiobookArray.append(Audiobook(title: "GRM-Brainfuck", author: "Sibylle Berg", image: "tjh", releaseDate: "2001-07-22", trackList: tracksArray))
+        audiobookArray.append(Audiobook(title: "Mal etwas anderes", author: "Hase", image: "roosevelt", releaseDate: "2019-02-22", trackList: tracksArray))
+        audiobookArray.append(Audiobook(title: "FML", author: "Julia Zamaitat", image: "grm", releaseDate: "2019-02-22", trackList: tracksArray))
+        audiobookArray.append(Audiobook(title: "HAHAHA", author: "Libre", image: "james", releaseDate: "2019-02-22", trackList: tracksArray))
+        audiobookArray.append(Audiobook(title: "Wo sind meine Fische?", author: "Norman Rittr", image: "roosevelt", releaseDate: "2019-02-22", trackList: tracksArray))
+        audiobookArray.append(Audiobook(title: "Raus mit die Viecher", author: "Karin Ritter", image: "tjh", releaseDate: "2019-02-22", trackList: tracksArray))
         
         currentAudiobookArray = audiobookArray
     }

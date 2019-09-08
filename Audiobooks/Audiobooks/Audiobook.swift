@@ -15,13 +15,14 @@ class Audiobook {
     let author: String
     let image: String
     let releaseDate: String
+    let trackList: [Track]
     
-    
-    init(title: String, author: String, image: String, releaseDate: String) {
+    init(title: String, author: String, image: String, releaseDate: String, trackList: [Track]) {
         self.title = title
         self.author = author
         self.image = image
         self.releaseDate = releaseDate
+        self.trackList = trackList
         //self.releaseDate = dateformat(date: releaseDate)
     }
     

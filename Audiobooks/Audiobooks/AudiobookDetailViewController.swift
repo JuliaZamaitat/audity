@@ -8,10 +8,15 @@
 
 import UIKit
 
-class AudiobookDetailViewController: UIViewController {
-
+class AudiobookDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    
+    var oldContentOffset = CGPoint(x: 0,y: 0)
+    let topConstraintRange = (CGFloat(120)..<CGFloat(300))
+    
+    
     private var pageViewController: UIPageViewController!
     var audiobook: Audiobook!
+    var previousOffset: CGFloat = 0
    
     @IBOutlet weak var containerView: UIView!
     
@@ -36,17 +41,21 @@ class AudiobookDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         adjustStyle()
-        self.view.bringSubviewToFront(tableView)
-        self.view.sendSubviewToBack(containerView)
-        self.tableView.contentInset = UIEdgeInsets(top: containerView.bounds.size.height, left: 0, bottom: 0, right: 0)
+        //self.view.bringSubviewToFront(containerView)
+        //self.view.sendSubviewToBack(containerView)
+        //tableView.contentInset = UIEdgeInsets(top: 300, left: 0, bottom: 0, right: 0)
+        //self.tableView.contentInset = UIEdgeInsets(top: containerView.bounds.size.height+40, left: 0, bottom: 0, right: 0)
+        tableView.delegate = self
+        tableView.dataSource = self
        
     }
-    
+
     private func adjustStyle() {
         //Sets up header
         title = ""
         
         //Sets up content view
+        //tableView.backgroundColor = UIColor.clear
         tableView.backgroundColor = UIColor.SpotifyColor.Black
         view.backgroundColor = UIColor.SpotifyColor.Black
         tableView.separatorStyle = .none
@@ -84,6 +93,41 @@ class AudiobookDetailViewController: UIViewController {
             pageViewController.setViewControllers([viewControllers[0]], direction: .forward, animated: true, completion: nil)
         }
     }
+    
+    
+    //MARK: - Table View
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return audiobook.trackList.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "trackCell", for: indexPath) as? TrackTableViewCell else {
+            return UITableViewCell()
+        }
+        cell.titelLabel.text = audiobook.trackList[indexPath.row].title
+        cell.lengthLabel.text = audiobook.trackList[indexPath.row].length
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 75
+    }
+    
+   /* func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offset = scrollView.contentOffset.y
+        
+        if(offset > 300){
+            self.containerView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.size.width, height: 0)
+        }else{
+            
+            self.containerView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.size.width, height: 300 - offset)
+            
+        }
+        
+    }*/
+    
 }
 
 // MARK: UIPageViewControllerDataSource

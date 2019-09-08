@@ -24,6 +24,8 @@
 		A3C1D2AA2322648600977415 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3C1D2A82322648600977415 /* LaunchScreen.storyboard */; };
 		A3C1D2B4232268E000977415 /* SpotifyiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3C1D2B3232268E000977415 /* SpotifyiOS.framework */; };
 		A3C1D2C123228C5000977415 /* AudiobookDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C1D2C023228C5000977415 /* AudiobookDetailViewController.swift */; };
+		A3DA621923254964003A049C /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3DA621823254964003A049C /* Track.swift */; };
+		A3DA621B23254BED003A049C /* TrackTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3DA621A23254BED003A049C /* TrackTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +49,8 @@
 		A3C1D2B3232268E000977415 /* SpotifyiOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SpotifyiOS.framework; sourceTree = SOURCE_ROOT; };
 		A3C1D2B923226EB700977415 /* audiobooks-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "audiobooks-Bridging-Header.h"; sourceTree = "<group>"; };
 		A3C1D2C023228C5000977415 /* AudiobookDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudiobookDetailViewController.swift; sourceTree = "<group>"; };
+		A3DA621823254964003A049C /* Track.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
+		A3DA621A23254BED003A049C /* TrackTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,9 +91,11 @@
 				A3C1D29C2322648300977415 /* AppDelegate.swift */,
 				A3C1D29E2322648300977415 /* LoginViewController.swift */,
 				A3C1D2A02322648300977415 /* Main.storyboard */,
+				A3DA621A23254BED003A049C /* TrackTableViewCell.swift */,
 				A37585FE232527C600B3CE09 /* DetailDescriptionViewController.swift */,
 				A37585FC2325272300B3CE09 /* DetailCoverViewController.swift */,
 				A3543A542323AB4700916B50 /* Audiobook.swift */,
+				A3DA621823254964003A049C /* Track.swift */,
 				A3B5A17C232297FC00E97290 /* PlayerViewController.swift */,
 				A3B5A17A232297DC00E97290 /* LibraryTableViewController.swift */,
 				A384B8B02322C8B700F9D07A /* Helper.swift */,
@@ -190,9 +196,11 @@
 				A3B5A17D232297FC00E97290 /* PlayerViewController.swift in Sources */,
 				A384B8B12322C8B700F9D07A /* Helper.swift in Sources */,
 				A3543A5D2323DACA00916B50 /* SearchCollectionViewCell.swift in Sources */,
+				A3DA621B23254BED003A049C /* TrackTableViewCell.swift in Sources */,
 				A37585FF232527C600B3CE09 /* DetailDescriptionViewController.swift in Sources */,
 				A3C1D29D2322648300977415 /* AppDelegate.swift in Sources */,
 				A3C1D2C123228C5000977415 /* AudiobookDetailViewController.swift in Sources */,
+				A3DA621923254964003A049C /* Track.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
