@@ -10,6 +10,8 @@
 		A3543A552323AB4700916B50 /* Audiobook.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3543A542323AB4700916B50 /* Audiobook.swift */; };
 		A3543A592323D9EC00916B50 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3543A582323D9EC00916B50 /* SearchViewController.swift */; };
 		A3543A5D2323DACA00916B50 /* SearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3543A5C2323DACA00916B50 /* SearchCollectionViewCell.swift */; };
+		A37585FD2325272300B3CE09 /* DetailCoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37585FC2325272300B3CE09 /* DetailCoverViewController.swift */; };
+		A37585FF232527C600B3CE09 /* DetailDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37585FE232527C600B3CE09 /* DetailDescriptionViewController.swift */; };
 		A384B8B12322C8B700F9D07A /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A384B8B02322C8B700F9D07A /* Helper.swift */; };
 		A3B5A17B232297DC00E97290 /* LibraryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B5A17A232297DC00E97290 /* LibraryTableViewController.swift */; };
 		A3B5A17D232297FC00E97290 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B5A17C232297FC00E97290 /* PlayerViewController.swift */; };
@@ -28,6 +30,8 @@
 		A3543A542323AB4700916B50 /* Audiobook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Audiobook.swift; sourceTree = "<group>"; };
 		A3543A582323D9EC00916B50 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		A3543A5C2323DACA00916B50 /* SearchCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCollectionViewCell.swift; sourceTree = "<group>"; };
+		A37585FC2325272300B3CE09 /* DetailCoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCoverViewController.swift; sourceTree = "<group>"; };
+		A37585FE232527C600B3CE09 /* DetailDescriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailDescriptionViewController.swift; sourceTree = "<group>"; };
 		A384B8B02322C8B700F9D07A /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		A3B5A17A232297DC00E97290 /* LibraryTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryTableViewController.swift; sourceTree = "<group>"; };
 		A3B5A17C232297FC00E97290 /* PlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
@@ -83,6 +87,8 @@
 				A3C1D29C2322648300977415 /* AppDelegate.swift */,
 				A3C1D29E2322648300977415 /* LoginViewController.swift */,
 				A3C1D2A02322648300977415 /* Main.storyboard */,
+				A37585FE232527C600B3CE09 /* DetailDescriptionViewController.swift */,
+				A37585FC2325272300B3CE09 /* DetailCoverViewController.swift */,
 				A3543A542323AB4700916B50 /* Audiobook.swift */,
 				A3B5A17C232297FC00E97290 /* PlayerViewController.swift */,
 				A3B5A17A232297DC00E97290 /* LibraryTableViewController.swift */,
@@ -177,12 +183,14 @@
 				A3B5A17B232297DC00E97290 /* LibraryTableViewController.swift in Sources */,
 				A3543A592323D9EC00916B50 /* SearchViewController.swift in Sources */,
 				A3C1D2A52322648300977415 /* Audiobooks.xcdatamodeld in Sources */,
+				A37585FD2325272300B3CE09 /* DetailCoverViewController.swift in Sources */,
 				A3543A552323AB4700916B50 /* Audiobook.swift in Sources */,
 				A3B5A17F2322A18B00E97290 /* UIColor+SpotifyColor.swift in Sources */,
 				A3C1D29F2322648300977415 /* LoginViewController.swift in Sources */,
 				A3B5A17D232297FC00E97290 /* PlayerViewController.swift in Sources */,
 				A384B8B12322C8B700F9D07A /* Helper.swift in Sources */,
 				A3543A5D2323DACA00916B50 /* SearchCollectionViewCell.swift in Sources */,
+				A37585FF232527C600B3CE09 /* DetailDescriptionViewController.swift in Sources */,
 				A3C1D29D2322648300977415 /* AppDelegate.swift in Sources */,
 				A3C1D2C123228C5000977415 /* AudiobookDetailViewController.swift in Sources */,
 			);
