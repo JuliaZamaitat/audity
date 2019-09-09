@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class SearchViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate {
     
@@ -26,6 +27,23 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
         collection.delegate = self
         collection.dataSource = self
         collection.keyboardDismissMode = .onDrag
+        //resetAllRecords(in: "Audiobook")
+    }
+    
+    func resetAllRecords(in entity: String){
+        
+        let context = PersistenceService.context
+        let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "Audiobook")
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
+        do
+        {
+            try context.execute(deleteRequest)
+            try context.save()
+        }
+        catch
+        {
+            print ("There was an error")
+        }
     }
     
     //In order to hide navigation bar after clicked on search result

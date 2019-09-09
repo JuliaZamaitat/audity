@@ -19,6 +19,7 @@ class DetailCoverViewController: UIViewController {
    
     var audiobook: AudiobookTemporary?
     var persistentAudiobook = Audiobook(context: PersistenceService.context)
+   
     override func viewDidLoad() {
         super.viewDidLoad()
         adjustStyle()
@@ -44,39 +45,47 @@ class DetailCoverViewController: UIViewController {
         
         
     }
+    
+    func makePersistent(temporaryAudiobook: AudiobookTemporary) {
+        persistentAudiobook.title = temporaryAudiobook.title
+        persistentAudiobook.author = temporaryAudiobook.author
+        persistentAudiobook.image = temporaryAudiobook.image
+        persistentAudiobook.releaseDate = temporaryAudiobook.releaseDate
+        
+    }
+    
+    func saveState(){
+        PersistenceService.saveContext()
+    }
 
     @IBAction func addToLibraryButtonTapped(_ sender: Any) {
         
+        makePersistent(temporaryAudiobook: audiobook!)
         
-        /*if MyLibrary.myBooks.contains(audiobook!) {
-            if let index = MyLibrary.myBooks.firstIndex(of: audiobook!){
+        if MyLibrary.myBooks.contains(persistentAudiobook) {
+            if let index = MyLibrary.myBooks.firstIndex(of: persistentAudiobook){
                 MyLibrary.myBooks.remove(at: index)
                 let alert = UIAlertController(title: "Bye", message: "Hörbuch entfernt", preferredStyle: UIAlertController.Style.alert)
                 alert.addAction(UIAlertAction(title: "Schließen", style: UIAlertAction.Style.default, handler: nil))
                 self.present(alert, animated: true, completion: nil)
                 addToLibraryButton.setTitle("Zur Bibliothek hinzufügen", for: .normal)
+            PersistenceService.saveContext()
             }
            
-        } else {*/
+        } else {
             saveState()
             MyLibrary.myBooks.append(persistentAudiobook)
-            
             let alert = UIAlertController(title: "Yeay", message: "Erfolgreich hinzugefügt", preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "Schließen", style: UIAlertAction.Style.default, handler: nil))
             self.present(alert, animated: true, completion: nil)
             addToLibraryButton.setTitle("Aus Bibliothek entfernen", for: .normal)
             PersistenceService.saveContext()
         }
-    
-    
-    func saveState(){
-        //persistentAudiobook = Audiobook(context: PersistenceService.context)
-        persistentAudiobook.title = audiobook?.title
-        persistentAudiobook.author = audiobook?.author
-        persistentAudiobook.image = audiobook?.image
-        persistentAudiobook.releaseDate = audiobook?.releaseDate
-        PersistenceService.saveContext()
     }
+    
+    
+    
+   
     
     
     /*
