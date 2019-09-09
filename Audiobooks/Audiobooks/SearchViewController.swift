@@ -18,18 +18,14 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
     var audiobookArray = [Audiobook]()
     var currentAudiobookArray = [Audiobook]() //to update the table
     
-    /*override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
-    }*/
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        //view.addSubview(searchBar
         setUpAudiobooks()
         setUpSearchBar()
         adjustStyle()
         collection.delegate = self
         collection.dataSource = self
+        collection.keyboardDismissMode = .onDrag
     }
     
     //In order to hide navigation bar after clicked on search result
@@ -52,10 +48,11 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
     private func setUpSearchBar() {
         searchBar.delegate = self
         searchBar.placeholder = "Titel oder Autor_in"
-        searchBar.showsCancelButton = true
         searchBar.backgroundImage = UIImage() //needs to be added in order for the color to work
         searchBar.barTintColor = UIColor.SpotifyColor.Black
-         searchBar.isTranslucent = false
+        searchBar.isTranslucent = false
+        searchBar.tintColor = .black
+       
        
         if let textfield = searchBar.value(forKey: "searchField") as? UITextField {
             if let backgroundview = textfield.subviews.first {
@@ -132,6 +129,7 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
     // MARK: -Search Bar
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         searchActive = true
+        
         guard !searchText.isEmpty else {
             currentAudiobookArray = audiobookArray
             collection.reloadData()
@@ -146,6 +144,7 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
         navigationController?.setNavigationBarHidden(true, animated: true)
          //searchBar.barTintColor = UIColor.init(netHex: 0x1b1b1b)
        searchActive = true
+        searchBar.showsCancelButton = true
     }
     
     //brings the navigation bar back
@@ -153,6 +152,7 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
         navigationController?.setNavigationBarHidden(false, animated: true)
         self.view.endEditing(true)
         searchActive = false
+        searchBar.showsCancelButton = false
     }
     
     //Needed so search bar disappeard when "Suchen" on keyboard is pressed
@@ -161,6 +161,7 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
         self.view.endEditing(true)
         searchBar.barTintColor = UIColor.SpotifyColor.Black
         searchActive = false
+         searchBar.showsCancelButton = false
     }
     
     // MARK: - Navigation
