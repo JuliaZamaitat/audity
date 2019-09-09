@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class DetailCoverViewController: UIViewController {
 
@@ -19,17 +20,26 @@ class DetailCoverViewController: UIViewController {
    
     var audiobook: Audiobook?
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         adjustStyle()
         guard let audiobook = audiobook else {return}
         coverImage.image = UIImage(named: audiobook.image)
         titelLabel.text = audiobook.title
+       
         // Do any additional setup after loading the view.
+        
+        
+        
+        
+       // print(mybook)
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        if MyLibrary.myBooks.contains(audiobook!){
+        guard let books = AppDelegate.library.books else { return }
+        
+        if (books.contains(audiobook!)){
              addToLibraryButton.setTitle("Aus Bibliothek entfernen", for: .normal)
         } else {
             addToLibraryButton.setTitle("Zur Bibliothek hinzufügen", for: .normal)
@@ -46,21 +56,25 @@ class DetailCoverViewController: UIViewController {
     }
 
     @IBAction func addToLibraryButtonTapped(_ sender: Any) {
-        if MyLibrary.myBooks.contains(audiobook!) {
-            if let index = MyLibrary.myBooks.firstIndex(of: audiobook!){
-                MyLibrary.myBooks.remove(at: index)
-                let alert = UIAlertController(title: "Bye", message: "Hörbuch entfernt", preferredStyle: UIAlertController.Style.alert)
-                alert.addAction(UIAlertAction(title: "Schließen", style: UIAlertAction.Style.default, handler: nil))
-                self.present(alert, animated: true, completion: nil)
+        print(AppDelegate.library.books?.count)
+       
+        if (AppDelegate.library.books?.contains(audiobook!))! {
+            guard let index = AppDelegate.library.books?.index(of: audiobook!) else { return }
+            AppDelegate.library.books?.remove(at: index)
+            let alert = UIAlertController(title: "Bye", message: "Hörbuch entfernt", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "Schließen", style: UIAlertAction.Style.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
                 addToLibraryButton.setTitle("Zur Bibliothek hinzufügen", for: .normal)
+             PersistenceService.saveContext()
             }
            
-        } else {
-            MyLibrary.myBooks.append(audiobook!)
+            else {
+            AppDelegate.library.books?.append(audiobook!)
             let alert = UIAlertController(title: "Yeay", message: "Erfolgreich hinzugefügt", preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "Schließen", style: UIAlertAction.Style.default, handler: nil))
             self.present(alert, animated: true, completion: nil)
             addToLibraryButton.setTitle("Aus Bibliothek entfernen", for: .normal)
+            PersistenceService.saveContext()
         }
     }
     

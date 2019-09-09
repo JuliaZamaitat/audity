@@ -12,7 +12,7 @@ class LibraryViewController: UIViewController, UISearchBarDelegate, UITableViewD
 
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
-    
+   
     var searchActive = false
     var audiobookArray: [Audiobook] = []
     var currentAudiobookArray = [Audiobook]()
@@ -36,7 +36,7 @@ class LibraryViewController: UIViewController, UISearchBarDelegate, UITableViewD
     //In order to hide navigation bar after clicked on search result
     override func viewWillAppear(_ animated: Bool) {
         view.backgroundColor = UIColor.SpotifyColor.Black //removes glitches
-        audiobookArray = MyLibrary.myBooks
+        audiobookArray = AppDelegate.library.books!
         currentAudiobookArray = audiobookArray
         tableView.reloadData()
         if searchActive {
@@ -186,13 +186,14 @@ class LibraryViewController: UIViewController, UISearchBarDelegate, UITableViewD
      func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let audiobook = currentAudiobookArray[indexPath.row]
-            if let index = MyLibrary.myBooks.firstIndex(of: audiobook){
-                MyLibrary.myBooks.remove(at: index)}
+            guard let index = AppDelegate.library.books?.index(of: audiobook) else { return}
+            AppDelegate.library.books?.remove(at: index)
             currentAudiobookArray.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
             tableView.reloadData()
         }
     }
+    
     
 
     /*

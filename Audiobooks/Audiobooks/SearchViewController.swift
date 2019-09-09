@@ -93,6 +93,7 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
         for n in 1...10 {
             tracksArray.append(Track(title: "Kapitel \(n)", length: "12 minutes"))
         }
+       
         
         audiobookArray.append(Audiobook(title: "GRM-Brainfuck", author: "Sibylle Berg", image: "grm", releaseDate: "2019-02-22", trackList: tracksArray))
         audiobookArray.append(Audiobook(title: "Auch GRM-Brainfuck", author: "Sibylle Berg", image: "james", releaseDate: "2012-12-03", trackList: tracksArray))

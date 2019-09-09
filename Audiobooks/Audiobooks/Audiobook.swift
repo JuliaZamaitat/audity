@@ -10,9 +10,7 @@ import Foundation
 import UIKit
 
 
-class Audiobook: Equatable {
-    
-    
+public class Audiobook: NSObject, NSCoding {
     let title: String
     let author: String
     let image: String
@@ -30,6 +28,23 @@ class Audiobook: Equatable {
     
     static func == (lhs: Audiobook, rhs: Audiobook) -> Bool {
         return lhs.title == rhs.title && lhs.author == rhs.author && lhs.releaseDate == rhs.releaseDate
+    }
+    
+    public func encode(with aCoder: NSCoder){
+        aCoder.encode(title, forKey: "title")
+        aCoder.encode(author, forKey: "author")
+        aCoder.encode(image, forKey: "image")
+        aCoder.encode(releaseDate, forKey: "releaseDate")
+        aCoder.encode(trackList, forKey: "trackList")
+       
+    }
+    
+    public required init?(coder aDecoder: NSCoder) {
+        self.title = aDecoder.decodeObject(forKey: "title") as! String
+         self.author = aDecoder.decodeObject(forKey: "author") as! String
+         self.image = aDecoder.decodeObject(forKey: "image") as! String
+         self.releaseDate = aDecoder.decodeObject(forKey: "releaseDate") as! String
+         self.trackList = aDecoder.decodeObject(forKey: "trackList") as! [Track]
     }
     
     /* Maybe useful later when working with the Spotify API
