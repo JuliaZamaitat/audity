@@ -13,6 +13,7 @@ class DetailCoverViewController: UIViewController {
    
     @IBOutlet weak var coverImage: UIImageView!
     @IBOutlet weak var titelLabel: UILabel!
+    @IBOutlet weak var subView: UIView!
     
     @IBOutlet weak var addToLibraryButton: UIButton!
    
@@ -29,7 +30,7 @@ class DetailCoverViewController: UIViewController {
     
     func adjustStyle() {
         view.backgroundColor = UIColor.SpotifyColor.Black
-        
+        subView.backgroundColor = UIColor.SpotifyColor.Black
         addToLibraryButton.layer.borderWidth = 0.5
         addToLibraryButton.layer.cornerRadius = 15
         
