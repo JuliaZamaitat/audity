@@ -161,7 +161,7 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
         self.view.endEditing(true)
         searchBar.barTintColor = UIColor.SpotifyColor.Black
         searchActive = false
-         searchBar.showsCancelButton = false
+        searchBar.showsCancelButton = false
     }
     
     // MARK: - Navigation
@@ -173,7 +173,6 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
            if let cell = sender as? UICollectionViewCell,
             let indexPath = self.collection.indexPath(for: cell){
                 let audiobook = currentAudiobookArray[indexPath.row]
-                print(audiobook.title)
                 destinationVC.audiobook = audiobook
             }
             

@@ -14,7 +14,7 @@ class LibraryViewController: UIViewController, UISearchBarDelegate, UITableViewD
     @IBOutlet weak var tableView: UITableView!
     
     var searchActive = false
-    var audiobookArray = MyLibrary.myBooks
+    var audiobookArray: [Audiobook] = []
     var currentAudiobookArray = [Audiobook]()
     
     override func viewDidLoad() {
@@ -24,6 +24,7 @@ class LibraryViewController: UIViewController, UISearchBarDelegate, UITableViewD
         tableView.delegate = self
         tableView.dataSource = self
         tableView.keyboardDismissMode = .onDrag
+       
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -35,6 +36,9 @@ class LibraryViewController: UIViewController, UISearchBarDelegate, UITableViewD
     //In order to hide navigation bar after clicked on search result
     override func viewWillAppear(_ animated: Bool) {
         view.backgroundColor = UIColor.SpotifyColor.Black //removes glitches
+        audiobookArray = MyLibrary.myBooks
+        currentAudiobookArray = audiobookArray
+        tableView.reloadData()
         if searchActive {
             navigationController?.setNavigationBarHidden(true, animated: false)
         }
@@ -87,6 +91,7 @@ class LibraryViewController: UIViewController, UISearchBarDelegate, UITableViewD
         tableView.backgroundColor = UIColor.SpotifyColor.Black
         tableView.separatorStyle = .none
         
+        
         //Sets up tab bar
         tabBarController?.tabBar.barTintColor = UIColor.SpotifyColor.Black
         tabBarController?.tabBar.tintColor = .white
@@ -134,14 +139,12 @@ class LibraryViewController: UIViewController, UISearchBarDelegate, UITableViewD
 
     // MARK: - Table view data source
 
-     func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 1
-    }
-
      func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return currentAudiobookArray.count
+        if section == 0 {
+             return currentAudiobookArray.count
+        } else {
+            return 0
+        }
     }
 
     
@@ -154,25 +157,43 @@ class LibraryViewController: UIViewController, UISearchBarDelegate, UITableViewD
         cell.coverImage.image = UIImage(named: currentAudiobookArray[indexPath.row].image)
         cell.lengthLabel.text = "120 min"
         cell.releaseYearLabel.text = currentAudiobookArray[indexPath.row].releaseDate
+        cell.backgroundColor = UIColor.SpotifyColor.Black
+        cell.selectionStyle = .none
         return cell
     }
     
      func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
          navigationController?.setNavigationBarHidden(false, animated: false)
+        
     }
     
     
      func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 500
+        return 200
     }
 
-    /*
+    
     // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
         return true
     }
-    */
+    
+     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .delete
+    }
+    
+     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let audiobook = currentAudiobookArray[indexPath.row]
+            if let index = MyLibrary.myBooks.firstIndex(of: audiobook){
+                MyLibrary.myBooks.remove(at: index)}
+            currentAudiobookArray.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            tableView.reloadData()
+        }
+    }
+    
 
     /*
     // Override to support editing the table view.
@@ -201,14 +222,20 @@ class LibraryViewController: UIViewController, UISearchBarDelegate, UITableViewD
     }
     */
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if (segue.identifier == "ShowDetailInLibrarySegue") {
+            let destinationVC = segue.destination as! AudiobookDetailViewController
+            if let cell = sender as? UITableViewCell,
+                let indexPath = self.tableView.indexPath(for: cell){
+                let audiobook = currentAudiobookArray[indexPath.row]
+                destinationVC.audiobook = audiobook
+            }
+            
+        }
     }
-    */
 
 }

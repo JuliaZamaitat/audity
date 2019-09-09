@@ -28,26 +28,39 @@ class DetailCoverViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        if MyLibrary.myBooks.contains(audiobook!){
+             addToLibraryButton.setTitle("Aus Bibliothek entfernen", for: .normal)
+        } else {
+            addToLibraryButton.setTitle("Zur Bibliothek hinzufügen", for: .normal)
+        }
+    }
     func adjustStyle() {
         view.backgroundColor = UIColor.SpotifyColor.Black
         subView.backgroundColor = UIColor.SpotifyColor.Black
         addToLibraryButton.layer.borderWidth = 0.5
         addToLibraryButton.layer.cornerRadius = 15
-        
         addToLibraryButton.layer.borderColor = UIColor.white.cgColor
+        
+        
     }
 
     @IBAction func addToLibraryButtonTapped(_ sender: Any) {
-       
         if MyLibrary.myBooks.contains(audiobook!) {
-            let alert = UIAlertController(title: "Ups", message: "Du hast das Hörbuch bereits gespeichert", preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "Schließen", style: UIAlertAction.Style.default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
+            if let index = MyLibrary.myBooks.firstIndex(of: audiobook!){
+                MyLibrary.myBooks.remove(at: index)
+                let alert = UIAlertController(title: "Bye", message: "Hörbuch entfernt", preferredStyle: UIAlertController.Style.alert)
+                alert.addAction(UIAlertAction(title: "Schließen", style: UIAlertAction.Style.default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+                addToLibraryButton.setTitle("Zur Bibliothek hinzufügen", for: .normal)
+            }
+           
         } else {
             MyLibrary.myBooks.append(audiobook!)
             let alert = UIAlertController(title: "Yeay", message: "Erfolgreich hinzugefügt", preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "Schließen", style: UIAlertAction.Style.default, handler: nil))
             self.present(alert, animated: true, completion: nil)
+            addToLibraryButton.setTitle("Aus Bibliothek entfernen", for: .normal)
         }
     }
     
