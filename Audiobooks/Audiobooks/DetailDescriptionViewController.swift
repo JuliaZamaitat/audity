@@ -10,7 +10,7 @@ import UIKit
 
 class DetailDescriptionViewController: UIViewController {
 
-    var audiobook: Audiobook?
+    var audiobook: AudiobookTemporary?
     
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var releaseDateLabel: UILabel!

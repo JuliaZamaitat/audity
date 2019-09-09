@@ -7,8 +7,10 @@
 //
 
 import Foundation
+import UIKit
+import CoreData
 
-class MyLibrary {
+class MyLibrary: NSManagedObject {
    static var myBooks: [Audiobook] = []
     
 }

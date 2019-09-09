@@ -15,7 +15,7 @@ class AudiobookDetailViewController: UIViewController, UITableViewDataSource, UI
     
     
     private var pageViewController: UIPageViewController!
-    var audiobook: Audiobook!
+    var audiobook: AudiobookTemporary!
     var previousOffset: CGFloat = 0
    
     @IBOutlet weak var containerView: UIView!
@@ -47,7 +47,8 @@ class AudiobookDetailViewController: UIViewController, UITableViewDataSource, UI
         //self.tableView.contentInset = UIEdgeInsets(top: containerView.bounds.size.height+40, left: 0, bottom: 0, right: 0)
         tableView.delegate = self
         tableView.dataSource = self
-       
+        
+        
     }
 
     private func adjustStyle() {
@@ -97,26 +98,29 @@ class AudiobookDetailViewController: UIViewController, UITableViewDataSource, UI
     
     //MARK: - Table View
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return audiobook.trackList.count
+   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        //return audiobook.tracks.count
+    return 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "trackCell", for: indexPath) as? TrackTableViewCell else {
+        /*guard let cell = tableView.dequeueReusableCell(withIdentifier: "trackCell", for: indexPath) as? TrackTableViewCell else {
             return UITableViewCell()
         }
-        cell.titelLabel.text = audiobook.trackList[indexPath.row].title
+        cell.titelLabel.text = audiobook.tracks[indexPath.row].title
         cell.titelLabel.highlightedTextColor = UIColor.SpotifyColor.Green
-        cell.lengthLabel.text = audiobook.trackList[indexPath.row].length
+        cell.lengthLabel.text = audiobook.tracks[indexPath.row].length
         
         //To make titels of cells green but selection style same color as table view
         let customColorView = UIView()
         customColorView.backgroundColor = UIColor.SpotifyColor.Black
         cell.selectedBackgroundView = customColorView
-        return cell
+        return cell*/
+        return UITableViewCell()
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        //return 75
         return 75
     }
     

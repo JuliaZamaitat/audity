@@ -15,8 +15,8 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
     
     
     var searchActive = false
-    var audiobookArray = [Audiobook]()
-    var currentAudiobookArray = [Audiobook]() //to update the table
+    var audiobookArray = [AudiobookTemporary]()
+    var currentAudiobookArray = [AudiobookTemporary]() //to update the table
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -91,17 +91,39 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
     private func setUpAudiobooks() {
         var tracksArray = [Track]()
         for n in 1...10 {
-            tracksArray.append(Track(title: "Kapitel \(n)", length: "12 minutes"))
+            let mTrack = Track(title: "Kapitel \(n)", length: "12 minutes")
+            tracksArray.append(mTrack)
         }
+        /*let audiobook = Audiobook(context: PersistenceService.context)
+        audiobook.title = "GRM-Brainfuck"
+        audiobook.author = "Sibylle Berg"
+        audiobook.image = "grm"
+        audiobook.releaseDate = "2019-02-22"
         
-        audiobookArray.append(Audiobook(title: "GRM-Brainfuck", author: "Sibylle Berg", image: "grm", releaseDate: "2019-02-22", trackList: tracksArray))
-        audiobookArray.append(Audiobook(title: "Auch GRM-Brainfuck", author: "Sibylle Berg", image: "james", releaseDate: "2012-12-03", trackList: tracksArray))
-        audiobookArray.append(Audiobook(title: "GRM-Brainfuck", author: "Sibylle Berg", image: "tjh", releaseDate: "2001-07-22", trackList: tracksArray))
-        audiobookArray.append(Audiobook(title: "Mal etwas anderes", author: "Hase", image: "roosevelt", releaseDate: "2019-02-22", trackList: tracksArray))
-        audiobookArray.append(Audiobook(title: "FML", author: "Julia Zamaitat", image: "grm", releaseDate: "2019-02-22", trackList: tracksArray))
-        audiobookArray.append(Audiobook(title: "HAHAHA", author: "Libre", image: "james", releaseDate: "2019-02-22", trackList: tracksArray))
-        audiobookArray.append(Audiobook(title: "Wo sind meine Fische?", author: "Norman Rittr", image: "roosevelt", releaseDate: "2019-02-22", trackList: tracksArray))
-        audiobookArray.append(Audiobook(title: "Raus mit die Viecher", author: "Karin Ritter", image: "tjh", releaseDate: "2019-02-22", trackList: tracksArray))
+        let audiobook2 = Audiobook(context: PersistenceService.context)
+        audiobook2.title = "The Color in Anything"
+        audiobook2.author = "James Blake"
+        audiobook2.image = "james"
+        audiobook2.releaseDate = "2019-02-22"*/
+        /*let mTracks = Tracks(tracks: tracksArray, count: tracksArray.count)
+
+        let archived = UserDefaults.standard.object(forKey: "mTracks")
+        archived.count
+        
+        audiobook.tracks = mTracks*/
+        //audiobookArray.append(audiobook)
+        //audiobookArray.append(audiobook2)
+        
+      
+        
+        
+        audiobookArray.append(AudiobookTemporary(title: "Auch GRM-Brainfuck", author: "Sibylle Berg", image: "james", releaseDate: "2012-12-03", trackList: tracksArray))
+        audiobookArray.append(AudiobookTemporary(title: "GRM-Brainfuck", author: "Sibylle Berg", image: "tjh", releaseDate: "2001-07-22", trackList: tracksArray))
+        audiobookArray.append(AudiobookTemporary(title: "Mal etwas anderes", author: "Hase", image: "roosevelt", releaseDate: "2019-02-22", trackList: tracksArray))
+        audiobookArray.append(AudiobookTemporary(title: "FML", author: "Julia Zamaitat", image: "grm", releaseDate: "2019-02-22", trackList: tracksArray))
+        audiobookArray.append(AudiobookTemporary(title: "HAHAHA", author: "Libre", image: "james", releaseDate: "2019-02-22", trackList: tracksArray))
+        audiobookArray.append(AudiobookTemporary(title: "Wo sind meine Fische?", author: "Norman Rittr", image: "roosevelt", releaseDate: "2019-02-22", trackList: tracksArray))
+        audiobookArray.append(AudiobookTemporary(title: "Raus mit die Viecher", author: "Karin Ritter", image: "tjh", releaseDate: "2019-02-22", trackList: tracksArray))
         
         currentAudiobookArray = audiobookArray
     }

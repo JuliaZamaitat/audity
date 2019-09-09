@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 
-class Audiobook: Equatable {
+class AudiobookTemporary: Equatable {
     
     
     let title: String
@@ -28,7 +28,7 @@ class Audiobook: Equatable {
         //self.releaseDate = dateformat(date: releaseDate)
     }
     
-    static func == (lhs: Audiobook, rhs: Audiobook) -> Bool {
+    static func == (lhs: AudiobookTemporary, rhs: AudiobookTemporary) -> Bool {
         return lhs.title == rhs.title && lhs.author == rhs.author && lhs.releaseDate == rhs.releaseDate
     }
     

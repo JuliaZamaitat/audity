@@ -1,4 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <elements/>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14492.1" systemVersion="18G95" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Audiobook" representedClassName="Audiobook" syncable="YES">
+        <attribute name="author" attributeType="String" syncable="YES"/>
+        <attribute name="image" attributeType="String" syncable="YES"/>
+        <attribute name="releaseDate" attributeType="String" syncable="YES"/>
+        <attribute name="title" attributeType="String" syncable="YES"/>
+        <attribute name="tracks" optional="YES" attributeType="Transformable" customClassName="Tracks" syncable="YES"/>
+        <relationship name="newRelationship" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Library" inverseName="newRelationship" inverseEntity="Library" syncable="YES"/>
+    </entity>
+    <entity name="Library" representedClassName="Library" syncable="YES" codeGenerationType="class">
+        <relationship name="newRelationship" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Audiobook" inverseName="newRelationship" inverseEntity="Audiobook" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Audiobook" positionX="2504.8046875" positionY="1364.26171875" width="128" height="133"/>
+        <element name="Library" positionX="2175.4453125" positionY="1317.9375" width="128" height="43"/>
+    </elements>
 </model>

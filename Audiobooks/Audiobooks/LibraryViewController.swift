@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class LibraryViewController: UIViewController, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource {
 
@@ -17,6 +18,7 @@ class LibraryViewController: UIViewController, UISearchBarDelegate, UITableViewD
     var audiobookArray: [Audiobook] = []
     var currentAudiobookArray = [Audiobook]()
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpSearchBar()
@@ -24,7 +26,7 @@ class LibraryViewController: UIViewController, UISearchBarDelegate, UITableViewD
         tableView.delegate = self
         tableView.dataSource = self
         tableView.keyboardDismissMode = .onDrag
-       
+        
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -33,15 +35,28 @@ class LibraryViewController: UIViewController, UISearchBarDelegate, UITableViewD
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
     
+    
     //In order to hide navigation bar after clicked on search result
     override func viewWillAppear(_ animated: Bool) {
         view.backgroundColor = UIColor.SpotifyColor.Black //removes glitches
-        audiobookArray = MyLibrary.myBooks
-        currentAudiobookArray = audiobookArray
-        tableView.reloadData()
+        //audiobookArray = MyLibrary.myBooks
+        //currentAudiobookArray = audiobookArray
+        
         if searchActive {
             navigationController?.setNavigationBarHidden(true, animated: false)
         }
+        
+        let fetchRequest: NSFetchRequest<Audiobook> = Audiobook.fetchRequest()
+        do{
+            let audiobooks = try PersistenceService.context.fetch(fetchRequest)
+            self.currentAudiobookArray = audiobooks
+            
+            
+            self.tableView.reloadData()
+        } catch{
+            print("Fetching did not work")
+        }
+        
     }
     
     
@@ -106,7 +121,7 @@ class LibraryViewController: UIViewController, UISearchBarDelegate, UITableViewD
             tableView.reloadData()
             return}
         currentAudiobookArray = audiobookArray.filter({ audiobook -> Bool in
-            audiobook.title.lowercased().contains(searchText.lowercased())
+            audiobook.title!.lowercased().contains(searchText.lowercased())
         })
         tableView.reloadData()
     }
@@ -154,7 +169,7 @@ class LibraryViewController: UIViewController, UISearchBarDelegate, UITableViewD
         }
         cell.titleLabel.text = currentAudiobookArray[indexPath.row].title
         cell.authorLabel.text = currentAudiobookArray[indexPath.row].author
-        cell.coverImage.image = UIImage(named: currentAudiobookArray[indexPath.row].image)
+        cell.coverImage.image = UIImage(named: currentAudiobookArray[indexPath.row].image ?? "")
         cell.lengthLabel.text = "120 min"
         cell.releaseYearLabel.text = currentAudiobookArray[indexPath.row].releaseDate
         cell.backgroundColor = UIColor.SpotifyColor.Black
@@ -231,11 +246,13 @@ class LibraryViewController: UIViewController, UISearchBarDelegate, UITableViewD
             let destinationVC = segue.destination as! AudiobookDetailViewController
             if let cell = sender as? UITableViewCell,
                 let indexPath = self.tableView.indexPath(for: cell){
-                let audiobook = currentAudiobookArray[indexPath.row]
+                let peristentAudiobook = currentAudiobookArray[indexPath.row]
+                let audiobook = AudiobookTemporary.init(title: peristentAudiobook.title!, author: peristentAudiobook.author!, image: peristentAudiobook.image!, releaseDate: peristentAudiobook.releaseDate!, trackList: [])
                 destinationVC.audiobook = audiobook
             }
             
         }
     }
-
 }
+
+
