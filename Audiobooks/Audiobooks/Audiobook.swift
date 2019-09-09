@@ -47,6 +47,8 @@ public class Audiobook: NSObject, NSCoding {
          self.trackList = aDecoder.decodeObject(forKey: "trackList") as! [Track]
     }
     
+    
+    
     /* Maybe useful later when working with the Spotify API
      func dateformat(date: String) -> Date?{
     let input = date

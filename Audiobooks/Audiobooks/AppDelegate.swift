@@ -13,7 +13,7 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    static var library = NSEntityDescription.insertNewObject(forEntityName: "Library", into: PersistenceService.context) as! LibraryMO
+    static var library = NSEntityDescription.insertNewObject(forEntityName: "Library", into: PersistenceService.context) as! Library
     
    
     func setStatusBarBackgroundColor(color: UIColor) {
@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         setStatusBarBackgroundColor(color: UIColor.SpotifyColor.Black)
-        AppDelegate.library.books = [] //Needs to be done somewhere else
+        //AppDelegate.library.books = [] //Needs to be done somewhere else
         return true
     }
 

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class LibraryViewController: UIViewController, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource {
 
@@ -25,6 +26,15 @@ class LibraryViewController: UIViewController, UISearchBarDelegate, UITableViewD
         tableView.dataSource = self
         tableView.keyboardDismissMode = .onDrag
        
+        let fetchRequest: NSFetchRequest<Library> = Library.fetchRequest()
+        
+        do {
+            let audiobooks = try PersistenceService.context.fetch(fetchRequest)
+            AppDelegate.library = audiobooks.
+            //self.audiobookArray = audiobooks
+            self.tableView.reloadData()
+        } catch {}
+        
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -36,7 +46,7 @@ class LibraryViewController: UIViewController, UISearchBarDelegate, UITableViewD
     //In order to hide navigation bar after clicked on search result
     override func viewWillAppear(_ animated: Bool) {
         view.backgroundColor = UIColor.SpotifyColor.Black //removes glitches
-        audiobookArray = AppDelegate.library.books!
+        audiobookArray = AppDelegate.library.books as! [Audiobook]
         currentAudiobookArray = audiobookArray
         tableView.reloadData()
         if searchActive {
@@ -186,11 +196,13 @@ class LibraryViewController: UIViewController, UISearchBarDelegate, UITableViewD
      func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let audiobook = currentAudiobookArray[indexPath.row]
-            guard let index = AppDelegate.library.books?.index(of: audiobook) else { return}
-            AppDelegate.library.books?.remove(at: index)
+            let index = AppDelegate.library.books.index(of: audiobook)
+            if(index >= 0){
+            AppDelegate.library.books.remove(index)
             currentAudiobookArray.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
             tableView.reloadData()
+            }
         }
     }
     

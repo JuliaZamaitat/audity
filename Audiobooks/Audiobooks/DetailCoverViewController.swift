@@ -37,9 +37,9 @@ class DetailCoverViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        guard let books = AppDelegate.library.books else { return }
         
-        if (books.contains(audiobook!)){
+        
+        if (AppDelegate.library.books.contains(audiobook!)){
              addToLibraryButton.setTitle("Aus Bibliothek entfernen", for: .normal)
         } else {
             addToLibraryButton.setTitle("Zur Bibliothek hinzufügen", for: .normal)
@@ -56,20 +56,22 @@ class DetailCoverViewController: UIViewController {
     }
 
     @IBAction func addToLibraryButtonTapped(_ sender: Any) {
-        print(AppDelegate.library.books?.count)
+        print(AppDelegate.library.books.count)
        
-        if (AppDelegate.library.books?.contains(audiobook!))! {
-            guard let index = AppDelegate.library.books?.index(of: audiobook!) else { return }
-            AppDelegate.library.books?.remove(at: index)
+        if (AppDelegate.library.books.contains(audiobook!)) {
+           let index = AppDelegate.library.books.index(of: audiobook!)
+            if (index >= 0){
+                AppDelegate.library.books.remove(index)
             let alert = UIAlertController(title: "Bye", message: "Hörbuch entfernt", preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "Schließen", style: UIAlertAction.Style.default, handler: nil))
             self.present(alert, animated: true, completion: nil)
                 addToLibraryButton.setTitle("Zur Bibliothek hinzufügen", for: .normal)
              PersistenceService.saveContext()
             }
+        }
            
             else {
-            AppDelegate.library.books?.append(audiobook!)
+            AppDelegate.library.books.add(audiobook)
             let alert = UIAlertController(title: "Yeay", message: "Erfolgreich hinzugefügt", preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "Schließen", style: UIAlertAction.Style.default, handler: nil))
             self.present(alert, animated: true, completion: nil)
@@ -77,6 +79,7 @@ class DetailCoverViewController: UIViewController {
             PersistenceService.saveContext()
         }
     }
+    
     
     
     /*

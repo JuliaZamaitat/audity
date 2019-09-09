@@ -12,5 +12,7 @@ import CoreData
 
 @objc(Library)
 public class Library: NSManagedObject {
+    
+    
 
 }

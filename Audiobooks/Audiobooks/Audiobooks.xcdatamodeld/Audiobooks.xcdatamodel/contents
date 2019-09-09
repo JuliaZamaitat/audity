@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14492.1" systemVersion="18G95" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="Library" representedClassName="LibraryMO" syncable="YES" codeGenerationType="class">
+    <entity name="Library" representedClassName="Library" syncable="YES">
         <attribute name="books" optional="YES" attributeType="Transformable" customClassName=".[Audiobook]" syncable="YES"/>
     </entity>
     <elements>

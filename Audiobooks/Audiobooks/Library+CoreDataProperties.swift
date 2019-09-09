@@ -19,6 +19,11 @@ extension Library {
 
     @NSManaged public var books: NSMutableArray
     
+    override public func awakeFromInsert()  {
+        super.awakeFromInsert()
+        self.books = []
+        print("awakeFromInsert called")
+    }
 
 
 }
