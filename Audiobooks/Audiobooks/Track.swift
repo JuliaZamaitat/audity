@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class Track{
+class Track: Codable {
     var title: String = ""
     var length: String = ""
     

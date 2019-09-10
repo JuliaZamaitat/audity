@@ -10,6 +10,7 @@ import UIKit
 
 class LibraryViewController: UIViewController, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource {
 
+   
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
     
@@ -24,14 +25,15 @@ class LibraryViewController: UIViewController, UISearchBarDelegate, UITableViewD
         tableView.delegate = self
         tableView.dataSource = self
         tableView.keyboardDismissMode = .onDrag
-       
-        
+        print(MyLibrary.ArchiveURL)
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
+    
+   
     
     //In order to hide navigation bar after clicked on search result
     override func viewWillAppear(_ animated: Bool) {
@@ -42,6 +44,7 @@ class LibraryViewController: UIViewController, UISearchBarDelegate, UITableViewD
         if searchActive {
             navigationController?.setNavigationBarHidden(true, animated: false)
         }
+         
     }
     
     
@@ -190,6 +193,7 @@ class LibraryViewController: UIViewController, UISearchBarDelegate, UITableViewD
                 MyLibrary.myBooks.remove(at: index)}
             currentAudiobookArray.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
+            MyLibrary.saveToFile(books: MyLibrary.myBooks)
             tableView.reloadData()
         }
     }
