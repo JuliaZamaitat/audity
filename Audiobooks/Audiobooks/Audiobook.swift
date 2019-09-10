@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 
-class Audiobook: Equatable {
+class Audiobook: Equatable, Codable {
     
     
     let title: String
@@ -31,6 +31,9 @@ class Audiobook: Equatable {
     static func == (lhs: Audiobook, rhs: Audiobook) -> Bool {
         return lhs.title == rhs.title && lhs.author == rhs.author && lhs.releaseDate == rhs.releaseDate
     }
+    
+    
+    
     
     /* Maybe useful later when working with the Spotify API
      func dateformat(date: String) -> Date?{
