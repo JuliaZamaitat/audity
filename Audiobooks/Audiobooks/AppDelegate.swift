@@ -13,7 +13,7 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    static var library = NSEntityDescription.insertNewObject(forEntityName: "Library", into: PersistenceService.context) as! Library
+    
     
    
     func setStatusBarBackgroundColor(color: UIColor) {

@@ -26,14 +26,7 @@ class LibraryViewController: UIViewController, UISearchBarDelegate, UITableViewD
         tableView.dataSource = self
         tableView.keyboardDismissMode = .onDrag
        
-        let fetchRequest: NSFetchRequest<Library> = Library.fetchRequest()
         
-        do {
-            let audiobooks = try PersistenceService.context.fetch(fetchRequest)
-            AppDelegate.library = audiobooks.
-            //self.audiobookArray = audiobooks
-            self.tableView.reloadData()
-        } catch {}
         
         
         // Uncomment the following line to preserve selection between presentations
@@ -46,11 +39,32 @@ class LibraryViewController: UIViewController, UISearchBarDelegate, UITableViewD
     //In order to hide navigation bar after clicked on search result
     override func viewWillAppear(_ animated: Bool) {
         view.backgroundColor = UIColor.SpotifyColor.Black //removes glitches
+        
         audiobookArray = AppDelegate.library.books as! [Audiobook]
+        //print(audiobookArray.count)
         currentAudiobookArray = audiobookArray
+        //print(currentAudiobookArray.count)
         tableView.reloadData()
         if searchActive {
             navigationController?.setNavigationBarHidden(true, animated: false)
+        }
+        
+        
+        
+        let fetchRequest: NSFetchRequest<Library> = Library.fetchRequest()
+        
+        
+        do {
+            let libraries = try PersistenceService.context.fetch(fetchRequest) //returns [Library]
+            print(libraries.count)
+            for library in libraries {
+                //print(library.books.count)
+            }
+            //AppDelegate.library = audiobooks
+            //self.audiobookArray = audiobooks
+            //self.tableView.reloadData()
+        } catch {
+            var library = NSEntityDescription.insertNewObject(forEntityName: "Library", into: PersistenceService.context) as! Library
         }
     }
     

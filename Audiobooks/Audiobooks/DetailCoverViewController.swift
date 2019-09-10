@@ -56,18 +56,19 @@ class DetailCoverViewController: UIViewController {
     }
 
     @IBAction func addToLibraryButtonTapped(_ sender: Any) {
-        print(AppDelegate.library.books.count)
+        
        
         if (AppDelegate.library.books.contains(audiobook!)) {
            let index = AppDelegate.library.books.index(of: audiobook!)
-            if (index >= 0){
-                AppDelegate.library.books.remove(index)
+            //print(AppDelegate.library.books.count)
+            AppDelegate.library.books.removeObject(at: index)
+            //print(AppDelegate.library.books.count)
             let alert = UIAlertController(title: "Bye", message: "Hörbuch entfernt", preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "Schließen", style: UIAlertAction.Style.default, handler: nil))
             self.present(alert, animated: true, completion: nil)
                 addToLibraryButton.setTitle("Zur Bibliothek hinzufügen", for: .normal)
              PersistenceService.saveContext()
-            }
+            
         }
            
             else {
@@ -81,6 +82,30 @@ class DetailCoverViewController: UIViewController {
     }
     
     
+   /* func deleteRecords(book: Audiobook) -> Void {
+        
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Library")
+        
+        let result = try? PersistenceService.context.fetch(fetchRequest)
+        let resultData = result as! [Library]
+        
+        
+        resultData.first!.books.remove(book)
+        
+        do {
+            try PersistenceService.context.save()
+            print("saved!")
+        } catch let error as NSError  {
+            print("Could not save \(error), \(error.userInfo)")
+        } catch {
+            
+        }*/
+        
+        
+        
+        
+        
+    //}
     
     /*
     // MARK: - Navigation
