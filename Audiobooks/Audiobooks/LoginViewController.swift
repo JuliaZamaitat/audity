@@ -9,9 +9,11 @@
 import UIKit
 
 class LoginViewController: UIViewController {
-
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+       
         // Do any additional setup after loading the view.
     }
     
@@ -19,6 +21,12 @@ class LoginViewController: UIViewController {
         return .lightContent
     }
 
-
+    
+    @IBAction func loginButtonPressed(_ sender: Any) {
+        let delegate = AppDelegate()
+        delegate.connect()
+    }
+    
+    
 }
 

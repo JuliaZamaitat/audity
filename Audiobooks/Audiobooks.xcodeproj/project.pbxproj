@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A30A7AFC232ABD6500515DE2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30A7AFB232ABD6500515DE2 /* Constants.swift */; };
 		A3543A552323AB4700916B50 /* Audiobook.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3543A542323AB4700916B50 /* Audiobook.swift */; };
 		A3543A592323D9EC00916B50 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3543A582323D9EC00916B50 /* SearchViewController.swift */; };
 		A3543A5D2323DACA00916B50 /* SearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3543A5C2323DACA00916B50 /* SearchCollectionViewCell.swift */; };
@@ -31,6 +32,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A30A7AFB232ABD6500515DE2 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		A3543A542323AB4700916B50 /* Audiobook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Audiobook.swift; sourceTree = "<group>"; };
 		A3543A582323D9EC00916B50 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		A3543A5C2323DACA00916B50 /* SearchCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -104,6 +106,7 @@
 				A3DA621823254964003A049C /* Track.swift */,
 				A3B5A17C232297FC00E97290 /* PlayerViewController.swift */,
 				A3B5A17A232297DC00E97290 /* LibraryViewController.swift */,
+				A30A7AFB232ABD6500515DE2 /* Constants.swift */,
 				A384B8B02322C8B700F9D07A /* Helper.swift */,
 				A3C1D2C023228C5000977415 /* AudiobookDetailViewController.swift */,
 				A3B5A17E2322A18B00E97290 /* UIColor+SpotifyColor.swift */,
@@ -209,6 +212,7 @@
 				A3C1D29D2322648300977415 /* AppDelegate.swift in Sources */,
 				A3C1D2C123228C5000977415 /* AudiobookDetailViewController.swift in Sources */,
 				A3DA621923254964003A049C /* Track.swift in Sources */,
+				A30A7AFC232ABD6500515DE2 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
