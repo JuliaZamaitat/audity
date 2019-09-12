@@ -23,6 +23,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                 <state key="normal" title="Login"/>
                                 <connections>
+                                    <action selector="loginButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6ic-9w-Npy"/>
                                     <segue destination="bqv-bX-J3O" kind="presentation" id="iSS-B3-ROB"/>
                                 </connections>
                             </button>

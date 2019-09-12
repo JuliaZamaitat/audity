@@ -10,26 +10,87 @@ import UIKit
 import CoreData
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, SPTAppRemoteDelegate, SPTAppRemotePlayerStateDelegate {
 
     var window: UIWindow?
+    var accessToken = ""
+    let SpotifyClientID = "878a14d056ae409aa8617ba4b6c5a8ca"
+    let SpotifyRedirectURL = URL(string: "spotify-audiobooks://spotify-login-callback")!
 
-    func setStatusBarBackgroundColor(color: UIColor) {
-        
-        guard let statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView else { return }
-        
-        statusBar.backgroundColor = color
-    }
+    lazy var configuration = SPTConfiguration(
+        clientID: SpotifyClientID,
+        redirectURL: SpotifyRedirectURL
+    )
+    
+    lazy var appRemote: SPTAppRemote = {
+        let appRemote = SPTAppRemote(configuration: self.configuration, logLevel: .debug)
+        appRemote.connectionParameters.accessToken = self.accessToken
+        appRemote.delegate = self
+        return appRemote
+    }()
+   
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
         setStatusBarBackgroundColor(color: UIColor.SpotifyColor.Black)
         MyLibrary.myBooks = MyLibrary.loadFromFile() ?? []
         return true
     }
 
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        let parameters = appRemote.authorizationParameters(from: url);
+        if let access_token = parameters?[SPTAppRemoteAccessTokenKey] {
+            appRemote.connectionParameters.accessToken = access_token
+            self.accessToken = access_token
+        } else if let error_description = parameters?[SPTAppRemoteErrorDescriptionKey] {
+            // Show the error
+        }
+        return true
+    }
+    
+    
+    func appRemoteDidEstablishConnection(_ appRemote: SPTAppRemote) {
+        print("connected")
+        self.appRemote.playerAPI?.delegate = self
+        self.appRemote.playerAPI?.subscribe(toPlayerState: { (result, error) in
+            if let error = error {
+                debugPrint(error.localizedDescription)
+            }
+        })
+    }
+
+
+    func appRemote(_ appRemote: SPTAppRemote, didDisconnectWithError error: Error?) {
+        print("disconnected")
+    }
+    func appRemote(_ appRemote: SPTAppRemote, didFailConnectionAttemptWithError error: Error?) {
+        print("failed")
+    }
+    func playerStateDidChange(_ playerState: SPTAppRemotePlayerState) {
+        print("player state changed")
+        print("isPaused", playerState.isPaused)
+        print("track.uri", playerState.track.uri)
+        print("track.name", playerState.track.name)
+        print("track.imageIdentifier", playerState.track.imageIdentifier)
+        print("track.artist.name", playerState.track.artist.name)
+        print("track.album.name", playerState.track.album.name)
+        print("track.isSaved", playerState.track.isSaved)
+        print("playbackSpeed", playerState.playbackSpeed)
+        print("playbackOptions.isShuffling", playerState.playbackOptions.isShuffling)
+        print("playbackOptions.repeatMode", playerState.playbackOptions.repeatMode.hashValue)
+        print("playbackPosition", playerState.playbackPosition)
+    }
+    
+     func connect(){
+        self.appRemote.authorizeAndPlayURI("")
+    }
+    
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
+        if self.appRemote.isConnected {
+            self.appRemote.disconnect()
+        }
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
@@ -45,7 +106,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-        print(MyLibrary.myBooks.count)
+        if let _ = self.appRemote.connectionParameters.accessToken {
+            self.appRemote.connect()
+        }
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
@@ -54,6 +117,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.saveContext()
     }
 
+    
+    func setStatusBarBackgroundColor(color: UIColor) {
+        
+        guard let statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView else { return }
+        
+        statusBar.backgroundColor = color
+    }
+    
+    
+    
+    
     // MARK: - Core Data stack
 
     lazy var persistentContainer: NSPersistentContainer = {
