@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 
-class Audiobook: Equatable, Codable {
+struct Audiobook: Equatable, Codable {
     
     
     let title: String
@@ -19,13 +19,30 @@ class Audiobook: Equatable, Codable {
     let releaseDate: String
     let trackList: [Track]
     
-    init(title: String, author: String, image: String, releaseDate: String, trackList: [Track]) {
+    enum Keys: String, CodingKey {
+        case title
+        case author
+        case image
+        case releaseDate
+        case trackList
+    }
+    
+    /*init(title: String, author: String, image: String, releaseDate: String, trackList: [Track]) {
         self.title = title
         self.author = author
         self.image = image
         self.releaseDate = releaseDate
         self.trackList = trackList
         //self.releaseDate = dateformat(date: releaseDate)
+    }*/
+    
+    init(from decoder: Decoder) throws {
+        let valueContainer = try decoder.container(keyedBy: Keys.self)
+        self.title = try valueContainer.decode(String.self, forKey: Keys.title)
+        self.author = try valueContainer.decode(String.self, forKey: Keys.author)
+        self.image = try valueContainer.decode(String.self, forKey: Keys.image)
+        self.releaseDate = try valueContainer.decode(String.self, forKey: Keys.releaseDate)
+        self.trackList = [try valueContainer.decode(Track.self, forKey: Keys.trackList)]
     }
     
     static func == (lhs: Audiobook, rhs: Audiobook) -> Bool {

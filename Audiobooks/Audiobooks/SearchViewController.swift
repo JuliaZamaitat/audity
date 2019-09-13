@@ -17,15 +17,20 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
     var searchActive = false
     var audiobookArray = [Audiobook]()
     var currentAudiobookArray = [Audiobook]() //to update the table
+    var delegate = UIApplication.shared.delegate as! AppDelegate
+    var accessToken: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpAudiobooks()
+        //setUpAudiobooks()
         setUpSearchBar()
         adjustStyle()
         collection.delegate = self
         collection.dataSource = self
         collection.keyboardDismissMode = .onDrag
+        
+        
+        
     }
     
     //In order to hide navigation bar after clicked on search result
@@ -34,6 +39,7 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
         if searchActive {
             navigationController?.setNavigationBarHidden(true, animated: false)
         }
+        
     }
  
     //To hide navigation bar when collectionView is crolled
@@ -88,7 +94,45 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
         
     }
     
-    private func setUpAudiobooks() {
+    func fetchAudiobooks(completion: @escaping (Audiobook?) -> Void){
+        let baseURL = URL(string: "https://api.spotify.com/v1/search")!
+        //var url = URL(string: "Authorization: Bearer \(accessToken!)" )
+        
+        let session = URLSession.shared
+        
+        let query: [String: String] = [
+            "type": "album",
+            "q": "grm",
+        ]
+        
+        var url = baseURL.withQueries(query)!
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+       
+        
+        request.addValue("Bearer \(accessToken!)", forHTTPHeaderField: "Authorization")
+        print(url)
+        print(accessToken)
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            //let jsonDecoder = JSONDecoder()
+            if let data = data,
+                //let audiobook = try? jsonDecoder.decode(Audiobook.self, from: data) {
+                let book = String(data: data, encoding: .utf8){
+                print(book)
+            } else {
+                print("Either no data was returned, or data was not properly decoded.")
+                //completion(nil)
+            }
+        }
+        
+        task.resume()
+    }
+    
+    
+    
+    /*private func setUpAudiobooks() {
         var tracksArray = [Track]()
         for n in 1...10 {
             tracksArray.append(Track(title: "Kapitel \(n)", length: "12 minutes"))
@@ -104,7 +148,7 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
         audiobookArray.append(Audiobook(title: "Raus mit die Viecher", author: "Karin Ritter", image: "tjh", releaseDate: "2019-02-22", trackList: tracksArray))
         
         currentAudiobookArray = audiobookArray
-    }
+    }*/
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return currentAudiobookArray.count
@@ -145,6 +189,13 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
          //searchBar.barTintColor = UIColor.init(netHex: 0x1b1b1b)
        searchActive = true
         searchBar.showsCancelButton = true
+        accessToken = delegate.getAccessToken()
+        
+        fetchAudiobooks {(audiobook) in
+            if let audiobook = audiobook {
+                print("success")
+            }
+        }
     }
     
     //brings the navigation bar back

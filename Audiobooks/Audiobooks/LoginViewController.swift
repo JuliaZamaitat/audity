@@ -23,7 +23,7 @@ class LoginViewController: UIViewController {
 
     
     @IBAction func loginButtonPressed(_ sender: Any) {
-        let delegate = AppDelegate()
+        let delegate = UIApplication.shared.delegate as! AppDelegate
         delegate.connect()
     }
     

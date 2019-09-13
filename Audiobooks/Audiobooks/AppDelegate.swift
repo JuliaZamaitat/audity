@@ -13,7 +13,7 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate, SPTAppRemoteDelegate, SPTAppRemotePlayerStateDelegate {
 
     var window: UIWindow?
-    var accessToken = ""
+    var accessToken: String?
     let SpotifyClientID = "878a14d056ae409aa8617ba4b6c5a8ca"
     let SpotifyRedirectURL = URL(string: "spotify-audiobooks://spotify-login-callback")!
 
@@ -29,6 +29,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTAppRemoteDelegate, SPT
         return appRemote
     }()
    
+    func getAccessToken()->String {
+        return self.accessToken!
+    }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
