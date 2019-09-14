@@ -15,7 +15,7 @@ struct Audiobook: Equatable, Codable {
     
     let title: String
     let author: String
-    let image: String
+    let image: URL
     let releaseDate: String
     let trackList: [Track]
     
@@ -27,7 +27,7 @@ struct Audiobook: Equatable, Codable {
         case trackList
     }
     
-    init(title: String, author: String, image: String, releaseDate: String, trackList: [Track]) {
+    init(title: String, author: String, image: URL, releaseDate: String, trackList: [Track]) {
         self.title = title
         self.author = author
         self.image = image
@@ -36,14 +36,14 @@ struct Audiobook: Equatable, Codable {
         //self.releaseDate = dateformat(date: releaseDate)
     }
     
-    init(from decoder: Decoder) throws {
+    /*init(from decoder: Decoder) throws {
         let valueContainer = try decoder.container(keyedBy: Keys.self)
         self.title = try valueContainer.decode(String.self, forKey: Keys.title)
         self.author = try valueContainer.decode(String.self, forKey: Keys.author)
         self.image = try valueContainer.decode(String.self, forKey: Keys.image)
         self.releaseDate = try valueContainer.decode(String.self, forKey: Keys.releaseDate)
         self.trackList = [try valueContainer.decode(Track.self, forKey: Keys.trackList)]
-    }
+    }*/
     
     static func == (lhs: Audiobook, rhs: Audiobook) -> Bool {
         return lhs.title == rhs.title && lhs.author == rhs.author && lhs.releaseDate == rhs.releaseDate
@@ -61,3 +61,5 @@ struct Audiobook: Equatable, Codable {
     return date
     }*/
 }
+
+

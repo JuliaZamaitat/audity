@@ -137,7 +137,7 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
     
     
     func parseData(JSONData: Data){
-        var image = ""
+        var image = URL(string: "")
         var name = ""
         do {
         var readableJSON = try JSONSerialization.jsonObject(with: JSONData, options: .mutableContainers) as! JSONStandard
@@ -148,17 +148,17 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
                     let titleName = item["name"] as! String
                     let releaseDate = item["release_date"] as! String
                     if let images = item["images"] as? [JSONStandard] {
-                        let imageData = images[0]
+                        let imageData = images[1]
                         let mainImageURL =  URL(string: imageData["url"] as! String)
-                        //let mainImageData = NSData(contentsOf: mainImageURL!)
-                         image = imageData["url"] as! String
+                        let mainImageData = NSData(contentsOf: mainImageURL!)
+                        let mainImage = UIImage(data: mainImageData as! Data)
+                        image = mainImageURL!
                     }
                     
                     if let artists = item["artists"] as? JSONStandard {
                         name = artists["name"] as! String
-                        
                     }
-                     audiobookArray.append(Audiobook.init(title: titleName, author: name, image: image, releaseDate: releaseDate, trackList: []))
+                    audiobookArray.append(Audiobook.init(title: titleName, author: name, image: image!, releaseDate: releaseDate, trackList: []))
                     currentAudiobookArray = audiobookArray
                     DispatchQueue.main.async {
                         self.collection.reloadData()
@@ -203,7 +203,11 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
         }
         cell.titleLabel.text = currentAudiobookArray[indexPath.row].title
         cell.authorLabel.text = currentAudiobookArray[indexPath.row].author
-        cell.coverImage.image = UIImage(named: currentAudiobookArray[indexPath.row].image)
+        
+        let url = currentAudiobookArray[indexPath.row].image
+        let data = try? Data(contentsOf: url) //make sure your image in this url does exist, otherwise unwrap in a if let check / try-catch
+        cell.coverImage.image = UIImage(data: data!)
+       
         return cell
     }
     
