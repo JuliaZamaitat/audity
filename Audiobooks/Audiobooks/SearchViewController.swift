@@ -17,10 +17,13 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
     var searchActive = false
     var audiobookArray = [Audiobook]()
     var currentAudiobookArray = [Audiobook]() //to update the table
+    var delegate = UIApplication.shared.delegate as! AppDelegate
+    var accessToken: String?
     
+    typealias JSONStandard = [String : AnyObject]
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpAudiobooks()
+        //setUpAudiobooks()
         setUpSearchBar()
         adjustStyle()
         collection.delegate = self
@@ -34,6 +37,7 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
         if searchActive {
             navigationController?.setNavigationBarHidden(true, animated: false)
         }
+        
     }
  
     //To hide navigation bar when collectionView is crolled
@@ -88,22 +92,59 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
         
     }
     
-    private func setUpAudiobooks() {
-        var tracksArray = [Track]()
-        for n in 1...10 {
-            tracksArray.append(Track(title: "Kapitel \(n)", length: "12 minutes"))
+    func fetchAudiobooks(keywords: String, completion: @escaping (Audiobook?) -> Void){
+        let baseURL = URL(string: "https://api.spotify.com/v1/search")!
+        let query: [String: String] = [
+            "type": "album",
+            "q": "\(keywords)"
+        ]
+        let url = baseURL.withQueries(query)!
+        print(url)
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.addValue("Bearer \(accessToken!)", forHTTPHeaderField: "Authorization")
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let data = data {
+               self.parseData(JSONData: data)
+            }
         }
-        
-        audiobookArray.append(Audiobook(title: "GRM-Brainfuck", author: "Sibylle Berg", image: "grm", releaseDate: "2019-02-22", trackList: tracksArray))
-        audiobookArray.append(Audiobook(title: "Auch GRM-Brainfuck", author: "Sibylle Berg", image: "james", releaseDate: "2012-12-03", trackList: tracksArray))
-        audiobookArray.append(Audiobook(title: "GRM-Brainfuck", author: "Sibylle Berg", image: "tjh", releaseDate: "2001-07-22", trackList: tracksArray))
-        audiobookArray.append(Audiobook(title: "Mal etwas anderes", author: "Hase", image: "roosevelt", releaseDate: "2019-02-22", trackList: tracksArray))
-        audiobookArray.append(Audiobook(title: "FML", author: "Julia Zamaitat", image: "grm", releaseDate: "2019-02-22", trackList: tracksArray))
-        audiobookArray.append(Audiobook(title: "HAHAHA", author: "Libre", image: "james", releaseDate: "2019-02-22", trackList: tracksArray))
-        audiobookArray.append(Audiobook(title: "Wo sind meine Fische?", author: "Norman Rittr", image: "roosevelt", releaseDate: "2019-02-22", trackList: tracksArray))
-        audiobookArray.append(Audiobook(title: "Raus mit die Viecher", author: "Karin Ritter", image: "tjh", releaseDate: "2019-02-22", trackList: tracksArray))
-        
-        currentAudiobookArray = audiobookArray
+        task.resume()
+    }
+    
+    
+    func parseData(JSONData: Data){
+        var image = URL(string: "")
+        var name = ""
+        do {
+            var readableJSON = try JSONSerialization.jsonObject(with: JSONData, options: .mutableContainers) as! JSONStandard
+            if let albums = readableJSON["albums"] as? JSONStandard{
+                if let items = albums["items"] as? [JSONStandard] {
+                    for i in 0..<items.count {
+                        let item = items[i]
+                        let titleName = item["name"] as! String
+                        let releaseDate = item["release_date"] as! String
+                        if let images = item["images"] as? [JSONStandard] {
+                            let imageData = images[1]
+                            let mainImageURL =  URL(string: imageData["url"] as! String)
+                            image = mainImageURL!
+                        }
+                        if let artists = item["artists"] as? [JSONStandard] {
+                            print("here")
+                            let artist = artists[0]
+                            name = artist["name"] as! String
+                        }
+                        audiobookArray.append(Audiobook.init(title: titleName, author: name, image: image!, releaseDate: releaseDate, trackList: []))
+                        currentAudiobookArray = audiobookArray
+                        DispatchQueue.main.async {
+                            self.collection.reloadData()
+                        }
+                    }
+                }
+            }
+        }
+        catch {
+            print(error)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -116,7 +157,10 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
         }
         cell.titleLabel.text = currentAudiobookArray[indexPath.row].title
         cell.authorLabel.text = currentAudiobookArray[indexPath.row].author
-        cell.coverImage.image = UIImage(named: currentAudiobookArray[indexPath.row].image)
+        let url = currentAudiobookArray[indexPath.row].image
+        let data = try? Data(contentsOf: url) //make sure your image in this url does exist, otherwise unwrap in a if let check / try-catch
+        cell.coverImage.image = UIImage(data: data!)
+       
         return cell
     }
     
@@ -129,15 +173,15 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
     // MARK: -Search Bar
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         searchActive = true
-        
-        guard !searchText.isEmpty else {
+        /*guard !searchText.isEmpty else {
             currentAudiobookArray = audiobookArray
             collection.reloadData()
             return}
         currentAudiobookArray = audiobookArray.filter({ audiobook -> Bool in
             audiobook.title.lowercased().contains(searchText.lowercased())
         })
-        collection.reloadData()
+        collection.reloadData()*/
+       
     }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
@@ -145,6 +189,10 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
          //searchBar.barTintColor = UIColor.init(netHex: 0x1b1b1b)
        searchActive = true
         searchBar.showsCancelButton = true
+        accessToken = delegate.getAccessToken()
+        audiobookArray = []
+        collection.reloadData()
+    
     }
     
     //brings the navigation bar back
@@ -153,6 +201,9 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
         self.view.endEditing(true)
         searchActive = false
         searchBar.showsCancelButton = false
+        currentAudiobookArray = []
+        audiobookArray = []
+        collection.reloadData()
     }
     
     //Needed so search bar disappeard when "Suchen" on keyboard is pressed
@@ -162,6 +213,16 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
         searchBar.barTintColor = UIColor.SpotifyColor.Black
         searchActive = false
         searchBar.showsCancelButton = false
+        let keywords = searchBar.text
+        let finalKeywords = keywords?.replacingOccurrences(of: " ", with: "+")
+        fetchAudiobooks(keywords: finalKeywords!) {(audiobook) in
+            if let audiobook = audiobook {
+                /*print("here")
+                 DispatchQueue.main.async {
+                 self.collection.reloadData()*/
+                
+            }
+        }
     }
     
     // MARK: - Navigation
