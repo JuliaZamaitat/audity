@@ -20,6 +20,7 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
     var delegate = UIApplication.shared.delegate as! AppDelegate
     var accessToken: String?
     
+    typealias JSONStandard = [String : AnyObject]
     override func viewDidLoad() {
         super.viewDidLoad()
         //setUpAudiobooks()
@@ -112,25 +113,67 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
        
         
         request.addValue("Bearer \(accessToken!)", forHTTPHeaderField: "Authorization")
-        print(url)
-        print(accessToken)
         
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            
+           
             //let jsonDecoder = JSONDecoder()
-            if let data = data,
-                //let audiobook = try? jsonDecoder.decode(Audiobook.self, from: data) {
-                let book = String(data: data, encoding: .utf8){
+            if let data = data {
+               self.parseData(JSONData: data)
+                
+            }
+            //let audiobook = try? jsonDecoder.decode(Audiobook.self, from: data) {
+                /*let book = String(data: data, encoding: .utf8){
                 print(book)
             } else {
                 print("Either no data was returned, or data was not properly decoded.")
                 //completion(nil)
-            }
+            }*/
         }
-        
         task.resume()
+        
+        
     }
     
     
+    func parseData(JSONData: Data){
+        var image = ""
+        var name = ""
+        do {
+        var readableJSON = try JSONSerialization.jsonObject(with: JSONData, options: .mutableContainers) as! JSONStandard
+        if let albums = readableJSON["albums"] as? JSONStandard{
+            if let items = albums["items"] as? [JSONStandard] {
+                for i in 0..<items.count {
+                    let item = items[i]
+                    let titleName = item["name"] as! String
+                    let releaseDate = item["release_date"] as! String
+                    if let images = item["images"] as? [JSONStandard] {
+                        let imageData = images[0]
+                        let mainImageURL =  URL(string: imageData["url"] as! String)
+                        //let mainImageData = NSData(contentsOf: mainImageURL!)
+                         image = imageData["url"] as! String
+                    }
+                    
+                    if let artists = item["artists"] as? JSONStandard {
+                        name = artists["name"] as! String
+                        
+                    }
+                     audiobookArray.append(Audiobook.init(title: titleName, author: name, image: image, releaseDate: releaseDate, trackList: []))
+                    currentAudiobookArray = audiobookArray
+                    DispatchQueue.main.async {
+                        self.collection.reloadData()
+                    }
+                }
+            }
+        }
+           
+            
+            
+        }
+        catch {
+            print(error)
+        }
+    }
     
     /*private func setUpAudiobooks() {
         var tracksArray = [Track]()
@@ -193,7 +236,10 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
         
         fetchAudiobooks {(audiobook) in
             if let audiobook = audiobook {
-                print("success")
+                print("here")
+                DispatchQueue.main.async {
+                    self.collection.reloadData()
+                }
             }
         }
     }

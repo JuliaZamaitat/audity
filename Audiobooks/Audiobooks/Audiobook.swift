@@ -27,14 +27,14 @@ struct Audiobook: Equatable, Codable {
         case trackList
     }
     
-    /*init(title: String, author: String, image: String, releaseDate: String, trackList: [Track]) {
+    init(title: String, author: String, image: String, releaseDate: String, trackList: [Track]) {
         self.title = title
         self.author = author
         self.image = image
         self.releaseDate = releaseDate
         self.trackList = trackList
         //self.releaseDate = dateformat(date: releaseDate)
-    }*/
+    }
     
     init(from decoder: Decoder) throws {
         let valueContainer = try decoder.container(keyedBy: Keys.self)
