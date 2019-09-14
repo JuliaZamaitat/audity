@@ -29,9 +29,6 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
         collection.delegate = self
         collection.dataSource = self
         collection.keyboardDismissMode = .onDrag
-        
-        
-        
     }
     
     //In order to hide navigation bar after clicked on search result
@@ -97,42 +94,20 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
     
     func fetchAudiobooks(completion: @escaping (Audiobook?) -> Void){
         let baseURL = URL(string: "https://api.spotify.com/v1/search")!
-        //var url = URL(string: "Authorization: Bearer \(accessToken!)" )
-        
-        let session = URLSession.shared
-        
         let query: [String: String] = [
             "type": "album",
             "q": "grm",
         ]
-        
-        var url = baseURL.withQueries(query)!
-        
+        let url = baseURL.withQueries(query)!
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
-       
-        
         request.addValue("Bearer \(accessToken!)", forHTTPHeaderField: "Authorization")
-        
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            
-           
-            //let jsonDecoder = JSONDecoder()
             if let data = data {
                self.parseData(JSONData: data)
-                
             }
-            //let audiobook = try? jsonDecoder.decode(Audiobook.self, from: data) {
-                /*let book = String(data: data, encoding: .utf8){
-                print(book)
-            } else {
-                print("Either no data was returned, or data was not properly decoded.")
-                //completion(nil)
-            }*/
         }
         task.resume()
-        
-        
     }
     
     
@@ -140,35 +115,31 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
         var image = URL(string: "")
         var name = ""
         do {
-        var readableJSON = try JSONSerialization.jsonObject(with: JSONData, options: .mutableContainers) as! JSONStandard
-        if let albums = readableJSON["albums"] as? JSONStandard{
-            if let items = albums["items"] as? [JSONStandard] {
-                for i in 0..<items.count {
-                    let item = items[i]
-                    let titleName = item["name"] as! String
-                    let releaseDate = item["release_date"] as! String
-                    if let images = item["images"] as? [JSONStandard] {
-                        let imageData = images[1]
-                        let mainImageURL =  URL(string: imageData["url"] as! String)
-                        let mainImageData = NSData(contentsOf: mainImageURL!)
-                        let mainImage = UIImage(data: mainImageData as! Data)
-                        image = mainImageURL!
-                    }
-                    
-                    if let artists = item["artists"] as? JSONStandard {
-                        name = artists["name"] as! String
-                    }
-                    audiobookArray.append(Audiobook.init(title: titleName, author: name, image: image!, releaseDate: releaseDate, trackList: []))
-                    currentAudiobookArray = audiobookArray
-                    DispatchQueue.main.async {
-                        self.collection.reloadData()
+            var readableJSON = try JSONSerialization.jsonObject(with: JSONData, options: .mutableContainers) as! JSONStandard
+            if let albums = readableJSON["albums"] as? JSONStandard{
+                if let items = albums["items"] as? [JSONStandard] {
+                    for i in 0..<items.count {
+                        let item = items[i]
+                        let titleName = item["name"] as! String
+                        let releaseDate = item["release_date"] as! String
+                        if let images = item["images"] as? [JSONStandard] {
+                            let imageData = images[1]
+                            let mainImageURL =  URL(string: imageData["url"] as! String)
+                            image = mainImageURL!
+                        }
+                        if let artists = item["artists"] as? [JSONStandard] {
+                            print("here")
+                            let artist = artists[0]
+                            name = artist["name"] as! String
+                        }
+                        audiobookArray.append(Audiobook.init(title: titleName, author: name, image: image!, releaseDate: releaseDate, trackList: []))
+                        currentAudiobookArray = audiobookArray
+                        DispatchQueue.main.async {
+                            self.collection.reloadData()
+                        }
                     }
                 }
             }
-        }
-           
-            
-            
         }
         catch {
             print(error)
@@ -203,7 +174,6 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
         }
         cell.titleLabel.text = currentAudiobookArray[indexPath.row].title
         cell.authorLabel.text = currentAudiobookArray[indexPath.row].author
-        
         let url = currentAudiobookArray[indexPath.row].image
         let data = try? Data(contentsOf: url) //make sure your image in this url does exist, otherwise unwrap in a if let check / try-catch
         cell.coverImage.image = UIImage(data: data!)
@@ -220,7 +190,6 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
     // MARK: -Search Bar
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         searchActive = true
-        
         guard !searchText.isEmpty else {
             currentAudiobookArray = audiobookArray
             collection.reloadData()
@@ -240,10 +209,10 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
         
         fetchAudiobooks {(audiobook) in
             if let audiobook = audiobook {
-                print("here")
+                /*print("here")
                 DispatchQueue.main.async {
-                    self.collection.reloadData()
-                }
+                    self.collection.reloadData()*/
+                
             }
         }
     }
