@@ -260,7 +260,7 @@
                                         </constraints>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qn5-4F-F5b">
-                                        <rect key="frame" x="126" y="223" width="166" height="31"/>
+                                        <rect key="frame" x="126" y="222.66666666666666" width="166" height="31"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <inset key="contentEdgeInsets" minX="12" minY="8" maxX="8" maxY="8"/>
                                         <state key="normal" title="Zur Bibliothek hinzufügen"/>
@@ -268,8 +268,8 @@
                                             <action selector="addToLibraryButtonTapped:" destination="SFn-go-Lxg" eventType="touchUpInside" id="xcF-11-scl"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Titel" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eUK-iI-ncP">
-                                        <rect key="frame" x="0.0" y="190" width="414" height="28"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Titel" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eUK-iI-ncP">
+                                        <rect key="frame" x="10" y="190" width="394" height="27.666666666666657"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="23"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -277,13 +277,13 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="eUK-iI-ncP" secondAttribute="trailing" constant="10" id="168-IR-xps"/>
                                     <constraint firstItem="Qn5-4F-F5b" firstAttribute="top" secondItem="eUK-iI-ncP" secondAttribute="bottom" constant="5" id="26y-d8-C1U"/>
+                                    <constraint firstItem="eUK-iI-ncP" firstAttribute="leading" secondItem="JFB-0c-Uvr" secondAttribute="leading" constant="10" id="4oF-wK-h0W"/>
                                     <constraint firstItem="Qn5-4F-F5b" firstAttribute="trailing" secondItem="GVA-3v-641" secondAttribute="trailing" id="5cR-bb-wdV"/>
-                                    <constraint firstItem="eUK-iI-ncP" firstAttribute="leading" secondItem="JFB-0c-Uvr" secondAttribute="leading" id="BDN-UE-E8X"/>
                                     <constraint firstItem="GVA-3v-641" firstAttribute="top" secondItem="JFB-0c-Uvr" secondAttribute="top" id="KRk-v7-9Kw"/>
                                     <constraint firstItem="eUK-iI-ncP" firstAttribute="top" secondItem="GVA-3v-641" secondAttribute="bottom" constant="20" id="NoQ-S6-R13"/>
-                                    <constraint firstItem="eUK-iI-ncP" firstAttribute="width" secondItem="JFB-0c-Uvr" secondAttribute="height" multiplier="207:127" id="bxb-IH-dAL"/>
-                                    <constraint firstItem="eUK-iI-ncP" firstAttribute="centerX" secondItem="GVA-3v-641" secondAttribute="centerX" id="cq0-Lb-khQ"/>
+                                    <constraint firstItem="eUK-iI-ncP" firstAttribute="centerX" secondItem="GVA-3v-641" secondAttribute="centerX" id="Q14-TI-5XV"/>
                                     <constraint firstItem="GVA-3v-641" firstAttribute="centerX" secondItem="JFB-0c-Uvr" secondAttribute="centerX" id="h7k-Xp-qJA"/>
                                     <constraint firstItem="GVA-3v-641" firstAttribute="width" secondItem="JFB-0c-Uvr" secondAttribute="height" multiplier="85:127" id="nRD-46-8lt"/>
                                     <constraint firstItem="Qn5-4F-F5b" firstAttribute="width" secondItem="JFB-0c-Uvr" secondAttribute="height" multiplier="83:127" id="rNI-OE-RVM"/>

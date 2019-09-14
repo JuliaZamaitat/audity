@@ -92,13 +92,14 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
         
     }
     
-    func fetchAudiobooks(completion: @escaping (Audiobook?) -> Void){
+    func fetchAudiobooks(keywords: String, completion: @escaping (Audiobook?) -> Void){
         let baseURL = URL(string: "https://api.spotify.com/v1/search")!
         let query: [String: String] = [
             "type": "album",
-            "q": "grm",
+            "q": "\(keywords)"
         ]
         let url = baseURL.withQueries(query)!
+        print(url)
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.addValue("Bearer \(accessToken!)", forHTTPHeaderField: "Authorization")
@@ -146,24 +147,6 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
         }
     }
     
-    /*private func setUpAudiobooks() {
-        var tracksArray = [Track]()
-        for n in 1...10 {
-            tracksArray.append(Track(title: "Kapitel \(n)", length: "12 minutes"))
-        }
-        
-        audiobookArray.append(Audiobook(title: "GRM-Brainfuck", author: "Sibylle Berg", image: "grm", releaseDate: "2019-02-22", trackList: tracksArray))
-        audiobookArray.append(Audiobook(title: "Auch GRM-Brainfuck", author: "Sibylle Berg", image: "james", releaseDate: "2012-12-03", trackList: tracksArray))
-        audiobookArray.append(Audiobook(title: "GRM-Brainfuck", author: "Sibylle Berg", image: "tjh", releaseDate: "2001-07-22", trackList: tracksArray))
-        audiobookArray.append(Audiobook(title: "Mal etwas anderes", author: "Hase", image: "roosevelt", releaseDate: "2019-02-22", trackList: tracksArray))
-        audiobookArray.append(Audiobook(title: "FML", author: "Julia Zamaitat", image: "grm", releaseDate: "2019-02-22", trackList: tracksArray))
-        audiobookArray.append(Audiobook(title: "HAHAHA", author: "Libre", image: "james", releaseDate: "2019-02-22", trackList: tracksArray))
-        audiobookArray.append(Audiobook(title: "Wo sind meine Fische?", author: "Norman Rittr", image: "roosevelt", releaseDate: "2019-02-22", trackList: tracksArray))
-        audiobookArray.append(Audiobook(title: "Raus mit die Viecher", author: "Karin Ritter", image: "tjh", releaseDate: "2019-02-22", trackList: tracksArray))
-        
-        currentAudiobookArray = audiobookArray
-    }*/
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return currentAudiobookArray.count
     }
@@ -190,14 +173,15 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
     // MARK: -Search Bar
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         searchActive = true
-        guard !searchText.isEmpty else {
+        /*guard !searchText.isEmpty else {
             currentAudiobookArray = audiobookArray
             collection.reloadData()
             return}
         currentAudiobookArray = audiobookArray.filter({ audiobook -> Bool in
             audiobook.title.lowercased().contains(searchText.lowercased())
         })
-        collection.reloadData()
+        collection.reloadData()*/
+       
     }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
@@ -206,15 +190,9 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
        searchActive = true
         searchBar.showsCancelButton = true
         accessToken = delegate.getAccessToken()
-        
-        fetchAudiobooks {(audiobook) in
-            if let audiobook = audiobook {
-                /*print("here")
-                DispatchQueue.main.async {
-                    self.collection.reloadData()*/
-                
-            }
-        }
+        audiobookArray = []
+        collection.reloadData()
+    
     }
     
     //brings the navigation bar back
@@ -223,6 +201,8 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
         self.view.endEditing(true)
         searchActive = false
         searchBar.showsCancelButton = false
+        audiobookArray = []
+        collection.reloadData()
     }
     
     //Needed so search bar disappeard when "Suchen" on keyboard is pressed
@@ -232,6 +212,16 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
         searchBar.barTintColor = UIColor.SpotifyColor.Black
         searchActive = false
         searchBar.showsCancelButton = false
+        let keywords = searchBar.text
+        let finalKeywords = keywords?.replacingOccurrences(of: " ", with: "+")
+        fetchAudiobooks(keywords: finalKeywords!) {(audiobook) in
+            if let audiobook = audiobook {
+                /*print("here")
+                 DispatchQueue.main.async {
+                 self.collection.reloadData()*/
+                
+            }
+        }
     }
     
     // MARK: - Navigation

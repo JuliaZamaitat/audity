@@ -43,6 +43,7 @@ class DetailCoverViewController: UIViewController {
         addToLibraryButton.layer.borderWidth = 0.5
         addToLibraryButton.layer.cornerRadius = 15
         addToLibraryButton.layer.borderColor = UIColor.white.cgColor
+        titelLabel.adjustsFontSizeToFitWidth = true
         
         
     }
