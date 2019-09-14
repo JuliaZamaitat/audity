@@ -201,6 +201,7 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
         self.view.endEditing(true)
         searchActive = false
         searchBar.showsCancelButton = false
+        currentAudiobookArray = []
         audiobookArray = []
         collection.reloadData()
     }
