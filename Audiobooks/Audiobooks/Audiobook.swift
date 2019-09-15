@@ -12,12 +12,12 @@ import UIKit
 
 struct Audiobook: Equatable, Codable {
     
-    
+    let id: String
     let title: String
     let author: String
     let image: URL
     let releaseDate: String
-    let trackList: [Track]
+    var trackList: [String]
     
     enum Keys: String, CodingKey {
         case title
@@ -27,7 +27,8 @@ struct Audiobook: Equatable, Codable {
         case trackList
     }
     
-    init(title: String, author: String, image: URL, releaseDate: String, trackList: [Track]) {
+    init(id: String, title: String, author: String, image: URL, releaseDate: String, trackList: [String]) {
+        self.id = id
         self.title = title
         self.author = author
         self.image = image

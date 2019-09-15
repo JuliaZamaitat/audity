@@ -100,6 +100,7 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
         ]
         let url = baseURL.withQueries(query)!
         print(url)
+        
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.addValue("Bearer \(accessToken!)", forHTTPHeaderField: "Authorization")
@@ -123,17 +124,18 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
                         let item = items[i]
                         let titleName = item["name"] as! String
                         let releaseDate = item["release_date"] as! String
+                        let id = item["id"] as! String
                         if let images = item["images"] as? [JSONStandard] {
                             let imageData = images[1]
                             let mainImageURL =  URL(string: imageData["url"] as! String)
                             image = mainImageURL!
                         }
                         if let artists = item["artists"] as? [JSONStandard] {
-                            print("here")
                             let artist = artists[0]
                             name = artist["name"] as! String
                         }
-                        audiobookArray.append(Audiobook.init(title: titleName, author: name, image: image!, releaseDate: releaseDate, trackList: []))
+                        //if audiobookArray.contains(id)
+                        audiobookArray.append(Audiobook.init(id: id, title: titleName, author: name, image: image!, releaseDate: releaseDate, trackList: []))
                         currentAudiobookArray = audiobookArray
                         DispatchQueue.main.async {
                             self.collection.reloadData()
@@ -146,6 +148,40 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
             print(error)
         }
     }
+    
+    func getTracks(albumID: String, trackNamesCompletionHandler: @escaping ([String]?, Error?) -> Void) {
+        var trackNames: [String] = []
+        let baseURL = URL(string: "https://api.spotify.com/v1/albums/\(albumID)/tracks")!
+        let query: [String: String] = [
+            "limit": "50",
+        ]
+        let url = baseURL.withQueries(query)!
+        print(url)
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.addValue("Bearer \(accessToken!)", forHTTPHeaderField: "Authorization")
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let data = data {
+                do {
+                    var readableJSON = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as! JSONStandard
+                    if let items = readableJSON["items"] as? [JSONStandard] {
+                        for i in 0..<items.count {
+                            let item = items[i]
+                            let chapterName = item["name"] as! String
+                            print(chapterName)
+                            trackNames.append(chapterName)
+                        }
+                        trackNamesCompletionHandler(trackNames, nil)
+                    }
+                } catch {
+                    print(error)
+                    trackNamesCompletionHandler(nil, error)
+                }
+            }
+        }
+        task.resume()
+    }
+    
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return currentAudiobookArray.count
@@ -173,15 +209,6 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
     // MARK: -Search Bar
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         searchActive = true
-        /*guard !searchText.isEmpty else {
-            currentAudiobookArray = audiobookArray
-            collection.reloadData()
-            return}
-        currentAudiobookArray = audiobookArray.filter({ audiobook -> Bool in
-            audiobook.title.lowercased().contains(searchText.lowercased())
-        })
-        collection.reloadData()*/
-       
     }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
@@ -235,12 +262,16 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
             let indexPath = self.collection.indexPath(for: cell){
                 let audiobook = currentAudiobookArray[indexPath.row]
                 destinationVC.audiobook = audiobook
+                DispatchQueue.main.async {
+                    self.getTracks(albumID: audiobook.id, trackNamesCompletionHandler: { names, error in
+                        if let trackNames = names {
+                            destinationVC.audiobook.trackList = trackNames
+                        }
+                    })
+                }
             }
-            
         }
     }
-    
-
 }
 
 //For custom size of the collectionView cells
@@ -248,5 +279,4 @@ extension SearchViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 200 , height: 250)
     }
-  
 }

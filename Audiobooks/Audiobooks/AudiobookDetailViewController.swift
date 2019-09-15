@@ -105,9 +105,9 @@ class AudiobookDetailViewController: UIViewController, UITableViewDataSource, UI
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "trackCell", for: indexPath) as? TrackTableViewCell else {
             return UITableViewCell()
         }
-        cell.titelLabel.text = audiobook.trackList[indexPath.row].title
+        cell.titelLabel.text = audiobook.trackList[indexPath.row]
         cell.titelLabel.highlightedTextColor = UIColor.SpotifyColor.Green
-        cell.lengthLabel.text = audiobook.trackList[indexPath.row].length
+        //cell.lengthLabel.text = audiobook.trackList[indexPath.row].length
         
         //To make titels of cells green but selection style same color as table view
         let customColorView = UIView()
