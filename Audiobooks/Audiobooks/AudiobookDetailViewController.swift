@@ -10,18 +10,17 @@ import UIKit
 
 class AudiobookDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    var oldContentOffset = CGPoint(x: 0,y: 0)
-    let topConstraintRange = (CGFloat(120)..<CGFloat(300))
     typealias JSONStandard = [String : AnyObject]
     
     private var pageViewController: UIPageViewController!
     var audiobook: Audiobook!
     var previousOffset: CGFloat = 0
-    var tracks: [String] = []
-    var trackNames: [String] = []
+    var trackNames: [Track] = []
     var delegate = UIApplication.shared.delegate as! AppDelegate
     var accessToken: String?
     @IBOutlet weak var containerView: UIView!
+    
+
     
     lazy var viewControllers: [UIViewController] = {
         var viewControllers = [UIViewController]()
@@ -53,7 +52,7 @@ class AudiobookDetailViewController: UIViewController, UITableViewDataSource, UI
        
     }
     
-    func getTracks(audiobook: Audiobook, offset: Int, trackNamesCompletionHandler: @escaping ([String]?, Error?) -> Void) {
+    func getTracks(audiobook: Audiobook, offset: Int, trackNamesCompletionHandler: @escaping ([Track]?, Error?) -> Void) {
         accessToken = delegate.getAccessToken()
         let baseURL = URL(string: "https://api.spotify.com/v1/albums/\(audiobook.id)/tracks")!
         let query: [String: String] = [
@@ -73,8 +72,17 @@ class AudiobookDetailViewController: UIViewController, UITableViewDataSource, UI
                     if let items = readableJSON["items"] as? [JSONStandard] {
                         for i in 0..<items.count {
                             let item = items[i]
+                            var artistsNames: [String] = []
+                            if let artists = item["artists"] as? [JSONStandard]{
+                                for a in 0..<artists.count{
+                                    let artist = artists[a]
+                                    let name = artist["name"] as! String
+                                    artistsNames.append(name)
+                                }
+                            }
                             let chapterName = item["name"] as! String
-                            self.trackNames.append(chapterName)
+                            let id = item["id"] as! String
+                            self.trackNames.append(Track.init(title: chapterName, id: id, artists: artistsNames))
                         }
                         trackNamesCompletionHandler(self.trackNames, nil)
                     }
@@ -89,7 +97,7 @@ class AudiobookDetailViewController: UIViewController, UITableViewDataSource, UI
     }
 
 
-func asyncTracks(audiobook: Audiobook, offset: Int) -> [String]{
+func asyncTracks(audiobook: Audiobook, offset: Int){
     self.getTracks(audiobook: audiobook,offset: offset, trackNamesCompletionHandler: { names, error in
         if let trackNames = names {
             if (trackNames.count < audiobook.totalTracks){
@@ -102,7 +110,6 @@ func asyncTracks(audiobook: Audiobook, offset: Int) -> [String]{
         }
     })
 
-    return tracks
 }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -166,7 +173,10 @@ func asyncTracks(audiobook: Audiobook, offset: Int) -> [String]{
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "trackCell", for: indexPath) as? TrackTableViewCell else {
             return UITableViewCell()
         }
-        cell.titelLabel.text = audiobook.trackList[indexPath.row]
+        cell.titelLabel.text = audiobook.trackList[indexPath.row].title
+        var artistNames = audiobook.trackList[indexPath.row].artists
+        var joinedArtistNames = artistNames.joined(separator: ", ")
+        cell.descriptionLabel.text = joinedArtistNames
         cell.titelLabel.highlightedTextColor = UIColor.SpotifyColor.Green
         //cell.lengthLabel.text = audiobook.trackList[indexPath.row].length
         
@@ -178,7 +188,7 @@ func asyncTracks(audiobook: Audiobook, offset: Int) -> [String]{
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 75
+        return 60
     }
     
    /* func scrollViewDidScroll(_ scrollView: UIScrollView) {

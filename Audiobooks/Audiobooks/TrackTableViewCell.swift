@@ -10,8 +10,8 @@ import UIKit
 
 class TrackTableViewCell: UITableViewCell {
     @IBOutlet weak var titelLabel: UILabel!
-    @IBOutlet weak var lengthLabel: UILabel!
     
+    @IBOutlet weak var descriptionLabel: UILabel!
     
     
     

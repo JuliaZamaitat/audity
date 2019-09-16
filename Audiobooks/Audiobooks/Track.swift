@@ -9,12 +9,16 @@
 import Foundation
 import UIKit
 
-class Track: Codable {
+struct Track: Codable {
     var title: String = ""
-    var length: String = ""
+    //ar length: String = ""
+    var id: String = ""
+    var artists: [String] = []
     
-    init(title: String, length: String) {
+    init(title: String, id: String, artists: [String]) {
         self.title = title
-        self.length = length
+        self.id = id
+        self.artists = artists
+       
     }
 }

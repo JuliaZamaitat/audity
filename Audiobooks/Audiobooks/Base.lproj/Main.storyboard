@@ -149,17 +149,17 @@
             <objects>
                 <viewController id="Yf9-G9-h25" userLabel="Audiobook Detail View Controller" customClass="AudiobookDetailViewController" customModule="Audiobooks" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ErL-3d-X4B">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="672"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fyh-sf-ghP">
-                                <rect key="frame" x="0.0" y="64" width="414" height="302"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="302"/>
                                 <connections>
                                     <segue destination="MsD-wq-swK" kind="embed" id="ofB-1f-qNC"/>
                                 </connections>
                             </containerView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="WaZ-C3-Wim">
-                                <rect key="frame" x="0.0" y="366" width="414" height="321"/>
+                                <rect key="frame" x="0.0" y="302" width="414" height="321"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="321" id="75j-FG-i5l">
@@ -175,14 +175,14 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3V5-FR-NTl">
-                                                    <rect key="frame" x="20" y="11" width="374" height="20"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <rect key="frame" x="20" y="11" width="374" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <color key="highlightedColor" red="0.0" green="0.97680455450000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vzM-hd-m9a">
-                                                    <rect key="frame" x="20" y="41" width="374" height="20"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vzM-hd-m9a" userLabel="Description Label">
+                                                    <rect key="frame" x="20" y="31.999999999999996" width="374" height="14.333333333333332"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="thin" pointSize="12"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -193,11 +193,11 @@
                                                 <constraint firstItem="vzM-hd-m9a" firstAttribute="trailing" secondItem="0Gn-2p-8b4" secondAttribute="trailingMargin" id="95h-YA-fJw"/>
                                                 <constraint firstItem="3V5-FR-NTl" firstAttribute="leading" secondItem="0Gn-2p-8b4" secondAttribute="leadingMargin" id="b5M-gY-nse"/>
                                                 <constraint firstItem="3V5-FR-NTl" firstAttribute="top" secondItem="0Gn-2p-8b4" secondAttribute="topMargin" id="iNH-fs-R3G"/>
-                                                <constraint firstItem="vzM-hd-m9a" firstAttribute="top" secondItem="3V5-FR-NTl" secondAttribute="bottom" constant="10" id="tfz-hZ-lOE"/>
+                                                <constraint firstItem="vzM-hd-m9a" firstAttribute="top" secondItem="3V5-FR-NTl" secondAttribute="bottom" constant="3" id="tfz-hZ-lOE"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="lengthLabel" destination="vzM-hd-m9a" id="d0J-oE-YyL"/>
+                                            <outlet property="descriptionLabel" destination="vzM-hd-m9a" id="Omy-hp-LA6"/>
                                             <outlet property="titelLabel" destination="3V5-FR-NTl" id="TFa-la-u5m"/>
                                         </connections>
                                     </tableViewCell>
@@ -269,7 +269,7 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Titel" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eUK-iI-ncP">
-                                        <rect key="frame" x="10" y="190" width="394" height="27.666666666666657"/>
+                                        <rect key="frame" x="20" y="190" width="374" height="27.666666666666657"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="23"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -277,9 +277,9 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="eUK-iI-ncP" secondAttribute="trailing" constant="10" id="168-IR-xps"/>
+                                    <constraint firstAttribute="trailing" secondItem="eUK-iI-ncP" secondAttribute="trailing" constant="20" id="168-IR-xps"/>
                                     <constraint firstItem="Qn5-4F-F5b" firstAttribute="top" secondItem="eUK-iI-ncP" secondAttribute="bottom" constant="5" id="26y-d8-C1U"/>
-                                    <constraint firstItem="eUK-iI-ncP" firstAttribute="leading" secondItem="JFB-0c-Uvr" secondAttribute="leading" constant="10" id="4oF-wK-h0W"/>
+                                    <constraint firstItem="eUK-iI-ncP" firstAttribute="leading" secondItem="JFB-0c-Uvr" secondAttribute="leading" constant="20" id="4oF-wK-h0W"/>
                                     <constraint firstItem="Qn5-4F-F5b" firstAttribute="trailing" secondItem="GVA-3v-641" secondAttribute="trailing" id="5cR-bb-wdV"/>
                                     <constraint firstItem="GVA-3v-641" firstAttribute="top" secondItem="JFB-0c-Uvr" secondAttribute="top" id="KRk-v7-9Kw"/>
                                     <constraint firstItem="eUK-iI-ncP" firstAttribute="top" secondItem="GVA-3v-641" secondAttribute="bottom" constant="20" id="NoQ-S6-R13"/>
@@ -420,25 +420,25 @@
                                                         <constraint firstAttribute="width" constant="150" id="cwJ-AO-qR8"/>
                                                     </constraints>
                                                 </imageView>
-                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="Gc7-VB-vgi">
-                                                    <rect key="frame" x="183" y="23" width="211" height="51"/>
+                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="Gc7-VB-vgi">
+                                                    <rect key="frame" x="183" y="23.000000000000004" width="211" height="44.333333333333343"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Titel" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C3H-Bm-YPE">
-                                                            <rect key="frame" x="0.0" y="0.0" width="211" height="24"/>
-                                                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="211" height="21.666666666666668"/>
+                                                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Autor_in" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wNz-7C-b9u">
-                                                            <rect key="frame" x="0.0" y="27" width="211" height="24"/>
-                                                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
+                                                            <rect key="frame" x="0.0" y="22.666666666666664" width="211" height="21.666666666666664"/>
+                                                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
                                                 </stackView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="d13-zr-9p4">
-                                                    <rect key="frame" x="183" y="79" width="211" height="38"/>
+                                                    <rect key="frame" x="183" y="72.333333333333329" width="211" height="38"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Release Year" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EL5-N7-Bdt">
                                                             <rect key="frame" x="0.0" y="0.0" width="211" height="17"/>
@@ -584,7 +584,7 @@
         <image name="grm" width="362" height="370"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="VSw-T4-2Qg"/>
+        <segue reference="XoC-0G-ZTv"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
 </document>

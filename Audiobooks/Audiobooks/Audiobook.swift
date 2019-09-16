@@ -17,7 +17,7 @@ struct Audiobook: Equatable, Codable {
     let author: String
     let image: URL
     let releaseDate: String
-    var trackList: [String]
+    var trackList: [Track]
     var totalTracks: Int
     
     enum Keys: String, CodingKey {
@@ -28,7 +28,7 @@ struct Audiobook: Equatable, Codable {
         case trackList
     }
     
-    init(id: String, title: String, author: String, image: URL, releaseDate: String, totalTracks: Int, trackList: [String]) {
+    init(id: String, title: String, author: String, image: URL, releaseDate: String, totalTracks: Int, trackList: [Track]) {
         self.id = id
         self.title = title
         self.author = author
