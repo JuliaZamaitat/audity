@@ -21,7 +21,10 @@ class DetailDescriptionViewController: UIViewController {
         view.backgroundColor = UIColor.SpotifyColor.Black
         guard let audiobook = audiobook else {return}
         releaseDateLabel.text = audiobook.releaseDate
-        // Do any additional setup after loading the view.
+        let author = audiobook.author
+        let title = audiobook.title
+        let joinedString = "\(title) von \(author)"
+        descriptionLabel.text = joinedString
     }
     
 
