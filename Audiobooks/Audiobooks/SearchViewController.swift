@@ -9,10 +9,10 @@
 import UIKit
 
 class SearchViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate {
-    
+     let group = DispatchGroup()
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var collection: UICollectionView!
-    
+   
     
     var searchActive = false
     var audiobookArray = [Audiobook]()
@@ -56,7 +56,6 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
         searchBar.barTintColor = UIColor.SpotifyColor.Black
         searchBar.isTranslucent = false
         searchBar.tintColor = .black
-       
        
         if let textfield = searchBar.value(forKey: "searchField") as? UITextField {
             if let backgroundview = textfield.subviews.first {
@@ -125,6 +124,7 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
                         let titleName = item["name"] as! String
                         let releaseDate = item["release_date"] as! String
                         let id = item["id"] as! String
+                        let totalTracks = item["total_tracks"] as! Int
                         if let images = item["images"] as? [JSONStandard] {
                             let imageData = images[1]
                             let mainImageURL =  URL(string: imageData["url"] as! String)
@@ -135,7 +135,7 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
                             name = artist["name"] as! String
                         }
                         //if audiobookArray.contains(id)
-                        audiobookArray.append(Audiobook.init(id: id, title: titleName, author: name, image: image!, releaseDate: releaseDate, trackList: []))
+                        audiobookArray.append(Audiobook.init(id: id, title: titleName, author: name, image: image!, releaseDate: releaseDate,totalTracks: totalTracks, trackList: []))
                         currentAudiobookArray = audiobookArray
                         DispatchQueue.main.async {
                             self.collection.reloadData()
@@ -149,40 +149,9 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
         }
     }
     
-    func getTracks(albumID: String, trackNamesCompletionHandler: @escaping ([String]?, Error?) -> Void) {
-        var trackNames: [String] = []
-        let baseURL = URL(string: "https://api.spotify.com/v1/albums/\(albumID)/tracks")!
-        let query: [String: String] = [
-            "limit": "50",
-        ]
-        let url = baseURL.withQueries(query)!
-        print(url)
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        request.addValue("Bearer \(accessToken!)", forHTTPHeaderField: "Authorization")
-        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            if let data = data {
-                do {
-                    var readableJSON = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as! JSONStandard
-                    if let items = readableJSON["items"] as? [JSONStandard] {
-                        for i in 0..<items.count {
-                            let item = items[i]
-                            let chapterName = item["name"] as! String
-                            print(chapterName)
-                            trackNames.append(chapterName)
-                        }
-                        trackNamesCompletionHandler(trackNames, nil)
-                    }
-                } catch {
-                    print(error)
-                    trackNamesCompletionHandler(nil, error)
-                }
-            }
-        }
-        task.resume()
-    }
     
     
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return currentAudiobookArray.count
     }
@@ -252,23 +221,19 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
         }
     }
     
+    
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+       
         if (segue.identifier == "ShowDetailsSegue") {
            let destinationVC = segue.destination as! AudiobookDetailViewController
            if let cell = sender as? UICollectionViewCell,
             let indexPath = self.collection.indexPath(for: cell){
                 let audiobook = currentAudiobookArray[indexPath.row]
                 destinationVC.audiobook = audiobook
-                DispatchQueue.main.async {
-                    self.getTracks(albumID: audiobook.id, trackNamesCompletionHandler: { names, error in
-                        if let trackNames = names {
-                            destinationVC.audiobook.trackList = trackNames
-                        }
-                    })
-                }
             }
         }
     }
