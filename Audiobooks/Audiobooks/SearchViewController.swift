@@ -9,10 +9,10 @@
 import UIKit
 
 class SearchViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate {
-    
+     let group = DispatchGroup()
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var collection: UICollectionView!
-    
+   
     
     var searchActive = false
     var audiobookArray = [Audiobook]()
@@ -150,11 +150,12 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
         }
     }
     
-    func getTracks(audiobook: Audiobook, trackNamesCompletionHandler: @escaping ([String]?, Error?) -> Void) {
+    
+    func getTracks(audiobook: Audiobook, offset: Int, trackNamesCompletionHandler: @escaping ([String]?, Error?) -> Void) {
         var trackNames: [String] = []
-        var offset = 0
-        
+    
         //while(trackNames.count < audiobook.totalTracks){  //if tracks.count <
+            
             print(trackNames.count)
            //print(offset)
             
@@ -163,14 +164,14 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
                 "limit": "50",
                 "offset": "\(offset)"
             ]
-            offset = offset + 50
+            
             print(offset)
             let url = baseURL.withQueries(query)!
             var request = URLRequest(url: url)
             request.httpMethod = "GET"
             request.addValue("Bearer \(accessToken!)", forHTTPHeaderField: "Authorization")
             
-           
+            
             let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
                 if let data = data {
                     do {
@@ -181,15 +182,13 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
                                 let chapterName = item["name"] as! String
                                 print(chapterName)
                                 trackNames.append(chapterName)
+                               
                             }
-                        
-                            
-                            
+                                print("here")
                                 trackNamesCompletionHandler(trackNames, nil)
+                            
                             }
                     }
-                        
-                
                     catch {
                         print(error)
                         trackNamesCompletionHandler(nil, error)
@@ -198,10 +197,7 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
             }
             task.resume()
         }
-        
-    
-    
-    
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return currentAudiobookArray.count
     }
@@ -271,34 +267,54 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
         }
     }
     
+    var tracks: [String] = []
+    func asyncTracks(audiobook: Audiobook, offset: Int) -> [String]{
+        
+        
+            self.getTracks(audiobook: audiobook,offset: offset, trackNamesCompletionHandler: { names, error in
+                if let trackNames = names {
+                    self.tracks += trackNames
+                    print("Der Count für self.tracks.count ist \(self.tracks.count)")
+                    if (self.tracks.count < audiobook.totalTracks){
+                        self.asyncTracks(audiobook: audiobook, offset: offset + 50)
+                    }
+                }
+            })
+        
+       
+         return tracks
+    }
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+       
         if (segue.identifier == "ShowDetailsSegue") {
            let destinationVC = segue.destination as! AudiobookDetailViewController
            if let cell = sender as? UICollectionViewCell,
             let indexPath = self.collection.indexPath(for: cell){
                 let audiobook = currentAudiobookArray[indexPath.row]
                 destinationVC.audiobook = audiobook
+                //var tracks: [String] = []
+                group.enter()
                 DispatchQueue.main.async {
-                    self.getTracks(audiobook: audiobook, trackNamesCompletionHandler: { names, error in
-                        if let trackNames = names {
-                            if (trackNames.count < audiobook.totalTracks) {
-                                self.getTracks(audiobook: audiobook, trackNamesCompletionHandler: { names, error in
-                                   print("ju")
-                                })
-                                
-                            
-                            }
-                          
-                        destinationVC.audiobook.trackList = trackNames
-                        }
-                    })
+                   let tracks = self.asyncTracks(audiobook: audiobook, offset: 0)
+                    if (tracks.count == audiobook.totalTracks){
+                  self.group.leave()
+                    }
+            }
+                print("Der Finale Count: \(tracks.count)")
+                    
+                   // }
+            self.group.notify(queue: DispatchQueue.main) {
+                destinationVC.audiobook.trackList = self.tracks
                 }
             }
+            
         }
-    }
+        }
+    
 }
 
 //For custom size of the collectionView cells
