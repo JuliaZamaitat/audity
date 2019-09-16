@@ -12,12 +12,15 @@ class AudiobookDetailViewController: UIViewController, UITableViewDataSource, UI
     
     var oldContentOffset = CGPoint(x: 0,y: 0)
     let topConstraintRange = (CGFloat(120)..<CGFloat(300))
-    
+    typealias JSONStandard = [String : AnyObject]
     
     private var pageViewController: UIPageViewController!
     var audiobook: Audiobook!
     var previousOffset: CGFloat = 0
-   
+    var tracks: [String] = []
+    var trackNames: [String] = []
+    var delegate = UIApplication.shared.delegate as! AppDelegate
+    var accessToken: String?
     @IBOutlet weak var containerView: UIView!
     
     lazy var viewControllers: [UIViewController] = {
@@ -49,7 +52,65 @@ class AudiobookDetailViewController: UIViewController, UITableViewDataSource, UI
         tableView.dataSource = self
        
     }
+    
+    func getTracks(audiobook: Audiobook, offset: Int, trackNamesCompletionHandler: @escaping ([String]?, Error?) -> Void) {
+        accessToken = delegate.getAccessToken()
+        let baseURL = URL(string: "https://api.spotify.com/v1/albums/\(audiobook.id)/tracks")!
+        let query: [String: String] = [
+            "limit": "50",
+            "offset": "\(offset)"
+        ]
+        
+        let url = baseURL.withQueries(query)!
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.addValue("Bearer \(accessToken!)", forHTTPHeaderField: "Authorization")
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let data = data {
+                do {
+                    var readableJSON = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as! JSONStandard
+                    if let items = readableJSON["items"] as? [JSONStandard] {
+                        for i in 0..<items.count {
+                            let item = items[i]
+                            let chapterName = item["name"] as! String
+                            self.trackNames.append(chapterName)
+                        }
+                        trackNamesCompletionHandler(self.trackNames, nil)
+                    }
+                }
+                catch {
+                    print(error)
+                    trackNamesCompletionHandler(nil, error)
+                }
+            }
+        }
+        task.resume()
+    }
 
+
+func asyncTracks(audiobook: Audiobook, offset: Int) -> [String]{
+    self.getTracks(audiobook: audiobook,offset: offset, trackNamesCompletionHandler: { names, error in
+        if let trackNames = names {
+            if (trackNames.count < audiobook.totalTracks){
+                self.asyncTracks(audiobook: audiobook, offset: offset + 50)
+            }
+             DispatchQueue.main.async {
+                self.audiobook.trackList = self.trackNames
+                self.tableView.reloadData()
+        }
+        }
+    })
+
+    return tracks
+}
+
+    override func viewWillAppear(_ animated: Bool) {
+        DispatchQueue.main.async {
+        self.asyncTracks(audiobook: self.audiobook, offset: 0)
+        }
+    }
+    
     private func adjustStyle() {
         //Sets up header
         title = ""
@@ -169,8 +230,6 @@ extension AudiobookDetailViewController: UIPageViewControllerDataSource {
     }
 }
     
-    
-
 
 // MARK: UIPageViewControllerDelegate
 extension AudiobookDetailViewController: UIPageViewControllerDelegate {

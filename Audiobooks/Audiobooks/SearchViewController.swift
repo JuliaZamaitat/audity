@@ -57,7 +57,6 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
         searchBar.isTranslucent = false
         searchBar.tintColor = .black
        
-       
         if let textfield = searchBar.value(forKey: "searchField") as? UITextField {
             if let backgroundview = textfield.subviews.first {
                 // Background color
@@ -151,52 +150,7 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
     }
     
     
-    func getTracks(audiobook: Audiobook, offset: Int, trackNamesCompletionHandler: @escaping ([String]?, Error?) -> Void) {
-        var trackNames: [String] = []
     
-        //while(trackNames.count < audiobook.totalTracks){  //if tracks.count <
-            
-            print(trackNames.count)
-           //print(offset)
-            
-            let baseURL = URL(string: "https://api.spotify.com/v1/albums/\(audiobook.id)/tracks")!
-            let query: [String: String] = [
-                "limit": "50",
-                "offset": "\(offset)"
-            ]
-            
-            print(offset)
-            let url = baseURL.withQueries(query)!
-            var request = URLRequest(url: url)
-            request.httpMethod = "GET"
-            request.addValue("Bearer \(accessToken!)", forHTTPHeaderField: "Authorization")
-            
-            
-            let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-                if let data = data {
-                    do {
-                        var readableJSON = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as! JSONStandard
-                        if let items = readableJSON["items"] as? [JSONStandard] {
-                            for i in 0..<items.count {
-                                let item = items[i]
-                                let chapterName = item["name"] as! String
-                                print(chapterName)
-                                trackNames.append(chapterName)
-                               
-                            }
-                                print("here")
-                                trackNamesCompletionHandler(trackNames, nil)
-                            
-                            }
-                    }
-                    catch {
-                        print(error)
-                        trackNamesCompletionHandler(nil, error)
-                    }
-                }
-            }
-            task.resume()
-        }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return currentAudiobookArray.count
@@ -267,23 +221,7 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
         }
     }
     
-    var tracks: [String] = []
-    func asyncTracks(audiobook: Audiobook, offset: Int) -> [String]{
-        
-        
-            self.getTracks(audiobook: audiobook,offset: offset, trackNamesCompletionHandler: { names, error in
-                if let trackNames = names {
-                    self.tracks += trackNames
-                    print("Der Count für self.tracks.count ist \(self.tracks.count)")
-                    if (self.tracks.count < audiobook.totalTracks){
-                        self.asyncTracks(audiobook: audiobook, offset: offset + 50)
-                    }
-                }
-            })
-        
-       
-         return tracks
-    }
+    
     
     // MARK: - Navigation
 
@@ -296,25 +234,9 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
             let indexPath = self.collection.indexPath(for: cell){
                 let audiobook = currentAudiobookArray[indexPath.row]
                 destinationVC.audiobook = audiobook
-                //var tracks: [String] = []
-                group.enter()
-                DispatchQueue.main.async {
-                   let tracks = self.asyncTracks(audiobook: audiobook, offset: 0)
-                    if (tracks.count == audiobook.totalTracks){
-                  self.group.leave()
-                    }
             }
-                print("Der Finale Count: \(tracks.count)")
-                    
-                   // }
-            self.group.notify(queue: DispatchQueue.main) {
-                destinationVC.audiobook.trackList = self.tracks
-                }
-            }
-            
         }
-        }
-    
+    }
 }
 
 //For custom size of the collectionView cells
