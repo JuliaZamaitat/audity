@@ -1,29 +1,24 @@
 //
-//  PlayerViewController.swift
+//  SongControlViewController.swift
 //  Audiobooks
 //
-//  Created by Julia Zamaitat on 06.09.19.
+//  Created by Julia Zamaitat on 17.09.19.
 //  Copyright © 2019 Julia Zamaitat. All rights reserved.
 //
 
 import UIKit
 
-class PlayerViewController: UIViewController {
+class SongControlViewController: UIViewController {
 
-   
-    @IBAction func dismissButtonTapped(_ sender: Any) {
-        self.popoverPresentationController
-    }
-    
-   
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
     }
     
-
+    @IBAction func unwindToSongControlVC(segue: UIStoryboardSegue) {
+        
+    }
     /*
     // MARK: - Navigation
 
