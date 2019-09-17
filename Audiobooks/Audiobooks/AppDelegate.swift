@@ -37,6 +37,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTAppRemoteDelegate, SPT
         
         setStatusBarBackgroundColor(color: UIColor.SpotifyColor.Black)
         MyLibrary.myBooks = MyLibrary.loadFromFile() ?? []
+        for book in MyLibrary.myBooks {
+            print("Länge: \(book.duration)")
+            print(book.title)
+        }
         return true
     }
 

@@ -25,7 +25,6 @@ class LibraryViewController: UIViewController, UISearchBarDelegate, UITableViewD
         tableView.delegate = self
         tableView.dataSource = self
         tableView.keyboardDismissMode = .onDrag
-        print(MyLibrary.ArchiveURL)
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -157,6 +156,8 @@ class LibraryViewController: UIViewController, UISearchBarDelegate, UITableViewD
         }
         cell.titleLabel.text = currentAudiobookArray[indexPath.row].title
         cell.authorLabel.text = currentAudiobookArray[indexPath.row].author
+        print(currentAudiobookArray[indexPath.row].duration)
+        cell.lengthLabel.text = "\(currentAudiobookArray[indexPath.row].duration)"
         
         //cell.coverImage.image = UIImage(named: currentAudiobookArray[indexPath.row].image)
         let url = currentAudiobookArray[indexPath.row].image

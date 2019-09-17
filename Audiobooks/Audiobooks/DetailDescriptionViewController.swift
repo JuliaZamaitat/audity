@@ -11,11 +11,12 @@ import UIKit
 class DetailDescriptionViewController: UIViewController {
 
     var audiobook: Audiobook?
-    
+  
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var releaseDateLabel: UILabel!
     @IBOutlet weak var lengthLabel: UILabel!
    
+  
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.SpotifyColor.Black
@@ -25,9 +26,16 @@ class DetailDescriptionViewController: UIViewController {
         let title = audiobook.title
         let joinedString = "\(title) von \(author)"
         descriptionLabel.text = joinedString
+       
     }
     
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        lengthLabel.text = "\(audiobook!.duration) min"
+    }
 
+    
     /*
     // MARK: - Navigation
 

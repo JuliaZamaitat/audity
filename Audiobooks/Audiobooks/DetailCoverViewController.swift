@@ -56,16 +56,20 @@ class DetailCoverViewController: UIViewController {
                 alert.addAction(UIAlertAction(title: "Schließen", style: UIAlertAction.Style.default, handler: nil))
                 self.present(alert, animated: true, completion: nil)
                 addToLibraryButton.setTitle("Zur Bibliothek hinzufügen", for: .normal)
+                
                 MyLibrary.saveToFile(books: MyLibrary.myBooks)
             }
            
         } else {
             MyLibrary.myBooks.append(audiobook!)
-          
+            print("Das Hörbuch: \(audiobook!.duration)")
             let alert = UIAlertController(title: "Yeay", message: "Erfolgreich hinzugefügt", preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "Schließen", style: UIAlertAction.Style.default, handler: nil))
             self.present(alert, animated: true, completion: nil)
             addToLibraryButton.setTitle("Aus Bibliothek entfernen", for: .normal)
+            for book in MyLibrary.myBooks{
+                print("Länge hier: \(book.duration)")
+            }
             MyLibrary.saveToFile(books: MyLibrary.myBooks)
         }
     }

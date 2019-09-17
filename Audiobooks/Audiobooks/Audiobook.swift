@@ -19,6 +19,7 @@ struct Audiobook: Equatable, Codable {
     let releaseDate: String
     var trackList: [Track]
     var totalTracks: Int
+    var duration: Int
     
     enum Keys: String, CodingKey {
         case title
@@ -26,9 +27,10 @@ struct Audiobook: Equatable, Codable {
         case image
         case releaseDate
         case trackList
+        case totalTracks
     }
     
-    init(id: String, title: String, author: String, image: URL, releaseDate: String, totalTracks: Int, trackList: [Track]) {
+    init(id: String, title: String, author: String, image: URL, releaseDate: String, totalTracks: Int, trackList: [Track], duration: Int) {
         self.id = id
         self.title = title
         self.author = author
@@ -36,6 +38,7 @@ struct Audiobook: Equatable, Codable {
         self.releaseDate = releaseDate
         self.totalTracks = totalTracks
         self.trackList = trackList
+        self.duration = duration
         //self.releaseDate = dateformat(date: releaseDate)
     }
     
@@ -52,8 +55,22 @@ struct Audiobook: Equatable, Codable {
         return lhs.title == rhs.title && lhs.author == rhs.author && lhs.releaseDate == rhs.releaseDate
     }
     
+    mutating func getTotalDuration(){
+        var minutes = 0
+        if !(trackList.isEmpty){
+            var ms = 0
+            for track in trackList {
+                ms += track.duration
+                print(ms)
+            }
+           minutes = ms/60000
+           
+        }
+        print("Im Audiobook Model: \(minutes)")
+        duration = minutes
+    }
     
-    
+
     
     /* Maybe useful later when working with the Spotify API
      func dateformat(date: String) -> Date?{

@@ -16,22 +16,25 @@ class AudiobookDetailViewController: UIViewController, UITableViewDataSource, UI
     var audiobook: Audiobook!
     var previousOffset: CGFloat = 0
     var trackNames: [Track] = []
+    var totalMinutes = 0
     var delegate = UIApplication.shared.delegate as! AppDelegate
     var accessToken: String?
     @IBOutlet weak var containerView: UIView!
     
+    var firstIntroViewController: DetailCoverViewController?
+    var secondIntroViewController: DetailDescriptionViewController?
 
-    
     lazy var viewControllers: [UIViewController] = {
         var viewControllers = [UIViewController]()
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let firstIntroViewController = storyboard.instantiateViewController(withIdentifier: "cover") as! DetailCoverViewController
+        firstIntroViewController = storyboard.instantiateViewController(withIdentifier: "cover") as! DetailCoverViewController
       
-        let secondIntroViewController = storyboard.instantiateViewController(withIdentifier: "description") as! DetailDescriptionViewController
-        viewControllers.append(firstIntroViewController)
-        viewControllers.append(secondIntroViewController)
-        firstIntroViewController.audiobook = audiobook
-        secondIntroViewController.audiobook = audiobook
+        secondIntroViewController = storyboard.instantiateViewController(withIdentifier: "description") as! DetailDescriptionViewController
+        viewControllers.append(firstIntroViewController!)
+        viewControllers.append(secondIntroViewController!)
+        firstIntroViewController!.audiobook = audiobook
+        print("Im Setup: \(firstIntroViewController!.audiobook?.duration)")
+        secondIntroViewController!.audiobook = audiobook
         return viewControllers
     }()
     
@@ -82,7 +85,8 @@ class AudiobookDetailViewController: UIViewController, UITableViewDataSource, UI
                             }
                             let chapterName = item["name"] as! String
                             let id = item["id"] as! String
-                            self.trackNames.append(Track.init(title: chapterName, id: id, artists: artistsNames))
+                            let duration = item["duration_ms"] as! Int
+                            self.trackNames.append(Track.init(title: chapterName, id: id, artists: artistsNames, duration: duration))
                         }
                         trackNamesCompletionHandler(self.trackNames, nil)
                     }
@@ -106,20 +110,27 @@ func asyncTracks(audiobook: Audiobook, offset: Int){
              DispatchQueue.main.async {
                 self.audiobook.trackList = self.trackNames
                 self.tableView.reloadData()
+                self.audiobook.getTotalDuration()
+                print("Duration is: \(self.audiobook.duration)")
+                self.firstIntroViewController?.audiobook?.duration = self.audiobook.duration
+                print("Geklappt? \(self.firstIntroViewController?.audiobook?.duration)")
+                self.secondIntroViewController?.audiobook?.duration = self.audiobook.duration
         }
         }
     })
-
 }
 
     override func viewWillAppear(_ animated: Bool) {
         DispatchQueue.main.async {
         self.asyncTracks(audiobook: self.audiobook, offset: 0)
+            
         }
+        
     }
     
     private func adjustStyle() {
         //Sets up header
+        
         title = ""
         
         //Sets up content view
@@ -174,8 +185,8 @@ func asyncTracks(audiobook: Audiobook, offset: Int){
             return UITableViewCell()
         }
         cell.titelLabel.text = audiobook.trackList[indexPath.row].title
-        var artistNames = audiobook.trackList[indexPath.row].artists
-        var joinedArtistNames = artistNames.joined(separator: ", ")
+        let artistNames = audiobook.trackList[indexPath.row].artists
+        let joinedArtistNames = artistNames.joined(separator: ", ")
         cell.descriptionLabel.text = joinedArtistNames
         cell.titelLabel.highlightedTextColor = UIColor.SpotifyColor.Green
         //cell.lengthLabel.text = audiobook.trackList[indexPath.row].length
@@ -236,6 +247,7 @@ extension AudiobookDetailViewController: UIPageViewControllerDataSource {
         guard viewControllersCount > nextIndex else {
             return nil
         }
+        
         return viewControllers[nextIndex]
     }
 }

@@ -135,7 +135,7 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
                             name = artist["name"] as! String
                         }
                         //if audiobookArray.contains(id)
-                        audiobookArray.append(Audiobook.init(id: id, title: titleName, author: name, image: image!, releaseDate: releaseDate,totalTracks: totalTracks, trackList: []))
+                        audiobookArray.append(Audiobook.init(id: id, title: titleName, author: name, image: image!, releaseDate: releaseDate,totalTracks: totalTracks, trackList: [], duration: 0))
                         currentAudiobookArray = audiobookArray
                         DispatchQueue.main.async {
                             self.collection.reloadData()
