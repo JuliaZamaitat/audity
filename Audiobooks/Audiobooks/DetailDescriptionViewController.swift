@@ -29,8 +29,6 @@ class DetailDescriptionViewController: UIViewController {
        
     }
     
-    
-    
     override func viewWillAppear(_ animated: Bool) {
         lengthLabel.text = "\(audiobook!.duration) min"
     }

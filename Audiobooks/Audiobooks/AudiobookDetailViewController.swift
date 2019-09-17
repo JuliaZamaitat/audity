@@ -27,13 +27,11 @@ class AudiobookDetailViewController: UIViewController, UITableViewDataSource, UI
     lazy var viewControllers: [UIViewController] = {
         var viewControllers = [UIViewController]()
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        firstIntroViewController = storyboard.instantiateViewController(withIdentifier: "cover") as! DetailCoverViewController
-      
-        secondIntroViewController = storyboard.instantiateViewController(withIdentifier: "description") as! DetailDescriptionViewController
+        firstIntroViewController = storyboard.instantiateViewController(withIdentifier: "cover") as? DetailCoverViewController
+        secondIntroViewController = storyboard.instantiateViewController(withIdentifier: "description") as? DetailDescriptionViewController
         viewControllers.append(firstIntroViewController!)
         viewControllers.append(secondIntroViewController!)
         firstIntroViewController!.audiobook = audiobook
-        print("Im Setup: \(firstIntroViewController!.audiobook?.duration)")
         secondIntroViewController!.audiobook = audiobook
         return viewControllers
     }()
@@ -111,9 +109,7 @@ func asyncTracks(audiobook: Audiobook, offset: Int){
                 self.audiobook.trackList = self.trackNames
                 self.tableView.reloadData()
                 self.audiobook.getTotalDuration()
-                print("Duration is: \(self.audiobook.duration)")
                 self.firstIntroViewController?.audiobook?.duration = self.audiobook.duration
-                print("Geklappt? \(self.firstIntroViewController?.audiobook?.duration)")
                 self.secondIntroViewController?.audiobook?.duration = self.audiobook.duration
         }
         }

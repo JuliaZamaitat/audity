@@ -61,12 +61,10 @@ struct Audiobook: Equatable, Codable {
             var ms = 0
             for track in trackList {
                 ms += track.duration
-                print(ms)
             }
            minutes = ms/60000
            
         }
-        print("Im Audiobook Model: \(minutes)")
         duration = minutes
     }
     

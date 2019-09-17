@@ -156,16 +156,10 @@ class LibraryViewController: UIViewController, UISearchBarDelegate, UITableViewD
         }
         cell.titleLabel.text = currentAudiobookArray[indexPath.row].title
         cell.authorLabel.text = currentAudiobookArray[indexPath.row].author
-        print(currentAudiobookArray[indexPath.row].duration)
-        cell.lengthLabel.text = "\(currentAudiobookArray[indexPath.row].duration)"
-        
-        //cell.coverImage.image = UIImage(named: currentAudiobookArray[indexPath.row].image)
         let url = currentAudiobookArray[indexPath.row].image
         let data = try? Data(contentsOf: url) //make sure your image in this url does exist, otherwise unwrap in a if let check / try-catch
         cell.coverImage.image = UIImage(data: data!)
-        
-        
-        cell.lengthLabel.text = "120 min"
+        cell.lengthLabel.text = "\(currentAudiobookArray[indexPath.row].duration) min"
         cell.releaseYearLabel.text = currentAudiobookArray[indexPath.row].releaseDate
         cell.backgroundColor = UIColor.SpotifyColor.Black
         cell.selectionStyle = .none
