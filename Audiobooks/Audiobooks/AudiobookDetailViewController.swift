@@ -167,7 +167,16 @@ func asyncTracks(audiobook: Audiobook, offset: Int){
             pageViewController.delegate = self
             pageViewController.setViewControllers([viewControllers[0]], direction: .forward, animated: true, completion: nil)
         }
+        
+        if let destinationVC = segue.destination as? PlayerViewController {
+            if let cell = sender as? UITableViewCell,
+                let indexPath = self.tableView.indexPath(for: cell){
+                    destinationVC.audiobook = self.audiobook
+                    destinationVC.currentTrack = self.audiobook.trackList[indexPath.row]
+            }
+        }
     }
+    
     
     
     //MARK: - Table View
@@ -196,6 +205,10 @@ func asyncTracks(audiobook: Audiobook, offset: Int){
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //
     }
     
    /* func scrollViewDidScroll(_ scrollView: UIScrollView) {
