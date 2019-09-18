@@ -227,7 +227,6 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-       
         if (segue.identifier == "ShowDetailsSegue") {
            let destinationVC = segue.destination as! AudiobookDetailViewController
            if let cell = sender as? UICollectionViewCell,

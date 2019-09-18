@@ -14,6 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTAppRemoteDelegate, SPT
 
     var window: UIWindow?
     var accessToken: String?
+    
     let SpotifyClientID = "878a14d056ae409aa8617ba4b6c5a8ca"
     let SpotifyRedirectURL = URL(string: "spotify-audiobooks://spotify-login-callback")!
 
@@ -26,6 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTAppRemoteDelegate, SPT
         let appRemote = SPTAppRemote(configuration: self.configuration, logLevel: .debug)
         appRemote.connectionParameters.accessToken = self.accessToken
         appRemote.delegate = self
+    
         return appRemote
     }()
    
