@@ -405,7 +405,7 @@
         <!--Player View Controller-->
         <scene sceneID="HfS-hz-tkk">
             <objects>
-                <viewController id="wrJ-nK-Nxr" userLabel="Player View Controller" customClass="PlayerViewController" customModule="Audiobooks" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="playerViewID" id="wrJ-nK-Nxr" userLabel="Player View Controller" customClass="PlayerViewController" customModule="Audiobooks" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="oSD-iI-bRt">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="716"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -422,24 +422,46 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sRA-dm-LUC">
-                                <rect key="frame" x="177" y="564.33333333333337" width="60" height="60"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="60" id="BO9-6Z-w3x"/>
-                                    <constraint firstAttribute="height" constant="60" id="cI7-Pl-McE"/>
-                                </constraints>
-                                <state key="normal" image="play-button-round-white"/>
-                                <connections>
-                                    <action selector="playPauseButtonTapped:" destination="wrJ-nK-Nxr" eventType="touchUpInside" id="sLY-wR-LWd"/>
-                                </connections>
-                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" spacing="45" translatesAutoresizingMaskIntoConstraints="NO" id="itu-rM-j94">
+                                <rect key="frame" x="72" y="570" width="270" height="60"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dfO-uc-cig" userLabel="Reverse">
+                                        <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="60" id="WLH-FG-erM"/>
+                                            <constraint firstAttribute="width" constant="60" id="dIC-J0-bIQ"/>
+                                        </constraints>
+                                        <state key="normal" image="reverse"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sRA-dm-LUC" userLabel="Play">
+                                        <rect key="frame" x="105" y="0.0" width="60" height="60"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="60" id="BO9-6Z-w3x"/>
+                                            <constraint firstAttribute="height" constant="60" id="cI7-Pl-McE"/>
+                                        </constraints>
+                                        <state key="normal" image="round-pause-button-white"/>
+                                        <connections>
+                                            <action selector="playPauseButtonTapped:" destination="wrJ-nK-Nxr" eventType="touchUpInside" id="FpE-8B-CpV"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="riA-1q-Qgc" userLabel="Forward">
+                                        <rect key="frame" x="210" y="0.0" width="60" height="60"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="60" id="CUm-EE-uzV"/>
+                                            <constraint firstAttribute="height" constant="60" id="MKl-bA-R0i"/>
+                                        </constraints>
+                                        <state key="normal" image="forward"/>
+                                    </button>
+                                </subviews>
+                            </stackView>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="VXy-wt-Xz9">
                                 <rect key="frame" x="20" y="523.33333333333337" width="374" height="2"/>
                                 <color key="progressTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="trackTintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </progressView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1x2-QY-eSj">
-                                <rect key="frame" x="20" y="40" width="20" height="20"/>
+                                <rect key="frame" x="20" y="35" width="20" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="1ea-jh-lTO"/>
                                     <constraint firstAttribute="width" constant="20" id="9ep-9A-TrW"/>
@@ -460,7 +482,7 @@
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tm3-6U-1dZ">
-                                <rect key="frame" x="374" y="40" width="20" height="20"/>
+                                <rect key="frame" x="374" y="35" width="20" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="20" id="g9B-SX-Jel"/>
                                     <constraint firstAttribute="height" constant="20" id="zeR-az-hrM"/>
@@ -470,24 +492,21 @@
                         </subviews>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="sRA-dm-LUC" firstAttribute="top" secondItem="VXy-wt-Xz9" secondAttribute="bottom" constant="39" id="2Yd-zl-1Bv"/>
                             <constraint firstItem="d2S-cl-gqQ" firstAttribute="top" secondItem="YjV-op-jPI" secondAttribute="top" constant="80" id="5JG-J0-Hvc"/>
                             <constraint firstItem="YjV-op-jPI" firstAttribute="trailing" secondItem="tm3-6U-1dZ" secondAttribute="trailing" constant="20" id="8Lf-yD-YHN"/>
                             <constraint firstAttribute="trailingMargin" secondItem="VXy-wt-Xz9" secondAttribute="trailing" id="9ig-lh-BhJ"/>
                             <constraint firstItem="YjV-op-jPI" firstAttribute="trailing" secondItem="1bD-YU-y9k" secondAttribute="trailing" constant="20" id="Agm-84-g8t"/>
                             <constraint firstItem="elQ-ab-b1v" firstAttribute="leading" secondItem="YjV-op-jPI" secondAttribute="leading" constant="20" id="ET4-cR-U2c"/>
-                            <constraint firstItem="tm3-6U-1dZ" firstAttribute="top" secondItem="YjV-op-jPI" secondAttribute="top" constant="20" id="Fa5-oI-Oou"/>
+                            <constraint firstItem="tm3-6U-1dZ" firstAttribute="top" secondItem="YjV-op-jPI" secondAttribute="top" constant="15" id="Fa5-oI-Oou"/>
                             <constraint firstItem="w5c-xw-pHm" firstAttribute="centerX" secondItem="oSD-iI-bRt" secondAttribute="centerX" id="HcU-Fh-SjH"/>
                             <constraint firstItem="tm3-6U-1dZ" firstAttribute="leading" secondItem="w5c-xw-pHm" secondAttribute="trailing" id="HhS-bg-Kj5"/>
                             <constraint firstItem="1x2-QY-eSj" firstAttribute="leading" secondItem="YjV-op-jPI" secondAttribute="leading" constant="20" id="Npy-Gb-8U8"/>
                             <constraint firstItem="w5c-xw-pHm" firstAttribute="leading" secondItem="1x2-QY-eSj" secondAttribute="trailing" id="OMY-LR-VAa"/>
                             <constraint firstItem="1bD-YU-y9k" firstAttribute="leading" secondItem="YjV-op-jPI" secondAttribute="leading" constant="20" id="OfE-HP-OLT"/>
-                            <constraint firstItem="sRA-dm-LUC" firstAttribute="centerX" secondItem="oSD-iI-bRt" secondAttribute="centerX" id="Q1M-7P-bWM"/>
                             <constraint firstItem="d2S-cl-gqQ" firstAttribute="centerX" secondItem="oSD-iI-bRt" secondAttribute="centerX" id="QkP-ba-3RC"/>
-                            <constraint firstItem="1x2-QY-eSj" firstAttribute="top" secondItem="YjV-op-jPI" secondAttribute="top" constant="20" id="Txf-Pc-tgZ"/>
+                            <constraint firstItem="1x2-QY-eSj" firstAttribute="top" secondItem="YjV-op-jPI" secondAttribute="top" constant="15" id="Txf-Pc-tgZ"/>
                             <constraint firstItem="d2S-cl-gqQ" firstAttribute="leading" secondItem="YjV-op-jPI" secondAttribute="leading" constant="47" id="UlK-eR-dUi"/>
                             <constraint firstItem="VXy-wt-Xz9" firstAttribute="top" secondItem="elQ-ab-b1v" secondAttribute="bottom" constant="20" id="W3c-xh-5r5"/>
-                            <constraint firstItem="sRA-dm-LUC" firstAttribute="centerX" secondItem="oSD-iI-bRt" secondAttribute="centerX" id="YDa-L5-7ZR"/>
                             <constraint firstItem="VXy-wt-Xz9" firstAttribute="leading" secondItem="oSD-iI-bRt" secondAttribute="leadingMargin" id="buV-gS-1G0"/>
                             <constraint firstItem="elQ-ab-b1v" firstAttribute="top" secondItem="1bD-YU-y9k" secondAttribute="bottom" constant="10" id="cN6-r0-gI4"/>
                             <constraint firstItem="w5c-xw-pHm" firstAttribute="top" secondItem="YjV-op-jPI" secondAttribute="top" constant="20" id="jnp-zi-xNz"/>
@@ -500,7 +519,9 @@
                         <outlet property="authorLabel" destination="w5c-xw-pHm" id="9k6-Zy-fBw"/>
                         <outlet property="coverImage" destination="d2S-cl-gqQ" id="Xbj-cs-diq"/>
                         <outlet property="descriptionLabel" destination="elQ-ab-b1v" id="Z35-hh-Gib"/>
-                        <outlet property="playPauseButton" destination="sRA-dm-LUC" id="1Wr-cv-hp7"/>
+                        <outlet property="forwardButton" destination="riA-1q-Qgc" id="8ej-t5-PXB"/>
+                        <outlet property="playPauseButton" destination="sRA-dm-LUC" id="Mos-Fl-pOY"/>
+                        <outlet property="reverseButton" destination="dfO-uc-cig" id="EpV-rD-b4g"/>
                         <outlet property="titleLabel" destination="1bD-YU-y9k" id="WuA-jo-8fe"/>
                         <segue destination="9uW-6y-rwn" kind="unwind" identifier="unwindToSongControl" unwindAction="unwindToSongControlVCWithSegue:" id="lck-Ma-hG4"/>
                     </connections>
@@ -701,7 +722,9 @@
     </scenes>
     <resources>
         <image name="down_arrow_white" width="512" height="512"/>
-        <image name="play-button-round-white" width="512" height="512"/>
+        <image name="forward" width="60" height="60"/>
+        <image name="reverse" width="60" height="60"/>
+        <image name="round-pause-button-white" width="256" height="256"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="YX5-Lz-QfK"/>

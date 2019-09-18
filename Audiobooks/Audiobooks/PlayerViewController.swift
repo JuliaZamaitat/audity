@@ -8,17 +8,28 @@
 
 import UIKit
 
-class PlayerViewController: ViewControllerPannable {
-
+class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDelegate {
+   
+    
+    static var myPlayerState: SPTAppRemotePlayerState?
+    
+    var instance: PlayerViewController?
     var audiobook: Audiobook?
     var currentTrack: Track?
      var statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView
-    
+    var count = 1
     @IBOutlet weak var coverImage: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var authorLabel: UILabel!
     @IBOutlet weak var playPauseButton: UIButton!
+    @IBOutlet weak var forwardButton: UIButton!
+    @IBOutlet weak var reverseButton: UIButton!
+    
+    private var subscribedToPlayerState: Bool = false
+    
+    private let playURI = "spotify:album:6cEZCQETPKllYT70hOZjDZ"
+    private let trackIdentifier = "spotify:track:4yFxYxxsFjxiPMkhRpKdF4"
     
     var isPlaying: Bool = true {
         didSet {
@@ -30,23 +41,92 @@ class PlayerViewController: ViewControllerPannable {
         }
     }
     
-    @IBAction func playPauseButtonTapped(_ sender: Any) {
-            if isPlaying {
-                UIView.animate(withDuration: 0.3) {
-                    self.coverImage.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
-                }
-            } else {
-                UIView.animate(withDuration: 0.3, animations: { //andere Schreibweise
-                    self.coverImage.transform = CGAffineTransform.identity
-                })
-            }
-            isPlaying = !isPlaying
+    var appRemote: SPTAppRemote {
+        get {
+            return AppDelegate.sharedInstance.appRemote
+        }
     }
     
     
+    var defaultCallback: SPTAppRemoteCallback {
+        get {
+            return {[weak self] _, error in
+                if let error = error {
+                    self?.displayError(error as NSError)
+                }
+            }
+        }
+    }
+    
+    private func getPlayerState() {
+        appRemote.playerAPI?.getPlayerState { (result, error) -> Void in
+            guard error == nil else { return }
+            PlayerViewController.myPlayerState = result as? SPTAppRemotePlayerState
+        }
+    }
+    
+    private func displayError(_ error: NSError?) {
+        if let error = error {
+            presentAlert(title: "Error", message: error.description)
+            print(error.description)
+        }
+    }
+    
+    private func presentAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    @IBAction func playPauseButtonTapped(_ sender: Any) {
+            animateCover()
+        if !(appRemote.isConnected) {
+            
+                // The Spotify app is not installed, present the user with an App Store page
+            
+            
+        } else if PlayerViewController.myPlayerState == nil || PlayerViewController.myPlayerState!.isPaused {
+            print("About to start")
+            print(PlayerViewController.myPlayerState)
+            startPlayback()
+        
+        } else {
+            print("About to pause")
+            pausePlayback()
+            
+        }
+    }
+    
+    private func startPlayback() {
+        appRemote.playerAPI?.resume(defaultCallback)
+         //appRemote.playerAPI?.play(trackIdentifier, callback: defaultCallback)
+    }
+    
+    private func pausePlayback() {
+        print("Clicked paused")
+        appRemote.playerAPI?.pause(defaultCallback)
+    }
+    
+    private func playTrack() {
+        appRemote.playerAPI?.play(trackIdentifier, callback: defaultCallback)
+    }
+    
+    func animateCover(){
+        if isPlaying {
+            UIView.animate(withDuration: 0.3) {
+                self.coverImage.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+            }
+        } else {
+            UIView.animate(withDuration: 0.3, animations: { //andere Schreibweise
+                self.coverImage.transform = CGAffineTransform.identity
+            })
+        }
+        isPlaying = !isPlaying
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        //view.backgroundColor = UIColor.SpotifyColor.Black
+         getPlayerState()
         adjustBackground()
         guard let audiobook = audiobook else {return}
         let url = audiobook.image
@@ -58,6 +138,8 @@ class PlayerViewController: ViewControllerPannable {
         let joinedArtistNames = artistNames?.joined(separator: ", ")
         descriptionLabel.text = joinedArtistNames
         authorLabel.text = audiobook.author
+       
+       
        
     }
     
@@ -72,8 +154,63 @@ class PlayerViewController: ViewControllerPannable {
         statusBar?.isHidden = false
     }
     
+    // MARK: - <SPTAppRemotePlayerStateDelegate>
+    
+    func playerStateDidChange(_ playerState: SPTAppRemotePlayerState) {
+        PlayerViewController.myPlayerState = playerState
+        print("player state changed")
+        print("isPaused", playerState.isPaused)
+        print("track.uri", playerState.track.uri)
+        print("track.name", playerState.track.name)
+        print("track.imageIdentifier", playerState.track.imageIdentifier)
+        print("track.artist.name", playerState.track.artist.name)
+        print("track.album.name", playerState.track.album.name)
+        print("track.isSaved", playerState.track.isSaved)
+        print("playbackSpeed", playerState.playbackSpeed)
+        print("playbackOptions.isShuffling", playerState.playbackOptions.isShuffling)
+        print("playbackOptions.repeatMode", playerState.playbackOptions.repeatMode.hashValue)
+        print("playbackPosition", playerState.playbackPosition)
+    }
     
     
+    
+    private func subscribeToPlayerState() {
+        guard (!subscribedToPlayerState) else { return }
+        appRemote.playerAPI!.delegate = self
+        appRemote.playerAPI?.subscribe { (_, error) -> Void in
+            guard error == nil else { return }
+            self.subscribedToPlayerState = true
+        }
+    }
+    
+    private func unsubscribeFromPlayerState() {
+        guard (subscribedToPlayerState) else { return }
+        appRemote.playerAPI?.unsubscribe { (_, error) -> Void in
+            guard error == nil else { return }
+            self.subscribedToPlayerState = false
+        }
+    }
+    
+    @objc func appRemoteConnected() {
+        //subscribeToPlayerState()
+        self.appRemote.playerAPI?.delegate = self
+        self.appRemote.playerAPI?.subscribe(toPlayerState: { (result, error) in
+            if let error = error {
+                debugPrint(error.localizedDescription)
+            }
+        })
+        getPlayerState()
+    }
+    
+    @objc func appRemoteDisconnect() {
+        self.subscribedToPlayerState = false
+    }
+    
+
+   
+    
+ 
+
     /*
     // MARK: - Navigation
 

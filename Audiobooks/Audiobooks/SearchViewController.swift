@@ -185,7 +185,7 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
          //searchBar.barTintColor = UIColor.init(netHex: 0x1b1b1b)
        searchActive = true
         searchBar.showsCancelButton = true
-        accessToken = delegate.getAccessToken()
+        accessToken = AppDelegate.sharedInstance.accessToken
         audiobookArray = []
         collection.reloadData()
     

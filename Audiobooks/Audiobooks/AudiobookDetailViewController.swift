@@ -54,7 +54,7 @@ class AudiobookDetailViewController: UIViewController, UITableViewDataSource, UI
     }
     
     func getTracks(audiobook: Audiobook, offset: Int, trackNamesCompletionHandler: @escaping ([Track]?, Error?) -> Void) {
-        accessToken = delegate.getAccessToken()
+        accessToken = AppDelegate.sharedInstance.accessToken
         let baseURL = URL(string: "https://api.spotify.com/v1/albums/\(audiobook.id)/tracks")!
         let query: [String: String] = [
             "limit": "50",
@@ -166,12 +166,14 @@ func asyncTracks(audiobook: Audiobook, offset: Int){
             pageViewController.dataSource = self
             pageViewController.delegate = self
             pageViewController.setViewControllers([viewControllers[0]], direction: .forward, animated: true, completion: nil)
+            
         }
-        
+      
         if let destinationVC = segue.destination as? PlayerViewController {
             if let cell = sender as? UITableViewCell,
                 let indexPath = self.tableView.indexPath(for: cell){
                     destinationVC.audiobook = self.audiobook
+                    
                     destinationVC.currentTrack = self.audiobook.trackList[indexPath.row]
             }
         }

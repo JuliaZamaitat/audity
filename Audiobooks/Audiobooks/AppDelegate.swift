@@ -10,14 +10,28 @@ import UIKit
 import CoreData
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, SPTAppRemoteDelegate, SPTAppRemotePlayerStateDelegate {
-
-    var window: UIWindow?
-    var accessToken: String?
+class AppDelegate: UIResponder, UIApplicationDelegate, SPTAppRemoteDelegate {
     
+    var window: UIWindow?
     let SpotifyClientID = "878a14d056ae409aa8617ba4b6c5a8ca"
     let SpotifyRedirectURL = URL(string: "spotify-audiobooks://spotify-login-callback")!
-
+    
+    var playerViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "playerViewID") as! PlayerViewController
+    
+    
+    // keys
+    static private let kAccessTokenKey = "access-token-key"
+    
+   
+    
+    var accessToken = UserDefaults.standard.string(forKey: kAccessTokenKey) {
+        didSet {
+            let defaults = UserDefaults.standard
+            defaults.set(accessToken, forKey: AppDelegate.kAccessTokenKey)
+            defaults.synchronize()
+        }
+    }
+    
     lazy var configuration = SPTConfiguration(
         clientID: SpotifyClientID,
         redirectURL: SpotifyRedirectURL
@@ -27,16 +41,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTAppRemoteDelegate, SPT
         let appRemote = SPTAppRemote(configuration: self.configuration, logLevel: .debug)
         appRemote.connectionParameters.accessToken = self.accessToken
         appRemote.delegate = self
-    
         return appRemote
     }()
-   
-    func getAccessToken()->String {
-        return self.accessToken!
+    
+    class var sharedInstance: AppDelegate {
+        get {
+            return UIApplication.shared.delegate as! AppDelegate
+        }
     }
+    
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
         setStatusBarBackgroundColor(color: UIColor.SpotifyColor.Black)
         MyLibrary.myBooks = MyLibrary.loadFromFile() ?? []
         return true
@@ -47,8 +62,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTAppRemoteDelegate, SPT
         if let access_token = parameters?[SPTAppRemoteAccessTokenKey] {
             appRemote.connectionParameters.accessToken = access_token
             self.accessToken = access_token
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "loginSuccessfull"), object: nil)
         } else if let error_description = parameters?[SPTAppRemoteErrorDescriptionKey] {
-            // Show the error
+            //playerViewController.showError(error_description)
         }
         return true
     }
@@ -56,44 +72,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTAppRemoteDelegate, SPT
     
     func appRemoteDidEstablishConnection(_ appRemote: SPTAppRemote) {
         print("connected")
-        self.appRemote.playerAPI?.delegate = self
+        self.appRemote = appRemote
+         playerViewController.appRemoteConnected()
+       
+        
+        /*self.appRemote.playerAPI?.delegate = self
         self.appRemote.playerAPI?.subscribe(toPlayerState: { (result, error) in
             if let error = error {
                 debugPrint(error.localizedDescription)
             }
-        })
+        })*/
     }
-
 
     func appRemote(_ appRemote: SPTAppRemote, didDisconnectWithError error: Error?) {
         print("disconnected")
+        playerViewController.appRemoteDisconnect()
     }
     func appRemote(_ appRemote: SPTAppRemote, didFailConnectionAttemptWithError error: Error?) {
         print("failed")
+         playerViewController.appRemoteDisconnect()
     }
-    func playerStateDidChange(_ playerState: SPTAppRemotePlayerState) {
-        print("player state changed")
-        print("isPaused", playerState.isPaused)
-        print("track.uri", playerState.track.uri)
-        print("track.name", playerState.track.name)
-        print("track.imageIdentifier", playerState.track.imageIdentifier)
-        print("track.artist.name", playerState.track.artist.name)
-        print("track.album.name", playerState.track.album.name)
-        print("track.isSaved", playerState.track.isSaved)
-        print("playbackSpeed", playerState.playbackSpeed)
-        print("playbackOptions.isShuffling", playerState.playbackOptions.isShuffling)
-        print("playbackOptions.repeatMode", playerState.playbackOptions.repeatMode.hashValue)
-        print("playbackPosition", playerState.playbackPosition)
-    }
+    
     
      func connect(){
         self.appRemote.authorizeAndPlayURI("")
+        
     }
     
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
         if self.appRemote.isConnected {
+            playerViewController.appRemoteDisconnect()
             self.appRemote.disconnect()
         }
     }
