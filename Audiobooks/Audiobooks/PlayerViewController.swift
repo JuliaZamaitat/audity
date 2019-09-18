@@ -93,9 +93,16 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         } else {
             print("About to pause")
             pausePlayback()
-            
+            count += 1
         }
     }
+    
+    
+    
+    
+    /*override func viewWillAppear(_ animated: Bool) {
+        getPlayerState()
+    }*/
     
     private func startPlayback() {
         appRemote.playerAPI?.resume(defaultCallback)
@@ -103,7 +110,6 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
     }
     
     private func pausePlayback() {
-        print("Clicked paused")
         appRemote.playerAPI?.pause(defaultCallback)
     }
     
@@ -127,6 +133,10 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
          getPlayerState()
+        
+        //view.backgroundColor = UIColor.SpotifyColor.Black
+        //NotificationCenter.default.addObserver(self, selector: #selector(appRemoteConnected), name: NSNotification.Name(rawValue: "loginSuccessfull"), object: nil)
+        //NotificationCenter.default.addObserver(self, selector: #selector(appRemoteDisconnect), name: NSNotification.Name(rawValue: "disconnected"), object: nil)
         adjustBackground()
         guard let audiobook = audiobook else {return}
         let url = audiobook.image
@@ -138,8 +148,6 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         let joinedArtistNames = artistNames?.joined(separator: ", ")
         descriptionLabel.text = joinedArtistNames
         authorLabel.text = audiobook.author
-       
-       
        
     }
     
