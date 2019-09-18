@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A30A7AFC232ABD6500515DE2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30A7AFB232ABD6500515DE2 /* Constants.swift */; };
+		A32DC346233218F900B94F57 /* ViewControllerPannable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32DC345233218F900B94F57 /* ViewControllerPannable.swift */; };
 		A3543A552323AB4700916B50 /* Audiobook.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3543A542323AB4700916B50 /* Audiobook.swift */; };
 		A3543A592323D9EC00916B50 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3543A582323D9EC00916B50 /* SearchViewController.swift */; };
 		A3543A5D2323DACA00916B50 /* SearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3543A5C2323DACA00916B50 /* SearchCollectionViewCell.swift */; };
@@ -35,6 +36,7 @@
 
 /* Begin PBXFileReference section */
 		A30A7AFB232ABD6500515DE2 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		A32DC345233218F900B94F57 /* ViewControllerPannable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerPannable.swift; sourceTree = "<group>"; };
 		A3543A542323AB4700916B50 /* Audiobook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Audiobook.swift; sourceTree = "<group>"; };
 		A3543A582323D9EC00916B50 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		A3543A5C2323DACA00916B50 /* SearchCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 				A3C1D29C2322648300977415 /* AppDelegate.swift */,
 				A3C1D29E2322648300977415 /* LoginViewController.swift */,
 				A3C1D2A02322648300977415 /* Main.storyboard */,
+				A32DC345233218F900B94F57 /* ViewControllerPannable.swift */,
 				A3FD037B23315741004A750F /* SongControlViewController.swift */,
 				A3DA621A23254BED003A049C /* TrackTableViewCell.swift */,
 				A37585FE232527C600B3CE09 /* DetailDescriptionViewController.swift */,
@@ -218,6 +221,7 @@
 				A3DA621B23254BED003A049C /* TrackTableViewCell.swift in Sources */,
 				A37585FF232527C600B3CE09 /* DetailDescriptionViewController.swift in Sources */,
 				A3C1D29D2322648300977415 /* AppDelegate.swift in Sources */,
+				A32DC346233218F900B94F57 /* ViewControllerPannable.swift in Sources */,
 				A3C1D2C123228C5000977415 /* AudiobookDetailViewController.swift in Sources */,
 				A3DA621923254964003A049C /* Track.swift in Sources */,
 				A30A7AFC232ABD6500515DE2 /* Constants.swift in Sources */,

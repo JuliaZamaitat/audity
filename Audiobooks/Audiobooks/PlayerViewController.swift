@@ -8,13 +8,9 @@
 
 import UIKit
 
-class PlayerViewController: UIViewController {
+class PlayerViewController: ViewControllerPannable {
 
    
-    @IBAction func dismissButtonTapped(_ sender: Any) {
-        self.popoverPresentationController
-    }
-    
    
     
     override func viewDidLoad() {
