@@ -199,7 +199,7 @@
                                         <connections>
                                             <outlet property="descriptionLabel" destination="vzM-hd-m9a" id="Omy-hp-LA6"/>
                                             <outlet property="titelLabel" destination="3V5-FR-NTl" id="TFa-la-u5m"/>
-                                            <segue destination="wrJ-nK-Nxr" kind="presentation" modalPresentationStyle="overCurrentContext" id="CKw-KI-x4f"/>
+                                            <segue destination="wrJ-nK-Nxr" kind="presentation" modalPresentationStyle="overFullScreen" id="CKw-KI-x4f"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
