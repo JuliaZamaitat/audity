@@ -15,12 +15,14 @@ struct Track: Codable {
     var id: String = ""
     var artists: [String] = []
     var duration: Int = 0
+    var uri: String
     
-    init(title: String, id: String, artists: [String], duration: Int) {
+    init(title: String, id: String, artists: [String], duration: Int, uri: String) {
         self.title = title
         self.id = id
         self.artists = artists
         self.duration = duration
+        self.uri = uri
        
     }
 }

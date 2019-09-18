@@ -124,6 +124,7 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
                         let titleName = item["name"] as! String
                         let releaseDate = item["release_date"] as! String
                         let id = item["id"] as! String
+                        let uri = item["uri"] as! String
                         let totalTracks = item["total_tracks"] as! Int
                         if let images = item["images"] as? [JSONStandard] {
                             let imageData = images[1]
@@ -135,7 +136,7 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
                             name = artist["name"] as! String
                         }
                         //if audiobookArray.contains(id)
-                        audiobookArray.append(Audiobook.init(id: id, title: titleName, author: name, image: image!, releaseDate: releaseDate,totalTracks: totalTracks, trackList: [], duration: 0))
+                        audiobookArray.append(Audiobook.init(id: id, title: titleName, author: name, image: image!, releaseDate: releaseDate,totalTracks: totalTracks, trackList: [], duration: 0, uri: uri))
                         currentAudiobookArray = audiobookArray
                         DispatchQueue.main.async {
                             self.collection.reloadData()

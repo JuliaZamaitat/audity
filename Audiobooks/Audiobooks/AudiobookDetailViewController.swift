@@ -83,8 +83,9 @@ class AudiobookDetailViewController: UIViewController, UITableViewDataSource, UI
                             }
                             let chapterName = item["name"] as! String
                             let id = item["id"] as! String
+                            let uri = item["uri"] as! String
                             let duration = item["duration_ms"] as! Int
-                            self.trackNames.append(Track.init(title: chapterName, id: id, artists: artistsNames, duration: duration))
+                            self.trackNames.append(Track.init(title: chapterName, id: id, artists: artistsNames, duration: duration, uri: uri))
                         }
                         trackNamesCompletionHandler(self.trackNames, nil)
                     }

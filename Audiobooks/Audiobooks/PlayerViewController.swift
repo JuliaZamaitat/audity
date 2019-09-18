@@ -28,8 +28,9 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
     
     private var subscribedToPlayerState: Bool = false
     
-    private let playURI = "spotify:album:6cEZCQETPKllYT70hOZjDZ"
-    private let trackIdentifier = "spotify:track:4yFxYxxsFjxiPMkhRpKdF4"
+    private var playURI = ""
+    
+    private var trackIdentifier = ""
     
     var isPlaying: Bool = true {
         didSet {
@@ -57,6 +58,33 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
             }
         }
     }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        getPlayerState()
+        trackIdentifier = currentTrack!.uri
+        print("Mein Identifier: \(trackIdentifier)")
+        playURI = audiobook!.uri
+        print("Mein Audiobook: \(playURI)")
+        playTrack()
+        //view.backgroundColor = UIColor.SpotifyColor.Black
+        //NotificationCenter.default.addObserver(self, selector: #selector(appRemoteConnected), name: NSNotification.Name(rawValue: "loginSuccessfull"), object: nil)
+        //NotificationCenter.default.addObserver(self, selector: #selector(appRemoteDisconnect), name: NSNotification.Name(rawValue: "disconnected"), object: nil)
+        adjustBackground()
+        guard let audiobook = audiobook else {return}
+        let url = audiobook.image
+        let data = try? Data(contentsOf: url)
+        coverImage.image = UIImage(data: data!)
+        titleLabel.text = currentTrack?.title
+        
+        let artistNames = currentTrack?.artists
+        let joinedArtistNames = artistNames?.joined(separator: ", ")
+        descriptionLabel.text = joinedArtistNames
+        authorLabel.text = audiobook.author
+        
+    }
+    
+    
     
     private func getPlayerState() {
         appRemote.playerAPI?.getPlayerState { (result, error) -> Void in
@@ -97,9 +125,6 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         }
     }
     
-    
-    
-    
     /*override func viewWillAppear(_ animated: Bool) {
         getPlayerState()
     }*/
@@ -130,26 +155,6 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         isPlaying = !isPlaying
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-         getPlayerState()
-        
-        //view.backgroundColor = UIColor.SpotifyColor.Black
-        //NotificationCenter.default.addObserver(self, selector: #selector(appRemoteConnected), name: NSNotification.Name(rawValue: "loginSuccessfull"), object: nil)
-        //NotificationCenter.default.addObserver(self, selector: #selector(appRemoteDisconnect), name: NSNotification.Name(rawValue: "disconnected"), object: nil)
-        adjustBackground()
-        guard let audiobook = audiobook else {return}
-        let url = audiobook.image
-        let data = try? Data(contentsOf: url)
-        coverImage.image = UIImage(data: data!)
-        titleLabel.text = currentTrack?.title
-      
-        let artistNames = currentTrack?.artists
-        let joinedArtistNames = artistNames?.joined(separator: ", ")
-        descriptionLabel.text = joinedArtistNames
-        authorLabel.text = audiobook.author
-       
-    }
     
     func adjustBackground(){
         view.layer.cornerRadius = 20.0
