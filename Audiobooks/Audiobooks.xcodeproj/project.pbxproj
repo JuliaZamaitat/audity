@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		A30A7AFC232ABD6500515DE2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30A7AFB232ABD6500515DE2 /* Constants.swift */; };
 		A32DC346233218F900B94F57 /* ViewControllerPannable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32DC345233218F900B94F57 /* ViewControllerPannable.swift */; };
+		A3503D6223338156006F6AC5 /* MiniPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3503D6123338156006F6AC5 /* MiniPlayerView.swift */; };
 		A3543A552323AB4700916B50 /* Audiobook.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3543A542323AB4700916B50 /* Audiobook.swift */; };
 		A3543A592323D9EC00916B50 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3543A582323D9EC00916B50 /* SearchViewController.swift */; };
 		A3543A5D2323DACA00916B50 /* SearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3543A5C2323DACA00916B50 /* SearchCollectionViewCell.swift */; };
@@ -37,6 +38,7 @@
 /* Begin PBXFileReference section */
 		A30A7AFB232ABD6500515DE2 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		A32DC345233218F900B94F57 /* ViewControllerPannable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerPannable.swift; sourceTree = "<group>"; };
+		A3503D6123338156006F6AC5 /* MiniPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MiniPlayerView.swift; path = Audiobooks/MiniPlayerView.swift; sourceTree = "<group>"; };
 		A3543A542323AB4700916B50 /* Audiobook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Audiobook.swift; sourceTree = "<group>"; };
 		A3543A582323D9EC00916B50 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		A3543A5C2323DACA00916B50 /* SearchCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -80,6 +82,7 @@
 		A3C1D2902322648300977415 = {
 			isa = PBXGroup;
 			children = (
+				A3503D6123338156006F6AC5 /* MiniPlayerView.swift */,
 				A3C1D2B3232268E000977415 /* SpotifyiOS.framework */,
 				A3C1D29B2322648300977415 /* Audiobooks */,
 				A3C1D29A2322648300977415 /* Products */,
@@ -208,6 +211,7 @@
 				A3543A592323D9EC00916B50 /* SearchViewController.swift in Sources */,
 				A3C1D2A52322648300977415 /* Audiobooks.xcdatamodeld in Sources */,
 				A37A7F282326486500FBD8DE /* LibraryTableViewCell.swift in Sources */,
+				A3503D6223338156006F6AC5 /* MiniPlayerView.swift in Sources */,
 				A37585FD2325272300B3CE09 /* DetailCoverViewController.swift in Sources */,
 				A3FD037C23315741004A750F /* SongControlViewController.swift in Sources */,
 				A3543A552323AB4700916B50 /* Audiobook.swift in Sources */,

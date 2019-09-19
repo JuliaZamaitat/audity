@@ -10,15 +10,22 @@ import UIKit
 
 class SongControlViewController: UIViewController {
 
+    @IBOutlet weak var miniPlayerView: MiniPlayerView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        miniPlayerView.isHidden = true
+        view.backgroundColor = UIColor.SpotifyColor.Black
+        NotificationCenter.default.addObserver(self, selector: #selector(showMiniPlayer), name: NSNotification.Name("viewLoaded"), object: nil)
 
         // Do any additional setup after loading the view.
     }
     
-    @IBAction func unwindToSongControlVC(segue: UIStoryboardSegue) {
-        
+    @objc private func showMiniPlayer(){
+         miniPlayerView.isHidden = false
     }
+    
+    
     /*
     // MARK: - Navigation
 

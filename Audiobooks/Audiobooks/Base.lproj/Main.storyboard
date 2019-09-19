@@ -24,7 +24,7 @@
                                 <state key="normal" title="Login"/>
                                 <connections>
                                     <action selector="loginButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6ic-9w-Npy"/>
-                                    <segue destination="bqv-bX-J3O" kind="show" id="1US-5B-kl9"/>
+                                    <segue destination="pnp-I0-s69" kind="show" id="sqT-Kp-vRo"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -317,7 +317,7 @@
         <!--Song Control View Controller-->
         <scene sceneID="bAS-ze-lJ9">
             <objects>
-                <viewController id="pnp-I0-s69" customClass="SongControlViewController" sceneMemberID="viewController">
+                <viewController id="pnp-I0-s69" customClass="SongControlViewController" customModule="Audiobooks" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="uIi-ht-aHO">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -333,18 +333,23 @@
                                     <segue destination="bqv-bX-J3O" kind="embed" id="YX5-Lz-QfK"/>
                                 </connections>
                             </containerView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="in1-vM-lPu">
-                                <rect key="frame" x="0.0" y="548" width="414" height="60"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="in1-vM-lPu" customClass="MiniPlayerView" customModule="Audiobooks" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="616" width="414" height="60"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l1u-o5-qej">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="60"/>
+                                        <state key="normal" title="Button"/>
+                                    </button>
+                                </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
+                                    <constraint firstItem="l1u-o5-qej" firstAttribute="top" secondItem="in1-vM-lPu" secondAttribute="top" id="EVf-5D-EzU"/>
+                                    <constraint firstAttribute="bottom" secondItem="l1u-o5-qej" secondAttribute="bottom" id="JfR-v1-d0g"/>
+                                    <constraint firstAttribute="trailing" secondItem="l1u-o5-qej" secondAttribute="trailing" id="L6p-sX-QgO"/>
                                     <constraint firstAttribute="height" constant="60" id="St6-ZF-eeT"/>
+                                    <constraint firstItem="l1u-o5-qej" firstAttribute="leading" secondItem="in1-vM-lPu" secondAttribute="leading" id="TpZ-Fg-6Hy"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l1u-o5-qej">
-                                <rect key="frame" x="184" y="441" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -352,16 +357,19 @@
                             <constraint firstItem="Vsm-gu-TA7" firstAttribute="leading" secondItem="REi-tx-Hbp" secondAttribute="leading" id="R8r-VO-X1t"/>
                             <constraint firstItem="in1-vM-lPu" firstAttribute="leading" secondItem="REi-tx-Hbp" secondAttribute="leading" id="USY-ZZ-Mnz"/>
                             <constraint firstItem="Vsm-gu-TA7" firstAttribute="top" secondItem="REi-tx-Hbp" secondAttribute="top" id="baQ-TR-Nqg"/>
-                            <constraint firstItem="in1-vM-lPu" firstAttribute="top" secondItem="REi-tx-Hbp" secondAttribute="top" constant="528" id="chg-aa-rOw"/>
+                            <constraint firstItem="in1-vM-lPu" firstAttribute="top" secondItem="REi-tx-Hbp" secondAttribute="top" constant="596" id="chg-aa-rOw"/>
                             <constraint firstItem="REi-tx-Hbp" firstAttribute="trailing" secondItem="Vsm-gu-TA7" secondAttribute="trailing" id="i0B-wO-Xu5"/>
                             <constraint firstItem="REi-tx-Hbp" firstAttribute="bottom" secondItem="Vsm-gu-TA7" secondAttribute="bottom" id="jUh-dc-n6a"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="REi-tx-Hbp"/>
                     </view>
+                    <connections>
+                        <outlet property="miniPlayerView" destination="in1-vM-lPu" id="ES3-G7-voe"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RnU-R2-aTH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2397" y="11"/>
+            <point key="canvasLocation" x="-2036" y="11"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="OOT-kv-w6J">
@@ -727,7 +735,6 @@
         <image name="round-pause-button-white" width="256" height="256"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="YX5-Lz-QfK"/>
         <segue reference="XoC-0G-ZTv"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

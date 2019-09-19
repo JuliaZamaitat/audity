@@ -19,6 +19,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTAppRemoteDelegate {
     var playerViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "playerViewID") as! PlayerViewController
     
     
+    
+    
+    
+    
     // keys
     static private let kAccessTokenKey = "access-token-key"
     
@@ -54,6 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTAppRemoteDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         setStatusBarBackgroundColor(color: UIColor.SpotifyColor.Black)
         MyLibrary.myBooks = MyLibrary.loadFromFile() ?? []
+        
         return true
     }
 
@@ -62,7 +67,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTAppRemoteDelegate {
         if let access_token = parameters?[SPTAppRemoteAccessTokenKey] {
             appRemote.connectionParameters.accessToken = access_token
             self.accessToken = access_token
-            NotificationCenter.default.post(name: Notification.Name(rawValue: "loginSuccessfull"), object: nil)
         } else if let error_description = parameters?[SPTAppRemoteErrorDescriptionKey] {
             //playerViewController.showError(error_description)
         }
@@ -123,6 +127,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTAppRemoteDelegate {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         if let _ = self.appRemote.connectionParameters.accessToken {
             self.appRemote.connect()
+            playerViewController.appRemoteConnected()
         }
     }
 

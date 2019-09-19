@@ -13,7 +13,6 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
     
     static var myPlayerState: SPTAppRemotePlayerState?
     
-    var instance: PlayerViewController?
     var audiobook: Audiobook?
     var currentTrack: Track?
      var statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView
@@ -84,6 +83,10 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+       NotificationCenter.default.post(name: NSNotification.Name("viewLoaded"), object: nil)
+    }
+    
     
     
     private func getPlayerState() {
@@ -112,7 +115,6 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
             
                 // The Spotify app is not installed, present the user with an App Store page
             
-            
         } else if PlayerViewController.myPlayerState == nil || PlayerViewController.myPlayerState!.isPaused {
             print("About to start")
             print(PlayerViewController.myPlayerState)
@@ -125,9 +127,7 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         }
     }
     
-    /*override func viewWillAppear(_ animated: Bool) {
-        getPlayerState()
-    }*/
+   
     
     private func startPlayback() {
         appRemote.playerAPI?.resume(defaultCallback)

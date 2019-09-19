@@ -29,6 +29,9 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
         collection.delegate = self
         collection.dataSource = self
         collection.keyboardDismissMode = .onDrag
+        
+        
+        
     }
     
     //In order to hide navigation bar after clicked on search result
