@@ -174,7 +174,6 @@ func asyncTracks(audiobook: Audiobook, offset: Int){
             if let cell = sender as? UITableViewCell,
                 let indexPath = self.tableView.indexPath(for: cell){
                     destinationVC.audiobook = self.audiobook
-                    
                     destinationVC.currentTrack = self.audiobook.trackList[indexPath.row]
             }
         }

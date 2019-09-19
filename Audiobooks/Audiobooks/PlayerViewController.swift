@@ -61,7 +61,7 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         getPlayerState()
-        
+
         if (currentTrack != nil){
             trackIdentifier = currentTrack!.uri
             playURI = audiobook!.uri
@@ -76,11 +76,11 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
             playURI = audiobook!.uri
         }
        
-        
-        playTrack()
-        //view.backgroundColor = UIColor.SpotifyColor.Black
-        //NotificationCenter.default.addObserver(self, selector: #selector(appRemoteConnected), name: NSNotification.Name(rawValue: "loginSuccessfull"), object: nil)
-        //NotificationCenter.default.addObserver(self, selector: #selector(appRemoteDisconnect), name: NSNotification.Name(rawValue: "disconnected"), object: nil)
+        //check if new song title was clicked or just player opened
+        if !(trackIdentifier == PlayerViewController.myPlayerState?.track.uri) {
+             playTrack()
+        }
+       
         adjustBackground()
         guard let audiobook = audiobook else {return}
         let url = audiobook.image
