@@ -92,6 +92,9 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         titleLabel.text = currentTrack?.title
         duration_ms = Float(currentTrack!.duration)
         progressSlider.maximumValue = duration_ms!
+        progressSlider.isContinuous = true
+        progressSlider.addTarget(self, action: #selector(onSliderValChanged(slider:event:)), for: .valueChanged)
+        
         let artistNames = currentTrack?.artists
         let joinedArtistNames = artistNames?.joined(separator: ", ")
         descriptionLabel.text = joinedArtistNames
@@ -113,6 +116,29 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         var position = Float(PlayerViewController.myPlayerState!.playbackPosition)
         progressSlider.value = position
     }
+    
+    @objc func onSliderValChanged(slider: UISlider, event: UIEvent) {
+        if let touchEvent = event.allTouches?.first {
+            timer?.invalidate()
+            switch touchEvent.phase {
+            case .ended:
+                var position = Int(self.progressSlider.value)
+                self.appRemote.playerAPI?.seek(toPosition: position, callback: { (result, error) in
+                    guard error == nil else {
+                        return
+                    }
+                    if result != nil {
+                        self.timer = Timer.scheduledTimer(timeInterval: 0.001, target: self, selector: #selector(self.updateSlider), userInfo: nil , repeats: true)
+                    }
+                })
+            default:
+                break
+            }
+        }
+        
+    }
+    
+ 
     
     
     private func getPlayerState() {
@@ -220,7 +246,6 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
             }
         })
     }
-    
     
     
     // MARK: - <SPTAppRemotePlayerStateDelegate>
