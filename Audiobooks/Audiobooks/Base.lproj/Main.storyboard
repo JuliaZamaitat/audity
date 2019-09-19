@@ -339,6 +339,9 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l1u-o5-qej">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="60"/>
                                         <state key="normal" title="Button"/>
+                                        <connections>
+                                            <segue destination="wrJ-nK-Nxr" kind="presentation" identifier="showMaxiPlayerSegue" id="S49-g2-0ge"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -369,7 +372,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RnU-R2-aTH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2036" y="11"/>
+            <point key="canvasLocation" x="-2020" y="2"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="OOT-kv-w6J">
@@ -415,7 +418,7 @@
             <objects>
                 <viewController storyboardIdentifier="playerViewID" id="wrJ-nK-Nxr" userLabel="Player View Controller" customClass="PlayerViewController" customModule="Audiobooks" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="oSD-iI-bRt">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="716"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Titel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1bD-YU-y9k">
@@ -735,6 +738,7 @@
         <image name="round-pause-button-white" width="256" height="256"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="S49-g2-0ge"/>
         <segue reference="XoC-0G-ZTv"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

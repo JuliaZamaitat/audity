@@ -26,6 +26,14 @@ class SongControlViewController: UIViewController {
     }
     
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "showMaxiPlayerSegue"){
+            let destinationVC = segue.destination as! PlayerViewController
+           
+        }
+    }
+    
+    
     /*
     // MARK: - Navigation
 

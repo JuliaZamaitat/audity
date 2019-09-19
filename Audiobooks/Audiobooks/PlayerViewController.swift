@@ -15,7 +15,7 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
     
     var audiobook: Audiobook?
     var currentTrack: Track?
-     var statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView
+    var statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView
     var count = 1
     @IBOutlet weak var coverImage: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
@@ -61,10 +61,22 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         getPlayerState()
-        trackIdentifier = currentTrack!.uri
-        print("Mein Identifier: \(trackIdentifier)")
-        playURI = audiobook!.uri
-        print("Mein Audiobook: \(playURI)")
+        
+        if (currentTrack != nil){
+            trackIdentifier = currentTrack!.uri
+            playURI = audiobook!.uri
+            AppDelegate.sharedInstance.currentTrack = currentTrack
+            AppDelegate.sharedInstance.currentAlbum = audiobook
+            print("Mein Identifier: \(trackIdentifier)")
+            print("Mein Audiobook: \(playURI)")
+        } else {
+            currentTrack = AppDelegate.sharedInstance.currentTrack
+            audiobook = AppDelegate.sharedInstance.currentAlbum
+            trackIdentifier = currentTrack!.uri
+            playURI = audiobook!.uri
+        }
+       
+        
         playTrack()
         //view.backgroundColor = UIColor.SpotifyColor.Black
         //NotificationCenter.default.addObserver(self, selector: #selector(appRemoteConnected), name: NSNotification.Name(rawValue: "loginSuccessfull"), object: nil)

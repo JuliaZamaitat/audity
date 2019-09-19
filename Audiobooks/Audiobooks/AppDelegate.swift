@@ -18,10 +18,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTAppRemoteDelegate {
     
     var playerViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "playerViewID") as! PlayerViewController
     
-    
-    
-    
-    
+    var currentTrack: Track?
+    var currentAlbum: Audiobook?
     
     // keys
     static private let kAccessTokenKey = "access-token-key"
