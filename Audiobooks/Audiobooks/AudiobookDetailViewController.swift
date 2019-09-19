@@ -11,7 +11,6 @@ import UIKit
 class AudiobookDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     typealias JSONStandard = [String : AnyObject]
-    
     private var pageViewController: UIPageViewController!
     var audiobook: Audiobook!
     var previousOffset: CGFloat = 0
@@ -174,7 +173,6 @@ func asyncTracks(audiobook: Audiobook, offset: Int){
             if let cell = sender as? UITableViewCell,
                 let indexPath = self.tableView.indexPath(for: cell){
                     destinationVC.audiobook = self.audiobook
-                    
                     destinationVC.currentTrack = self.audiobook.trackList[indexPath.row]
             }
         }

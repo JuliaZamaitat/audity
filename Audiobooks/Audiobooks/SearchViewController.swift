@@ -12,6 +12,7 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
      let group = DispatchGroup()
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var collection: UICollectionView!
+    
    
     
     var searchActive = false
@@ -29,6 +30,10 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
         collection.delegate = self
         collection.dataSource = self
         collection.keyboardDismissMode = .onDrag
+        AppDelegate.sharedInstance.tabBarHeight = tabBarController?.tabBar.frame.size.height
+        
+        
+        
     }
     
     //In order to hide navigation bar after clicked on search result

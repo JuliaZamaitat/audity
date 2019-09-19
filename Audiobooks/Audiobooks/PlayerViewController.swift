@@ -13,10 +13,10 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
     
     static var myPlayerState: SPTAppRemotePlayerState?
     
-    var instance: PlayerViewController?
+    
     var audiobook: Audiobook?
     var currentTrack: Track?
-     var statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView
+    var statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView
     var count = 1
     @IBOutlet weak var coverImage: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
@@ -25,7 +25,7 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
     @IBOutlet weak var playPauseButton: UIButton!
     @IBOutlet weak var forwardButton: UIButton!
     @IBOutlet weak var reverseButton: UIButton!
-    
+   
     private var subscribedToPlayerState: Bool = false
     
     private var playURI = ""
@@ -62,14 +62,26 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         getPlayerState()
-        trackIdentifier = currentTrack!.uri
-        print("Mein Identifier: \(trackIdentifier)")
-        playURI = audiobook!.uri
-        print("Mein Audiobook: \(playURI)")
-        playTrack()
-        //view.backgroundColor = UIColor.SpotifyColor.Black
-        //NotificationCenter.default.addObserver(self, selector: #selector(appRemoteConnected), name: NSNotification.Name(rawValue: "loginSuccessfull"), object: nil)
-        //NotificationCenter.default.addObserver(self, selector: #selector(appRemoteDisconnect), name: NSNotification.Name(rawValue: "disconnected"), object: nil)
+
+        if (currentTrack != nil){
+            trackIdentifier = currentTrack!.uri
+            playURI = audiobook!.uri
+            AppDelegate.sharedInstance.currentTrack = currentTrack
+            AppDelegate.sharedInstance.currentAlbum = audiobook
+            print("Mein Identifier: \(trackIdentifier)")
+            print("Mein Audiobook: \(playURI)")
+        } else {
+            currentTrack = AppDelegate.sharedInstance.currentTrack
+            audiobook = AppDelegate.sharedInstance.currentAlbum
+            trackIdentifier = currentTrack!.uri
+            playURI = audiobook!.uri
+        }
+       
+        //check if new song title was clicked or just player opened
+        if !(trackIdentifier == PlayerViewController.myPlayerState?.track.uri) {
+             playTrack()
+        }
+       
         adjustBackground()
         guard let audiobook = audiobook else {return}
         let url = audiobook.image
@@ -81,9 +93,11 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         let joinedArtistNames = artistNames?.joined(separator: ", ")
         descriptionLabel.text = joinedArtistNames
         authorLabel.text = audiobook.author
-        
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+       NotificationCenter.default.post(name: NSNotification.Name("viewLoaded"), object: nil)
+    }
     
     
     private func getPlayerState() {
@@ -107,17 +121,20 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
     }
     
     @IBAction func playPauseButtonTapped(_ sender: Any) {
-            animateCover()
+        animateCover()
+        playOrPause()
+    }
+    
+    func playOrPause(){
+        
         if !(appRemote.isConnected) {
             
-                // The Spotify app is not installed, present the user with an App Store page
-            
+            // The Spotify app is not installed, present the user with an App Store page
             
         } else if PlayerViewController.myPlayerState == nil || PlayerViewController.myPlayerState!.isPaused {
             print("About to start")
-            print(PlayerViewController.myPlayerState)
             startPlayback()
-        
+            
         } else {
             print("About to pause")
             pausePlayback()
@@ -125,9 +142,7 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         }
     }
     
-    /*override func viewWillAppear(_ animated: Bool) {
-        getPlayerState()
-    }*/
+   
     
     private func startPlayback() {
         appRemote.playerAPI?.resume(defaultCallback)
