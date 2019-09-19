@@ -62,6 +62,8 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         }
     }
     
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         getPlayerState()
@@ -82,9 +84,9 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
              playTrack()
         }
        
-      
-       
-        timer = Timer.scheduledTimer(timeInterval: 0.001, target: self, selector: #selector(self.updateSlider), userInfo: nil , repeats: true)
+        /*for track in audiobook!.trackList {
+            enqueueTrack(identifier: track.uri)
+        }*/
         
         adjustBackground()
         guard let audiobook = audiobook else {return}
@@ -103,6 +105,9 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         authorLabel.text = audiobook.author
     }
     
+    
+   
+    
     override func viewWillAppear(_ animated: Bool) {
        NotificationCenter.default.post(name: NSNotification.Name("viewLoaded"), object: nil)
     }
@@ -113,9 +118,17 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         
     }*/
     
+    override func viewDidAppear(_ animated: Bool) {
+         timer = Timer.scheduledTimer(timeInterval: 0.001, target: self, selector: #selector(self.updateSlider), userInfo: nil , repeats: true)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        timer?.invalidate()
+    }
+    
    @objc private func updateSlider() {
-        getPlayerState() //IS there another way?
-    let position = Float(PlayerViewController.myPlayerState!.playbackPosition)
+       getPlayerState() //IS there another way?
+       let position = Float(PlayerViewController.myPlayerState!.playbackPosition)
         progressSlider.value = position
         let remainingTimeInSeconds = currentTrack!.duration/1000 - Int(position/1000)
         timeRemainingLabel.text = getFormattedTime(timeInterval: Double(remainingTimeInSeconds))
@@ -265,6 +278,27 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         })
     }
     
+    @IBAction func didPressPreviousButton(_ sender: AnyObject) {
+        skipPrevious()
+
+    }
+    
+    @IBAction func didPressNextButton(_ sender: AnyObject) {
+        skipNext()
+    }
+    
+    private func skipPrevious() {
+        appRemote.playerAPI?.skip(toPrevious: defaultCallback)
+    }
+    
+    private func skipNext() {
+        appRemote.playerAPI?.skip(toNext: defaultCallback)
+    }
+    
+    private func enqueueTrack(identifier: String) {
+        appRemote.playerAPI?.enqueueTrackUri(identifier, callback: defaultCallback)
+    }
+    
     
     // MARK: - <SPTAppRemotePlayerStateDelegate>
     
@@ -282,8 +316,11 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         print("playbackOptions.isShuffling", playerState.playbackOptions.isShuffling)
         print("playbackOptions.repeatMode", playerState.playbackOptions.repeatMode.hashValue)
         print("playbackPosition", playerState.playbackPosition)
-        
+        //updateUI()
     }
+    
+    
+    
     
     private func subscribeToPlayerState() {
         guard (!subscribedToPlayerState) else { return }

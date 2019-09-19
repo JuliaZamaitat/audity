@@ -508,6 +508,9 @@
                                             <constraint firstAttribute="width" constant="60" id="dIC-J0-bIQ"/>
                                         </constraints>
                                         <state key="normal" image="reverse"/>
+                                        <connections>
+                                            <action selector="didPressPreviousButton:" destination="wrJ-nK-Nxr" eventType="touchUpInside" id="qKV-r0-nJo"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sRA-dm-LUC" userLabel="Play">
                                         <rect key="frame" x="100" y="0.0" width="60" height="60"/>
@@ -531,6 +534,9 @@
                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="60" id="jY0-DS-zqa"/>
                                         </constraints>
                                         <state key="normal" image="forward"/>
+                                        <connections>
+                                            <action selector="didPressNextButton:" destination="wrJ-nK-Nxr" eventType="touchUpInside" id="ygR-Mt-Nye"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
