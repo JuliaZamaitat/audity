@@ -27,6 +27,8 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
     @IBOutlet weak var forwardButton: UIButton!
     @IBOutlet weak var reverseButton: UIButton!
     @IBOutlet weak var progressSlider: UISlider!
+    @IBOutlet weak var timeElapsedLabel: UILabel!
+    @IBOutlet weak var timeRemainingLabel: UILabel!
     
     private var subscribedToPlayerState: Bool = false
     
@@ -113,8 +115,12 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
     
    @objc private func updateSlider() {
         getPlayerState() //IS there another way?
-        var position = Float(PlayerViewController.myPlayerState!.playbackPosition)
+    let position = Float(PlayerViewController.myPlayerState!.playbackPosition)
         progressSlider.value = position
+        let remainingTimeInSeconds = currentTrack!.duration/1000 - Int(position/1000)
+        timeRemainingLabel.text = getFormattedTime(timeInterval: Double(remainingTimeInSeconds))
+        timeElapsedLabel.text = getFormattedTime(timeInterval: Double(position/1000))
+    
     }
     
     @objc func onSliderValChanged(slider: UISlider, event: UIEvent) {
@@ -122,7 +128,7 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
             timer?.invalidate()
             switch touchEvent.phase {
             case .ended:
-                var position = Int(self.progressSlider.value)
+                let position = Int(self.progressSlider.value)
                 self.appRemote.playerAPI?.seek(toPosition: position, callback: { (result, error) in
                     guard error == nil else {
                         return
@@ -138,6 +144,18 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         
     }
     
+    func getFormattedTime(timeInterval: TimeInterval) -> String {
+        let mins = timeInterval / 60
+        let secs = timeInterval.truncatingRemainder(dividingBy: 60)
+        let timeformatter = NumberFormatter()
+        timeformatter.minimumIntegerDigits = 2
+        timeformatter.minimumFractionDigits = 0
+        timeformatter.roundingMode = .down
+        guard let minsStr = timeformatter.string(from: NSNumber(value: mins)), let secsStr = timeformatter.string(from: NSNumber(value: secs)) else {
+            return ""
+        }
+        return "\(minsStr):\(secsStr)"
+    }
  
     
     
