@@ -17,5 +17,7 @@ class MiniPlayerView: UIView {
         // Drawing code
     }
     */
+    
+    
 
 }

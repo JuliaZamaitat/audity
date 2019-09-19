@@ -11,6 +11,19 @@ import UIKit
 class SongControlViewController: UIViewController {
 
     @IBOutlet weak var miniPlayerView: MiniPlayerView!
+    @IBOutlet weak var expandPlayerButton: UIButton!
+    
+    @IBOutlet weak var playPauseButton: UIButton!
+    
+    var isPlaying: Bool = true {
+        didSet {
+            if isPlaying {
+                playPauseButton.setImage(UIImage(named:"pause_button_white")!, for: .normal)
+            } else {
+                playPauseButton.setImage(UIImage(named: "play_button_white"), for: .normal)
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,16 +35,32 @@ class SongControlViewController: UIViewController {
     }
     
     @objc private func showMiniPlayer(){
-         miniPlayerView.isHidden = false
+        miniPlayerView.isHidden = false
+        miniPlayerView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(miniPlayerView)
+        let title = AppDelegate.sharedInstance.currentTrack?.title
+        let author = AppDelegate.sharedInstance.currentAlbum?.author
+        
+        expandPlayerButton.setTitle("\(title!) - \(author!)", for: .normal)
+        let tabBarHeight = AppDelegate.sharedInstance.tabBarHeight
+        //let height = CGFloat(view.frame.height) - tabBarHeight!
+     
+        //let topConstraint = NSLayoutConstraint(item: miniPlayerView, attribute: .top, relatedBy: .equal, toItem: view, attribute: .top, multiplier: 1, constant: height)
+        
+        /*let bottomConstraint = NSLayoutConstraint(item: miniPlayerView, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 300)
+        view.addConstraints([bottomConstraint])*/
+       
     }
     
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if (segue.identifier == "showMaxiPlayerSegue"){
-            let destinationVC = segue.destination as! PlayerViewController
-           
-        }
+    @IBAction func playPauseButtonPressed(_ sender: Any) {
+        AppDelegate.sharedInstance.playerViewController.playOrPause()
+        isPlaying = !isPlaying
+        
     }
+    
+    
+    
     
     
     /*

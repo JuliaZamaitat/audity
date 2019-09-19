@@ -13,6 +13,7 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
     
     static var myPlayerState: SPTAppRemotePlayerState?
     
+    
     var audiobook: Audiobook?
     var currentTrack: Track?
     var statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView
@@ -24,7 +25,7 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
     @IBOutlet weak var playPauseButton: UIButton!
     @IBOutlet weak var forwardButton: UIButton!
     @IBOutlet weak var reverseButton: UIButton!
-    
+   
     private var subscribedToPlayerState: Bool = false
     
     private var playURI = ""
@@ -92,13 +93,11 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         let joinedArtistNames = artistNames?.joined(separator: ", ")
         descriptionLabel.text = joinedArtistNames
         authorLabel.text = audiobook.author
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
        NotificationCenter.default.post(name: NSNotification.Name("viewLoaded"), object: nil)
     }
-    
     
     
     private func getPlayerState() {
@@ -122,16 +121,20 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
     }
     
     @IBAction func playPauseButtonTapped(_ sender: Any) {
-            animateCover()
+        animateCover()
+        playOrPause()
+    }
+    
+    func playOrPause(){
+        
         if !(appRemote.isConnected) {
             
-                // The Spotify app is not installed, present the user with an App Store page
+            // The Spotify app is not installed, present the user with an App Store page
             
         } else if PlayerViewController.myPlayerState == nil || PlayerViewController.myPlayerState!.isPaused {
             print("About to start")
-            print(PlayerViewController.myPlayerState)
             startPlayback()
-        
+            
         } else {
             print("About to pause")
             pausePlayback()

@@ -11,7 +11,6 @@ import UIKit
 class AudiobookDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     typealias JSONStandard = [String : AnyObject]
-    
     private var pageViewController: UIPageViewController!
     var audiobook: Audiobook!
     var previousOffset: CGFloat = 0

@@ -20,6 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTAppRemoteDelegate {
     
     var currentTrack: Track?
     var currentAlbum: Audiobook?
+    var tabBarHeight: CGFloat?
     
     // keys
     static private let kAccessTokenKey = "access-token-key"
