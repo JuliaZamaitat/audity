@@ -18,6 +18,7 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
     var currentTrack: Track?
     var statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView
     var count = 1
+    
     @IBOutlet weak var coverImage: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
@@ -29,7 +30,6 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
     
     private var subscribedToPlayerState: Bool = false
     
-    private var playURI = ""
     
     private var trackIdentifier = ""
     
@@ -66,16 +66,13 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
 
         if (currentTrack != nil){
             trackIdentifier = currentTrack!.uri
-            playURI = audiobook!.uri
             AppDelegate.sharedInstance.currentTrack = currentTrack
             AppDelegate.sharedInstance.currentAlbum = audiobook
             print("Mein Identifier: \(trackIdentifier)")
-            print("Mein Audiobook: \(playURI)")
         } else {
             currentTrack = AppDelegate.sharedInstance.currentTrack
             audiobook = AppDelegate.sharedInstance.currentAlbum
             trackIdentifier = currentTrack!.uri
-            playURI = audiobook!.uri
         }
        
         //check if new song title was clicked or just player opened
@@ -201,6 +198,31 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         statusBar?.isHidden = false
     }
     
+    
+    @IBAction func didPressSkipForward15Button(_ sender: UIButton) {
+        var position = PlayerViewController.myPlayerState!.playbackPosition
+        var seconds_in_milliseconds = 15000
+        self.appRemote.playerAPI?.seek(toPosition: position + seconds_in_milliseconds, callback: { (result, error) in
+            guard error == nil else {
+                print(error)
+                return
+            }
+        })
+    }
+    
+    @IBAction func didPressSkipBackward15Button(_ sender: UIButton) {
+        var position = PlayerViewController.myPlayerState!.playbackPosition
+        var seconds_in_milliseconds = 15000
+        self.appRemote.playerAPI?.seek(toPosition: position - seconds_in_milliseconds, callback: { (result, error) in
+            guard error == nil else {
+                print(error)
+                return
+            }
+        })
+    }
+    
+    
+    
     // MARK: - <SPTAppRemotePlayerStateDelegate>
     
     func playerStateDidChange(_ playerState: SPTAppRemotePlayerState) {
@@ -220,8 +242,6 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         
     }
     
-    
-    
     private func subscribeToPlayerState() {
         guard (!subscribedToPlayerState) else { return }
         appRemote.playerAPI!.delegate = self
@@ -239,7 +259,7 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         }
     }
     
-    @objc func appRemoteConnected() {
+    func appRemoteConnected() {
         //subscribeToPlayerState()
         self.appRemote.playerAPI?.delegate = self
         self.appRemote.playerAPI?.subscribe(toPlayerState: { (result, error) in
@@ -250,7 +270,7 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         getPlayerState()
     }
     
-    @objc func appRemoteDisconnect() {
+     func appRemoteDisconnect() {
         self.subscribedToPlayerState = false
     }
     
