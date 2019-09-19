@@ -12,8 +12,8 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
    
     
     static var myPlayerState: SPTAppRemotePlayerState?
-    
-    
+    var duration_ms: Float?
+    var timer: Timer?
     var audiobook: Audiobook?
     var currentTrack: Track?
     var statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView
@@ -25,7 +25,8 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
     @IBOutlet weak var playPauseButton: UIButton!
     @IBOutlet weak var forwardButton: UIButton!
     @IBOutlet weak var reverseButton: UIButton!
-   
+    @IBOutlet weak var progressSlider: UISlider!
+    
     private var subscribedToPlayerState: Bool = false
     
     private var playURI = ""
@@ -82,13 +83,18 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
              playTrack()
         }
        
+      
+       
+        timer = Timer.scheduledTimer(timeInterval: 0.001, target: self, selector: #selector(self.updateSlider), userInfo: nil , repeats: true)
+        
         adjustBackground()
         guard let audiobook = audiobook else {return}
         let url = audiobook.image
         let data = try? Data(contentsOf: url)
         coverImage.image = UIImage(data: data!)
         titleLabel.text = currentTrack?.title
-        
+        duration_ms = Float(currentTrack!.duration)
+        progressSlider.maximumValue = duration_ms!
         let artistNames = currentTrack?.artists
         let joinedArtistNames = artistNames?.joined(separator: ", ")
         descriptionLabel.text = joinedArtistNames
@@ -97,6 +103,18 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
     
     override func viewWillAppear(_ animated: Bool) {
        NotificationCenter.default.post(name: NSNotification.Name("viewLoaded"), object: nil)
+    }
+    
+    /*override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+       
+        
+    }*/
+    
+   @objc private func updateSlider() {
+        getPlayerState() //IS there another way?
+        var position = Float(PlayerViewController.myPlayerState!.playbackPosition)
+        progressSlider.value = position
     }
     
     
@@ -155,6 +173,7 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
     
     private func playTrack() {
         appRemote.playerAPI?.play(trackIdentifier, callback: defaultCallback)
+        
     }
     
     func animateCover(){
@@ -198,6 +217,7 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         print("playbackOptions.isShuffling", playerState.playbackOptions.isShuffling)
         print("playbackOptions.repeatMode", playerState.playbackOptions.repeatMode.hashValue)
         print("playbackPosition", playerState.playbackPosition)
+        
     }
     
     

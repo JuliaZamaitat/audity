@@ -494,11 +494,6 @@
                                     </button>
                                 </subviews>
                             </stackView>
-                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="VXy-wt-Xz9">
-                                <rect key="frame" x="20" y="523.33333333333337" width="374" height="2"/>
-                                <color key="progressTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <color key="trackTintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </progressView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1x2-QY-eSj">
                                 <rect key="frame" x="20" y="35" width="20" height="20"/>
                                 <constraints>
@@ -528,26 +523,29 @@
                                 </constraints>
                                 <state key="normal" title="..."/>
                             </button>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="zzt-Ck-4mS">
+                                <rect key="frame" x="18" y="520.33333333333337" width="378" height="31"/>
+                            </slider>
                         </subviews>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="YjV-op-jPI" firstAttribute="trailing" secondItem="zzt-Ck-4mS" secondAttribute="trailing" constant="20" id="1Vv-hT-5vl"/>
                             <constraint firstItem="d2S-cl-gqQ" firstAttribute="top" secondItem="YjV-op-jPI" secondAttribute="top" constant="80" id="5JG-J0-Hvc"/>
                             <constraint firstItem="YjV-op-jPI" firstAttribute="trailing" secondItem="tm3-6U-1dZ" secondAttribute="trailing" constant="20" id="8Lf-yD-YHN"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="VXy-wt-Xz9" secondAttribute="trailing" id="9ig-lh-BhJ"/>
                             <constraint firstItem="YjV-op-jPI" firstAttribute="trailing" secondItem="1bD-YU-y9k" secondAttribute="trailing" constant="20" id="Agm-84-g8t"/>
                             <constraint firstItem="elQ-ab-b1v" firstAttribute="leading" secondItem="YjV-op-jPI" secondAttribute="leading" constant="20" id="ET4-cR-U2c"/>
                             <constraint firstItem="tm3-6U-1dZ" firstAttribute="top" secondItem="YjV-op-jPI" secondAttribute="top" constant="15" id="Fa5-oI-Oou"/>
                             <constraint firstItem="w5c-xw-pHm" firstAttribute="centerX" secondItem="oSD-iI-bRt" secondAttribute="centerX" id="HcU-Fh-SjH"/>
                             <constraint firstItem="tm3-6U-1dZ" firstAttribute="leading" secondItem="w5c-xw-pHm" secondAttribute="trailing" id="HhS-bg-Kj5"/>
+                            <constraint firstItem="zzt-Ck-4mS" firstAttribute="leading" secondItem="YjV-op-jPI" secondAttribute="leading" constant="20" id="J3W-c2-cLE"/>
                             <constraint firstItem="1x2-QY-eSj" firstAttribute="leading" secondItem="YjV-op-jPI" secondAttribute="leading" constant="20" id="Npy-Gb-8U8"/>
                             <constraint firstItem="w5c-xw-pHm" firstAttribute="leading" secondItem="1x2-QY-eSj" secondAttribute="trailing" id="OMY-LR-VAa"/>
                             <constraint firstItem="1bD-YU-y9k" firstAttribute="leading" secondItem="YjV-op-jPI" secondAttribute="leading" constant="20" id="OfE-HP-OLT"/>
                             <constraint firstItem="d2S-cl-gqQ" firstAttribute="centerX" secondItem="oSD-iI-bRt" secondAttribute="centerX" id="QkP-ba-3RC"/>
                             <constraint firstItem="1x2-QY-eSj" firstAttribute="top" secondItem="YjV-op-jPI" secondAttribute="top" constant="15" id="Txf-Pc-tgZ"/>
                             <constraint firstItem="d2S-cl-gqQ" firstAttribute="leading" secondItem="YjV-op-jPI" secondAttribute="leading" constant="47" id="UlK-eR-dUi"/>
-                            <constraint firstItem="VXy-wt-Xz9" firstAttribute="top" secondItem="elQ-ab-b1v" secondAttribute="bottom" constant="20" id="W3c-xh-5r5"/>
-                            <constraint firstItem="VXy-wt-Xz9" firstAttribute="leading" secondItem="oSD-iI-bRt" secondAttribute="leadingMargin" id="buV-gS-1G0"/>
                             <constraint firstItem="elQ-ab-b1v" firstAttribute="top" secondItem="1bD-YU-y9k" secondAttribute="bottom" constant="10" id="cN6-r0-gI4"/>
+                            <constraint firstItem="zzt-Ck-4mS" firstAttribute="top" secondItem="elQ-ab-b1v" secondAttribute="bottom" constant="17" id="gzP-BZ-xcg"/>
                             <constraint firstItem="w5c-xw-pHm" firstAttribute="top" secondItem="YjV-op-jPI" secondAttribute="top" constant="20" id="jnp-zi-xNz"/>
                             <constraint firstItem="1bD-YU-y9k" firstAttribute="top" secondItem="d2S-cl-gqQ" secondAttribute="bottom" constant="30" id="uEQ-yR-5zx"/>
                             <constraint firstItem="YjV-op-jPI" firstAttribute="trailing" secondItem="elQ-ab-b1v" secondAttribute="trailing" constant="20" id="uwV-u5-HEz"/>
@@ -560,6 +558,7 @@
                         <outlet property="descriptionLabel" destination="elQ-ab-b1v" id="Z35-hh-Gib"/>
                         <outlet property="forwardButton" destination="riA-1q-Qgc" id="8ej-t5-PXB"/>
                         <outlet property="playPauseButton" destination="sRA-dm-LUC" id="Mos-Fl-pOY"/>
+                        <outlet property="progressSlider" destination="zzt-Ck-4mS" id="SWT-G2-60v"/>
                         <outlet property="reverseButton" destination="dfO-uc-cig" id="EpV-rD-b4g"/>
                         <outlet property="titleLabel" destination="1bD-YU-y9k" id="WuA-jo-8fe"/>
                         <segue destination="9uW-6y-rwn" kind="unwind" identifier="unwindToSongControl" unwindAction="unwindToSongControlVCWithSegue:" id="lck-Ma-hG4"/>
