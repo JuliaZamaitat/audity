@@ -96,18 +96,20 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         let url = audiobook.image
         let data = try? Data(contentsOf: url)
         coverImage.image = UIImage(data: data!)
-        titleLabel.text = currentTrack?.title
-        duration_ms = Float(currentTrack!.duration)
-        progressSlider.maximumValue = duration_ms!
         progressSlider.isContinuous = true
         progressSlider.addTarget(self, action: #selector(onSliderValChanged(slider:event:)), for: .valueChanged)
         timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(self.updateSlider), userInfo: nil , repeats: true)
+        authorLabel.text = audiobook.author
+        updateTrackInfo()
+    }
+    
+    func updateTrackInfo(){
+        titleLabel.text = currentTrack?.title
+        duration_ms = Float(currentTrack!.duration)
+        progressSlider.maximumValue = duration_ms!
         let artistNames = currentTrack?.artists
         let joinedArtistNames = artistNames?.joined(separator: ", ")
         descriptionLabel.text = joinedArtistNames
-        authorLabel.text = audiobook.author
-        print("Meine Queue: \(queue)")
-       
     }
 
 
@@ -146,14 +148,14 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
                     print("Titel in queue: \(queue![0].title)")
                     currentTrack = queue![0]
                     AppDelegate.sharedInstance.currentTrack = currentTrack
-                    duration_ms = Float(queue![0].duration)
                     queue = []
                     let start = audiobook!.trackList.firstIndex(of: currentTrack!)!
                     let end = audiobook!.trackList.count
-                    for i in start+1..<end {
+                    for i in start..<end {
                         queue!.append(audiobook!.trackList[i])
                         }
                     playTrack()
+                    updateTrackInfo()
                 }
             else {
                 pausePlayback()
@@ -253,6 +255,7 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
     
     private func playTrack() {
         appRemote.playerAPI?.play(trackIdentifier, callback: defaultCallback)
+        NotificationCenter.default.post(name: NSNotification.Name("trackChanged"), object: nil)
         
     }
     

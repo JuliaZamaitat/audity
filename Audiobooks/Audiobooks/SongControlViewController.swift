@@ -30,6 +30,7 @@ class SongControlViewController: UIViewController {
         miniPlayerView.isHidden = true
         view.backgroundColor = UIColor.SpotifyColor.Black
         NotificationCenter.default.addObserver(self, selector: #selector(showMiniPlayer), name: NSNotification.Name("viewLoaded"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateMiniPlayer), name: NSNotification.Name("trackChanged"), object: nil)
 
         // Do any additional setup after loading the view.
     }
@@ -50,6 +51,12 @@ class SongControlViewController: UIViewController {
         /*let bottomConstraint = NSLayoutConstraint(item: miniPlayerView, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 300)
         view.addConstraints([bottomConstraint])*/
        
+    }
+    
+    @objc func updateMiniPlayer(){
+        let title = AppDelegate.sharedInstance.currentTrack?.title
+        let author = AppDelegate.sharedInstance.currentAlbum?.author
+        expandPlayerButton.setTitle("\(title!) - \(author!)", for: .normal)
     }
     
     
