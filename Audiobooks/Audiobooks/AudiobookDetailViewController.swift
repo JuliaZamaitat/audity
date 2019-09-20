@@ -174,6 +174,11 @@ func asyncTracks(audiobook: Audiobook, offset: Int){
                 let indexPath = self.tableView.indexPath(for: cell){
                     destinationVC.audiobook = self.audiobook
                     destinationVC.currentTrack = self.audiobook.trackList[indexPath.row]
+                    destinationVC.queue = []
+                    for i in indexPath.row+1..<audiobook.trackList.count{
+                        destinationVC.queue?.append(audiobook.trackList[i])
+                        print("Added: \(audiobook.trackList[i])")
+                    }
             }
         }
     }

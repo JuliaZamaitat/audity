@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-struct Track: Codable {
+struct Track: Codable, Equatable {
     var title: String = ""
     //ar length: String = ""
     var artists: [String] = []

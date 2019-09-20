@@ -20,6 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTAppRemoteDelegate {
     
     var currentTrack: Track?
     var currentAlbum: Audiobook?
+    var currentQueue: [Track]?
     var tabBarHeight: CGFloat?
     
     // keys
