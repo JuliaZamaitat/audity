@@ -63,8 +63,6 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         }
     }
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         getPlayerState()
@@ -78,6 +76,7 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         } else {
             currentTrack = AppDelegate.sharedInstance.currentTrack
             audiobook = AppDelegate.sharedInstance.currentAlbum
+            print("Count der Audiobook Trackliste: \(audiobook!.trackList.count)")
             trackIdentifier = currentTrack!.uri
             queue = AppDelegate.sharedInstance.currentQueue
         }
@@ -142,7 +141,6 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
     
        //checks is song is about to end, plays next track from the album and stops if there are none
         if (duration_ms! - position < 1000) {
-            print("here")
             if !(queue!.isEmpty){
                     trackIdentifier =  queue![0].uri
                     print("Titel in queue: \(queue![0].title)")
@@ -151,7 +149,7 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
                     queue = []
                     let start = audiobook!.trackList.firstIndex(of: currentTrack!)!
                     let end = audiobook!.trackList.count
-                    for i in start..<end {
+                    for i in start+1..<end {
                         queue!.append(audiobook!.trackList[i])
                         }
                     playTrack()
@@ -179,6 +177,7 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
                     }
                     if result != nil {
                         self.timer = Timer.scheduledTimer(timeInterval: 0.001, target: self, selector: #selector(self.updateSlider), userInfo: nil , repeats: true)
+                        print("Audiobook Tracklist Count: \(self.audiobook?.trackList.count)")
                     }
                 })
             default:
@@ -256,7 +255,8 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
     private func playTrack() {
         appRemote.playerAPI?.play(trackIdentifier, callback: defaultCallback)
         NotificationCenter.default.post(name: NSNotification.Name("trackChanged"), object: nil)
-        
+        //NotificationCenter.default.post(name: NSNotification.Name("colorTitle"), object: nil)
+        print("Neue Warteschlange: \(queue)")
     }
     
     func animateCover(){

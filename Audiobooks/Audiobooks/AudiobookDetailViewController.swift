@@ -50,6 +50,7 @@ class AudiobookDetailViewController: UIViewController, UITableViewDataSource, UI
         tableView.delegate = self
         tableView.dataSource = self
        
+       
     }
     
     func getTracks(audiobook: Audiobook, offset: Int, trackNamesCompletionHandler: @escaping ([Track]?, Error?) -> Void) {
@@ -118,17 +119,14 @@ func asyncTracks(audiobook: Audiobook, offset: Int){
 
     override func viewWillAppear(_ animated: Bool) {
         DispatchQueue.main.async {
-        self.asyncTracks(audiobook: self.audiobook, offset: 0)
-            
+            self.asyncTracks(audiobook: self.audiobook, offset: 0)
         }
         
     }
     
     private func adjustStyle() {
         //Sets up header
-        
         title = ""
-        
         //Sets up content view
         //tableView.backgroundColor = UIColor.clear
         tableView.backgroundColor = UIColor.SpotifyColor.Black
@@ -138,8 +136,8 @@ func asyncTracks(audiobook: Audiobook, offset: Int){
         //Sets up tab bar
         tabBarController?.tabBar.barTintColor = UIColor.SpotifyColor.Black
         tabBarController?.tabBar.tintColor = .white
-        
     }
+    
     
     //MARK: - Swipe Indication
     private func setupPageControl() {
@@ -199,6 +197,12 @@ func asyncTracks(audiobook: Audiobook, offset: Int){
         let artistNames = audiobook.trackList[indexPath.row].artists
         let joinedArtistNames = artistNames.joined(separator: ", ")
         cell.descriptionLabel.text = joinedArtistNames
+        
+        /*if(AppDelegate.sharedInstance.currentTrack != nil){
+            if (audiobook.trackList.firstIndex(of: AppDelegate.sharedInstance.currentTrack!) == indexPath.row){
+                 cell.titelLabel.textColor = UIColor.SpotifyColor.Green
+            }
+        }*/
         cell.titelLabel.highlightedTextColor = UIColor.SpotifyColor.Green
         //cell.lengthLabel.text = audiobook.trackList[indexPath.row].length
         
