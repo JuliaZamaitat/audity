@@ -38,7 +38,7 @@ class SongControlViewController: UIViewController {
     @objc private func showMiniPlayer(){
         miniPlayerView.isHidden = false
         miniPlayerView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(miniPlayerView)
+        //view.addSubview(miniPlayerView)
         let title = AppDelegate.sharedInstance.currentTrack?.title
         let author = AppDelegate.sharedInstance.currentAlbum?.author
         
@@ -66,8 +66,14 @@ class SongControlViewController: UIViewController {
         
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+         if (segue.identifier == "showMaxiPlayerSegue") {
+            NotificationCenter.default.post(name: NSNotification.Name("miniPlayerPressed"), object: nil)
+    }
+    }
     
     
+   
     
     
     /*
