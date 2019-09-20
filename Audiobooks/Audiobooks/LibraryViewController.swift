@@ -32,7 +32,6 @@ class LibraryViewController: UIViewController, UISearchBarDelegate, UITableViewD
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
     
-   
     
     //In order to hide navigation bar after clicked on search result
     override func viewWillAppear(_ animated: Bool) {

@@ -30,6 +30,7 @@ class SongControlViewController: UIViewController {
         miniPlayerView.isHidden = true
         view.backgroundColor = UIColor.SpotifyColor.Black
         NotificationCenter.default.addObserver(self, selector: #selector(showMiniPlayer), name: NSNotification.Name("viewLoaded"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateMiniPlayer), name: NSNotification.Name("trackChanged"), object: nil)
 
         // Do any additional setup after loading the view.
     }
@@ -37,7 +38,7 @@ class SongControlViewController: UIViewController {
     @objc private func showMiniPlayer(){
         miniPlayerView.isHidden = false
         miniPlayerView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(miniPlayerView)
+        //view.addSubview(miniPlayerView)
         let title = AppDelegate.sharedInstance.currentTrack?.title
         let author = AppDelegate.sharedInstance.currentAlbum?.author
         
@@ -52,6 +53,12 @@ class SongControlViewController: UIViewController {
        
     }
     
+    @objc func updateMiniPlayer(){
+        let title = AppDelegate.sharedInstance.currentTrack?.title
+        let author = AppDelegate.sharedInstance.currentAlbum?.author
+        expandPlayerButton.setTitle("\(title!) - \(author!)", for: .normal)
+    }
+    
     
     @IBAction func playPauseButtonPressed(_ sender: Any) {
         AppDelegate.sharedInstance.playerViewController.playOrPause()
@@ -59,8 +66,14 @@ class SongControlViewController: UIViewController {
         
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+         if (segue.identifier == "showMaxiPlayerSegue") {
+            NotificationCenter.default.post(name: NSNotification.Name("miniPlayerPressed"), object: nil)
+    }
+    }
     
     
+   
     
     
     /*

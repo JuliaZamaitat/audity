@@ -49,6 +49,7 @@ class AudiobookDetailViewController: UIViewController, UITableViewDataSource, UI
         //self.tableView.contentInset = UIEdgeInsets(top: containerView.bounds.size.height+40, left: 0, bottom: 0, right: 0)
         tableView.delegate = self
         tableView.dataSource = self
+       NotificationCenter.default.addObserver(self, selector: #selector(reloadTable), name: NSNotification.Name("miniPlayerPressed"), object: nil)
        
     }
     
@@ -118,17 +119,14 @@ func asyncTracks(audiobook: Audiobook, offset: Int){
 
     override func viewWillAppear(_ animated: Bool) {
         DispatchQueue.main.async {
-        self.asyncTracks(audiobook: self.audiobook, offset: 0)
-            
+            self.asyncTracks(audiobook: self.audiobook, offset: 0)
         }
         
     }
     
     private func adjustStyle() {
         //Sets up header
-        
         title = ""
-        
         //Sets up content view
         //tableView.backgroundColor = UIColor.clear
         tableView.backgroundColor = UIColor.SpotifyColor.Black
@@ -138,8 +136,8 @@ func asyncTracks(audiobook: Audiobook, offset: Int){
         //Sets up tab bar
         tabBarController?.tabBar.barTintColor = UIColor.SpotifyColor.Black
         tabBarController?.tabBar.tintColor = .white
-        
     }
+    
     
     //MARK: - Swipe Indication
     private func setupPageControl() {
@@ -172,8 +170,13 @@ func asyncTracks(audiobook: Audiobook, offset: Int){
         if let destinationVC = segue.destination as? PlayerViewController {
             if let cell = sender as? UITableViewCell,
                 let indexPath = self.tableView.indexPath(for: cell){
-                    destinationVC.audiobook = self.audiobook
-                    destinationVC.currentTrack = self.audiobook.trackList[indexPath.row]
+                    PlayerViewController.audiobook = self.audiobook
+                    PlayerViewController.currentTrack = self.audiobook.trackList[indexPath.row]
+                    PlayerViewController.queue = []
+                    for i in indexPath.row+1..<audiobook.trackList.count{
+                        PlayerViewController.queue?.append(audiobook.trackList[i])
+                        print("Added: \(audiobook.trackList[i])")
+                    }
             }
         }
     }
@@ -181,6 +184,13 @@ func asyncTracks(audiobook: Audiobook, offset: Int){
     
     
     //MARK: - Table View
+    
+    @objc func reloadTable(){
+        print("im Reload")
+        print(audiobook.trackList.count) //Bleibt bei der richtigen Zahl
+        tableView.reloadData()
+    }
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return audiobook.trackList.count
@@ -194,6 +204,12 @@ func asyncTracks(audiobook: Audiobook, offset: Int){
         let artistNames = audiobook.trackList[indexPath.row].artists
         let joinedArtistNames = artistNames.joined(separator: ", ")
         cell.descriptionLabel.text = joinedArtistNames
+        
+        /*if(AppDelegate.sharedInstance.currentTrack != nil){
+            if (audiobook.trackList.firstIndex(of: AppDelegate.sharedInstance.currentTrack!) == indexPath.row){
+                 cell.titelLabel.textColor = UIColor.SpotifyColor.Green
+            }
+        }*/
         cell.titelLabel.highlightedTextColor = UIColor.SpotifyColor.Green
         //cell.lengthLabel.text = audiobook.trackList[indexPath.row].length
         
