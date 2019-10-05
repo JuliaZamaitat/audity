@@ -49,8 +49,6 @@ class AudiobookDetailViewController: UIViewController, UITableViewDataSource, UI
         //self.tableView.contentInset = UIEdgeInsets(top: containerView.bounds.size.height+40, left: 0, bottom: 0, right: 0)
         tableView.delegate = self
         tableView.dataSource = self
-       NotificationCenter.default.addObserver(self, selector: #selector(reloadTable), name: NSNotification.Name("miniPlayerPressed"), object: nil)
-       
     }
     
     func getTracks(audiobook: Audiobook, offset: Int, trackNamesCompletionHandler: @escaping ([Track]?, Error?) -> Void) {
@@ -118,10 +116,11 @@ func asyncTracks(audiobook: Audiobook, offset: Int){
 }
 
     override func viewWillAppear(_ animated: Bool) {
-        DispatchQueue.main.async {
-            self.asyncTracks(audiobook: self.audiobook, offset: 0)
+        if trackNames.isEmpty {
+            DispatchQueue.main.async {
+                self.asyncTracks(audiobook: self.audiobook, offset: 0)
+            }
         }
-        
     }
     
     private func adjustStyle() {
@@ -184,13 +183,6 @@ func asyncTracks(audiobook: Audiobook, offset: Int){
     
     
     //MARK: - Table View
-    
-    @objc func reloadTable(){
-        print("im Reload")
-        print(audiobook.trackList.count) //Bleibt bei der richtigen Zahl
-        tableView.reloadData()
-    }
-    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return audiobook.trackList.count
