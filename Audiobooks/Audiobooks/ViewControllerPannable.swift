@@ -55,6 +55,7 @@ class ViewControllerPannable: UIViewController {
                     if isCompleted {
                         // Dismiss the view when it dissapeared
                         self.dismiss(animated: false, completion: nil)
+                       
                     }
                 })
             } else {
