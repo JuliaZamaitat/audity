@@ -47,6 +47,10 @@ class AudiobookDetailViewController: UIViewController, UITableViewDataSource, UI
         //self.view.sendSubviewToBack(containerView)
         //tableView.contentInset = UIEdgeInsets(top: 300, left: 0, bottom: 0, right: 0)
         //self.tableView.contentInset = UIEdgeInsets(top: containerView.bounds.size.height+40, left: 0, bottom: 0, right: 0)
+        
+        //to inform about title color change
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadTable), name: NSNotification.Name("trackChanged"), object: nil)
+        
         tableView.delegate = self
         tableView.dataSource = self
     }
@@ -121,6 +125,7 @@ func asyncTracks(audiobook: Audiobook, offset: Int){
                 self.asyncTracks(audiobook: self.audiobook, offset: 0)
             }
         }
+        tableView.reloadData()
     }
     
     private func adjustStyle() {
@@ -184,6 +189,10 @@ func asyncTracks(audiobook: Audiobook, offset: Int){
     
     //MARK: - Table View
     
+    @objc func reloadTable() {
+        tableView.reloadData()
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return audiobook.trackList.count
     }
@@ -196,12 +205,17 @@ func asyncTracks(audiobook: Audiobook, offset: Int){
         let artistNames = audiobook.trackList[indexPath.row].artists
         let joinedArtistNames = artistNames.joined(separator: ", ")
         cell.descriptionLabel.text = joinedArtistNames
+      
         
-        /*if(AppDelegate.sharedInstance.currentTrack != nil){
-            if (audiobook.trackList.firstIndex(of: AppDelegate.sharedInstance.currentTrack!) == indexPath.row){
+        //Make the title of the currently playing track green
+        if(AppDelegate.sharedInstance.currentTrack != nil){
+            if (trackNames[indexPath.row].title == AppDelegate.sharedInstance.currentTrack?.title) {
                  cell.titelLabel.textColor = UIColor.SpotifyColor.Green
+            } else {
+                  cell.titelLabel.textColor = .white
             }
-        }*/
+    
+        }
         cell.titelLabel.highlightedTextColor = UIColor.SpotifyColor.Green
         //cell.lengthLabel.text = audiobook.trackList[indexPath.row].length
         
@@ -217,7 +231,7 @@ func asyncTracks(audiobook: Audiobook, offset: Int){
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //
+        tableView.reloadData()
     }
     
    /* func scrollViewDidScroll(_ scrollView: UIScrollView) {
