@@ -10,7 +10,6 @@ import UIKit
 
 class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDelegate {
    
-    
     static var myPlayerState: SPTAppRemotePlayerState?
     var duration_ms: Float?
     var timer: Timer?
@@ -35,6 +34,7 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
     
     
     private var trackIdentifier = ""
+    private var position: Float = 0
     
     var isPlaying: Bool = true {
         didSet {
@@ -89,7 +89,7 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         /*for track in audiobook!.trackList {
             enqueueTrack(identifier: track.uri)
         }*/
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(activateTimer), name: NSNotification.Name("trackChanged"), object: nil)
         adjustBackground()
         guard let audiobook = PlayerViewController.audiobook else {return}
         let url = audiobook.image
@@ -106,6 +106,7 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         titleLabel.text = PlayerViewController.currentTrack?.title
         duration_ms = Float(PlayerViewController.currentTrack!.duration)
         progressSlider.maximumValue = duration_ms!
+        
         let artistNames = PlayerViewController.currentTrack?.artists
         let joinedArtistNames = artistNames?.joined(separator: ", ")
         descriptionLabel.text = joinedArtistNames
@@ -131,36 +132,56 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         timer?.invalidate()
     }*/
     
+    
+    @objc private func activateTimer(){
+        //timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(self.updateSlider), userInfo: nil , repeats: true)
+        getPlayerState()
+        print("Im Listener: \(PlayerViewController.myPlayerState!.playbackPosition)" )
+    }
+    
    @objc private func updateSlider() {
        getPlayerState() //IS there another way?
-       let position = Float(PlayerViewController.myPlayerState!.playbackPosition)
+       position = Float(PlayerViewController.myPlayerState!.playbackPosition)
+    print("meine position: \(position)")
         progressSlider.value = position
         let remainingTimeInSeconds = PlayerViewController.currentTrack!.duration/1000 - Int(position/1000)
         timeRemainingLabel.text = "-\(getFormattedTime(timeInterval: Double(remainingTimeInSeconds)))"
         timeElapsedLabel.text = getFormattedTime(timeInterval: Double(position/1000))
-    
-       //checks is song is about to end, plays next track from the album and stops if there are none
-        if (duration_ms! - position < 1000) {
-            if !(PlayerViewController.queue!.isEmpty){
-                    trackIdentifier =  PlayerViewController.queue![0].uri
-                    print("Titel in queue: \(PlayerViewController.queue![0].title)")
-                    PlayerViewController.currentTrack = PlayerViewController.queue![0]
-                    AppDelegate.sharedInstance.currentTrack = PlayerViewController.currentTrack
-                    PlayerViewController.queue = []
-                    let start = PlayerViewController.audiobook!.trackList.firstIndex(of: PlayerViewController.currentTrack!)!
-                    let end = PlayerViewController.audiobook!.trackList.count
-                    for i in start+1..<end {
-                        PlayerViewController.queue!.append(PlayerViewController.audiobook!.trackList[i])
-                        }
-                    playTrack()
-                    updateTrackInfo()
-                }
-            else {
-                pausePlayback()
-                timer?.invalidate()
-            }
-            
+        if (duration_ms! - position < 1000){
+            timer?.invalidate()
+            print("Here bitch!")
+            updatePlayingQueue()
         }
+    }
+    
+    //checks is song is about to end, plays next track from the album and stops if there are none
+    
+   
+    func updatePlayingQueue(){
+        
+            // let position = Float(PlayerViewController.myPlayerState!.playbackPosition)
+            if !(PlayerViewController.queue!.isEmpty){
+                print("Titel in queue: \(PlayerViewController.queue![0].title)")
+                PlayerViewController.currentTrack = PlayerViewController.queue![0]
+                trackIdentifier =  PlayerViewController.currentTrack!.uri
+                print("neuer identifier: \(trackIdentifier)")
+                AppDelegate.sharedInstance.currentTrack = PlayerViewController.currentTrack
+                PlayerViewController.queue = []
+                let start = PlayerViewController.audiobook!.trackList.firstIndex(of: PlayerViewController.currentTrack!)!
+                let end = PlayerViewController.audiobook!.trackList.count
+                for i in start+1..<end {
+                    PlayerViewController.queue!.append(PlayerViewController.audiobook!.trackList[i])
+                    }
+               
+                playTrack()
+                updateTrackInfo()
+               //TODO when this is finished, timer has to be turned on again!  timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(self.updateSlider), userInfo: nil , repeats: true)
+            } else {
+                pausePlayback()
+                //timer?.invalidate()
+            }
+         
+        
     }
     
     
@@ -251,10 +272,16 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         appRemote.playerAPI?.pause(defaultCallback)
     }
     
+    
     private func playTrack() {
         appRemote.playerAPI?.play(trackIdentifier, callback: defaultCallback)
+        getPlayerState()
+        print("Position vom Player im Play Track: \(PlayerViewController.myPlayerState!.playbackPosition)")
+      
+        print("That's the uri of the track currently played: \(trackIdentifier)")
         NotificationCenter.default.post(name: NSNotification.Name("trackChanged"), object: nil)
         //NotificationCenter.default.post(name: NSNotification.Name("colorTitle"), object: nil)
+      
         print("Neue Warteschlange: \(PlayerViewController.queue)")
     }
     
