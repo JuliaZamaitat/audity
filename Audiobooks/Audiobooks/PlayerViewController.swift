@@ -20,7 +20,9 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
     var sliderTimer: Timer!
     
     var songFinished = false
-    var timeElapsed: Float = 0
+    static var timeElapsed: Float?
+    private var trackIdentifier = ""
+    //static var position: Float?
     var previousSliderValue: Float = 0
     
     static var audiobook: Audiobook?
@@ -43,9 +45,7 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
     private var subscribedToPlayerState: Bool = false
     
     
-    private var trackIdentifier = ""
-    private var position: Float = 0
-    
+
     var isPlaying: Bool?
     
     var appRemote: SPTAppRemote {
@@ -66,21 +66,29 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         }
     }
     
+    
+    override func viewWillAppear(_ animated: Bool) {
+       NotificationCenter.default.post(name: NSNotification.Name("viewLoaded"), object: nil)
+        playTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updatePlayButton), userInfo: nil, repeats: true)
+        sliderTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateSlider), userInfo: nil, repeats: true)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         getPlayerState()
         isPlaying = true
-        
         if (PlayerViewController.currentTrack != nil){
             trackIdentifier = PlayerViewController.currentTrack!.uri
             AppDelegate.sharedInstance.currentTrack = PlayerViewController.currentTrack
             AppDelegate.sharedInstance.currentAlbum = PlayerViewController.audiobook
+            AppDelegate.sharedInstance.timeElapsed = PlayerViewController.timeElapsed
             print("im viewDidLoad: \(PlayerViewController.queue!.count)")
             AppDelegate.sharedInstance.currentQueue = PlayerViewController.queue
             print("Mein Identifier: \(trackIdentifier)")
         } else {
             PlayerViewController.currentTrack = AppDelegate.sharedInstance.currentTrack
             PlayerViewController.audiobook = AppDelegate.sharedInstance.currentAlbum
+            PlayerViewController.timeElapsed = AppDelegate.sharedInstance.timeElapsed
             print("Count der Audiobook Trackliste: \(PlayerViewController.audiobook!.trackList.count)")
             trackIdentifier = PlayerViewController.currentTrack!.uri
             PlayerViewController.queue = AppDelegate.sharedInstance.currentQueue
@@ -91,6 +99,7 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
              playTrack()
         }
        
+        
         /*for track in audiobook!.trackList {
             enqueueTrack(identifier: track.uri)
         }*/
@@ -102,13 +111,8 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         coverImage.image = UIImage(data: data!)
         authorLabel.text = audiobook.author
         progressSlider.isContinuous = false
-       
-        //progressSlider.addTarget(self, action: #selector(onSliderValChanged(slider:event:)), for: .valueChanged)
-        
-        //timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(self.updateSlider), userInfo: nil , repeats: true)
         //timerQueue = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(self.updateQueue), userInfo: nil , repeats: true)
-        playTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updatePlayButton), userInfo: nil, repeats: true)
-        sliderTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateSlider), userInfo: nil, repeats: true)
+       
         
         updateTrackInfo()
     }
@@ -123,65 +127,39 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         descriptionLabel.text = joinedArtistNames
     }
 
-
-    override func viewWillAppear(_ animated: Bool) {
-       NotificationCenter.default.post(name: NSNotification.Name("viewLoaded"), object: nil)
-    }
-    
-    
     @objc func updatePlayButton(){
-        if progressSlider.value == 1 {
+        if (progressSlider.value == 1 || (Int(PlayerViewController.timeElapsed!+2) == Int(durationInSeconds!))) { //somewhat timeElapsed is behind by one or two seconds
             playPauseButton.setImage(UIImage(named: "play-button-round-white"), for: .normal)
             songFinished = true
             print("Song if finished: \(songFinished)")
             playTimer.invalidate()
             sliderTimer.invalidate()
             pausePlayback()
+            print("time elapsed: \(Int(PlayerViewController.timeElapsed!))")
+            print("Duration in seconds: \(Int(durationInSeconds!))")
         } else {
             playPauseButton.setImage(UIImage(named:"round-pause-button-white")!, for: .normal)
+            let remainingTimeInSeconds = durationInSeconds! - PlayerViewController.timeElapsed!
+            timeRemainingLabel.text = "-\(getFormattedTime(timeInterval: Double(remainingTimeInSeconds)))"
+            timeElapsedLabel.text = getFormattedTime(timeInterval: Double(PlayerViewController.timeElapsed!))
+            print("time elapsed: \(Int(PlayerViewController.timeElapsed!))")
         }
-        
     }
     
     @objc func updateSlider() {
-        timeElapsed += 1
-        progressSlider.value = Float(timeElapsed) / Float(durationInSeconds!)
+        PlayerViewController.timeElapsed! += 1
+        progressSlider.value = Float(PlayerViewController.timeElapsed!) / Float(durationInSeconds!)
         print("***\(progressSlider.value)")
     }
     
     
-    /*@objc private func updateSlider() {
-         getPlayerState() //IS there another way?
-         position = Float(PlayerViewController.myPlayerState!.playbackPosition)
-         print("meine position: \(position)")
-          progressSlider.value = position
-          let remainingTimeInSeconds = PlayerViewController.currentTrack!.duration/1000 - Int(position/1000)
-          timeRemainingLabel.text = "-\(getFormattedTime(timeInterval: Double(remainingTimeInSeconds)))"
-          timeElapsedLabel.text = getFormattedTime(timeInterval: Double(position/1000))
-      }*/
-    
-    /*override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-       
-        
-    }*/
-    
-    /*override func viewDidAppear(_ animated: Bool) {
-        
-    }*/
-    
-    /*override func viewDidDisappear(_ animated: Bool) {
-        timer?.invalidate()
-    }*/
-    
-    
-    /*@objc private func activateTimer(){
-       timerQueue = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.updateQueue), userInfo: nil , repeats: true)
-       
-        print("Im Listener: \(PlayerViewController.myPlayerState!.playbackPosition)" )
-    }*/
-    
-    
+    override func viewDidDisappear(_ animated: Bool) {
+        //stop both timers if we go back to the list of songs
+        playTimer.invalidate()
+        sliderTimer.invalidate()
+    }
+   
+  
     /*@objc private func updateQueue(){
         print("Im Handler der Queue wenn größer: \(PlayerViewController.myPlayerState!.playbackPosition)")
         print("Position: \(position)")
@@ -197,7 +175,6 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
     }*/
     
  
-    
     //checks is song is about to end, plays next track from the album and stops if there are none
     
    
@@ -245,30 +222,6 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         
     }*/
     
-    
-    
-    /*@objc func onSliderValChanged(slider: UISlider, event: UIEvent) {
-        if let touchEvent = event.allTouches?.first {
-            timer?.invalidate()
-            switch touchEvent.phase {
-            case .ended:
-                let position = Int(self.progressSlider.value)
-                self.appRemote.playerAPI?.seek(toPosition: position, callback: { (result, error) in
-                    guard error == nil else {
-                        return
-                    }
-                    if result != nil {
-                        self.timer = Timer.scheduledTimer(timeInterval: 0.001, target: self, selector: #selector(self.updateSlider), userInfo: nil , repeats: true)
-                        print("Audiobook Tracklist Count: \(PlayerViewController.audiobook?.trackList.count)")
-                    }
-                })
-            default:
-                break
-            }
-        }
-        
-    }*/
-    
     @IBAction func sliderDragged(_ sender: UISlider) {
         let newPosition = Int(progressSlider.value * duration_ms!)
         if songFinished {
@@ -284,7 +237,7 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
             self.appRemote.playerAPI?.seek(toPosition: newPosition, callback: nil)
         }
         //update timeElapsed in song
-        timeElapsed = progressSlider.value * Float(durationInSeconds!)
+        PlayerViewController.timeElapsed = progressSlider.value * Float(durationInSeconds!)
     }
     
     
@@ -293,44 +246,36 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
            playOrPause()
        }
     
-    
     func playOrPause(){
-        if isPlaying! {
-                pausePlayback()
-                isPlaying = false
-                playPauseButton.setImage(UIImage(named: "play-button-round-white"), for: .normal)
-                if playTimer.isValid && sliderTimer.isValid {
-                    print("Turn timers off after pause button tapped.")
-                    playTimer.invalidate()
-                    sliderTimer.invalidate()
-                }
-                
-            } else {
-                if progressSlider.value == 1 {
-                    timeElapsed = 0
-                    print("Play button tapped. Song is finished. Play from beginning.")
-                    playTrack()
-                    
-                } else {
-                    startPlayback()
-                   
-                }
-               isPlaying = true
-               playPauseButton.setImage(UIImage(named: "round-pause-button-white"), for: .normal)
-
-                if !playTimer.isValid && !sliderTimer.isValid {
-                    print("Turn timers on after play button tapped.")
-                    playTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updatePlayButton), userInfo: nil, repeats: true)
-                    
-                    sliderTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateSlider), userInfo: nil, repeats: true)
-                }
+         if !(appRemote.isConnected) {
+             
+             // The Spotify app is not installed, present the user with an App Store page
+         } else if PlayerViewController.myPlayerState == nil || PlayerViewController.myPlayerState!.isPaused {
+             print("About to start")
+             startPlayback()
+             isPlaying = true
+             playPauseButton.setImage(UIImage(named: "round-pause-button-white"), for: .normal)
+             if !playTimer.isValid && !sliderTimer.isValid {
+                print("Turn timers on after play button tapped.")
+                playTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updatePlayButton), userInfo: nil, repeats: true)
+                sliderTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateSlider), userInfo: nil, repeats: true)
             }
+             
+         } else {
+             print("About to pause")
+             pausePlayback()
+             isPlaying = false
+             playPauseButton.setImage(UIImage(named: "play-button-round-white"), for: .normal)
+             if playTimer.isValid && sliderTimer.isValid {
+                print("Turn timers off after pause button tapped.")
+                playTimer.invalidate()
+                sliderTimer.invalidate()
             
-        }
+         }
+      }
+    }
     
-    
-    
-        
+    //takes in seconds and formats the time to show the remaining minutes and seconds of a song
     func getFormattedTime(timeInterval: TimeInterval) -> String {
         let mins = timeInterval / 60
         let secs = timeInterval.truncatingRemainder(dividingBy: 60)
@@ -366,21 +311,7 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
     }
     
    
-    
-   /* func playOrPause(){
-        if !(appRemote.isConnected) {
-            
-            // The Spotify app is not installed, present the user with an App Store page
-        } else if PlayerViewController.myPlayerState == nil || PlayerViewController.myPlayerState!.isPaused {
-            print("About to start")
-            startPlayback()
-            
-        } else {
-            print("About to pause")
-            pausePlayback()
-           
-        }
-    }*/
+ 
     
     
         
@@ -449,9 +380,12 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
     
     
     @IBAction func didPressSkipForward15Button(_ sender: UIButton) {
-        let position = PlayerViewController.myPlayerState!.playbackPosition
-        let seconds_in_milliseconds = 15000
-        self.appRemote.playerAPI?.seek(toPosition: position + seconds_in_milliseconds, callback: { (result, error) in
+        PlayerViewController.timeElapsed! += 15
+        progressSlider.value = Float(PlayerViewController.timeElapsed!) / Float(durationInSeconds!)
+        let remainingTimeInSeconds = durationInSeconds! - PlayerViewController.timeElapsed!
+        timeRemainingLabel.text = "-\(getFormattedTime(timeInterval: Double(remainingTimeInSeconds)))"
+        timeElapsedLabel.text = getFormattedTime(timeInterval: Double(PlayerViewController.timeElapsed!))
+        self.appRemote.playerAPI?.seek(toPosition: Int(progressSlider.value * duration_ms!), callback: { (result, error) in
             guard error == nil else {
                 print(error)
                 return
@@ -460,14 +394,20 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
     }
     
     @IBAction func didPressSkipBackward15Button(_ sender: UIButton) {
-        let position = PlayerViewController.myPlayerState!.playbackPosition
-        let seconds_in_milliseconds = 15000
-        self.appRemote.playerAPI?.seek(toPosition: position - seconds_in_milliseconds, callback: { (result, error) in
-            guard error == nil else {
-                print(error)
-                return
-            }
-        })
+        if ((PlayerViewController.timeElapsed! - 15) > 0) {
+            PlayerViewController.timeElapsed! -= 15
+            progressSlider.value = Float(PlayerViewController.timeElapsed!) / Float(durationInSeconds!)
+            let remainingTimeInSeconds = durationInSeconds! - PlayerViewController.timeElapsed!
+            timeRemainingLabel.text = "-\(getFormattedTime(timeInterval: Double(remainingTimeInSeconds)))"
+            timeElapsedLabel.text = getFormattedTime(timeInterval: Double(PlayerViewController.timeElapsed!))
+            self.appRemote.playerAPI?.seek(toPosition: Int(progressSlider.value * duration_ms!), callback: { (result, error) in
+                guard error == nil else {
+                    print(error)
+                    return
+                }
+            })
+        }
+        
     }
     
     @IBAction func didPressPreviousButton(_ sender: AnyObject) {

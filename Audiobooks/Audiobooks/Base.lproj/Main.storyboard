@@ -541,7 +541,7 @@
                                     </button>
                                 </subviews>
                             </stackView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vr9-L3-NpX">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vr9-L3-NpX">
                                 <rect key="frame" x="20" y="531.33333333333337" width="66" height="14.333333333333371"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="66" id="kNu-Ow-rLV"/>
@@ -550,7 +550,7 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fv8-NH-2RR">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-00:00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fv8-NH-2RR">
                                 <rect key="frame" x="318" y="531.33333333333337" width="76" height="14.333333333333371"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="76" id="xnd-fO-Awx"/>
@@ -634,7 +634,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UI8-JO-fgG" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="9uW-6y-rwn" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="-1351" y="846"/>
+            <point key="canvasLocation" x="-1352.1739130434785" y="845.38043478260875"/>
         </scene>
         <!--Bibliothek-->
         <scene sceneID="Nn0-VQ-qSq">

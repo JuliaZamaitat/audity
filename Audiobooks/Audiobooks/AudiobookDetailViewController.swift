@@ -168,14 +168,16 @@ func asyncTracks(audiobook: Audiobook, offset: Int){
             pageViewController.dataSource = self
             pageViewController.delegate = self
             pageViewController.setViewControllers([viewControllers[0]], direction: .forward, animated: true, completion: nil)
-            
         }
       
         if let destinationVC = segue.destination as? PlayerViewController {
             if let cell = sender as? UITableViewCell,
                 let indexPath = self.tableView.indexPath(for: cell){
                     PlayerViewController.audiobook = self.audiobook
-                    PlayerViewController.currentTrack = self.audiobook.trackList[indexPath.row]
+                if (PlayerViewController.currentTrack != self.audiobook.trackList[indexPath.row]) {
+                    PlayerViewController.timeElapsed = 0
+                } 
+                PlayerViewController.currentTrack = self.audiobook.trackList[indexPath.row]
                     PlayerViewController.queue = []
                     for i in indexPath.row+1..<audiobook.trackList.count{
                         PlayerViewController.queue?.append(audiobook.trackList[i])
