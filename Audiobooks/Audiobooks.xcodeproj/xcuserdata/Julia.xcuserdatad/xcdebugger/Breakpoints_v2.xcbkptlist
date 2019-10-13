@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Bucket
+   uuid = "A077ED81-0B13-410D-833A-9BF70EC96A72"
    type = "1"
    version = "2.0">
    <Breakpoints>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "D863EBDE-729D-49CD-8C4B-36949694CBEA"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -22,6 +24,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "F6707840-0689-424B-8C55-67AB8DC4AA1F"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -38,6 +41,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "8E2CD907-A5E5-485A-9185-AB9D801B9C32"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -51,6 +55,7 @@
             landmarkType = "0">
             <Locations>
                <Location
+                  uuid = "8E2CD907-A5E5-485A-9185-AB9D801B9C32 - f1cb9d61227d79aa"
                   shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -66,6 +71,7 @@
                   offsetFromSymbolStart = "40">
                </Location>
                <Location
+                  uuid = "8E2CD907-A5E5-485A-9185-AB9D801B9C32 - 31e253a5e00889bf"
                   shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -86,6 +92,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "B5AB0242-4E44-42B8-BD3B-1CF30C5EB0D8"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -102,6 +109,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "B599F0BE-B95D-4ED0-B2C7-5071E3A9C8AE"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -113,6 +121,114 @@
             endingLineNumber = "63"
             landmarkName = "getTotalDuration()"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FDAD326E-D037-4800-8196-F294A1DF559A"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Audiobooks/PlayerViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "27"
+            endingLineNumber = "27"
+            landmarkName = "PlayerViewController"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  uuid = "FDAD326E-D037-4800-8196-F294A1DF559A - 83e503da9ebd38be"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Audiobooks.PlayerViewController.titleLabel.getter : Swift.Optional&lt;__C.UILabel&gt;"
+                  moduleName = "Audiobooks"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Julia/spotify_app/spotify-audiobooks/Audiobooks/Audiobooks/PlayerViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "24"
+                  endingLineNumber = "24"
+                  offsetFromSymbolStart = "132">
+               </Location>
+               <Location
+                  uuid = "FDAD326E-D037-4800-8196-F294A1DF559A - 325a96f4d849dcaa"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Audiobooks.PlayerViewController.titleLabel.setter : Swift.Optional&lt;__C.UILabel&gt;"
+                  moduleName = "Audiobooks"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Julia/spotify_app/spotify-audiobooks/Audiobooks/Audiobooks/PlayerViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "24"
+                  endingLineNumber = "24"
+                  offsetFromSymbolStart = "188">
+               </Location>
+               <Location
+                  uuid = "FDAD326E-D037-4800-8196-F294A1DF559A - 1be711ae667d41bb"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Audiobooks.PlayerViewController.titleLabel.modify : Swift.Optional&lt;__C.UILabel&gt;"
+                  moduleName = "Audiobooks"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Julia/spotify_app/spotify-audiobooks/Audiobooks/Audiobooks/PlayerViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "72">
+               </Location>
+               <Location
+                  uuid = "FDAD326E-D037-4800-8196-F294A1DF559A - d7ed9c8669f58ddb"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Audiobooks.PlayerViewController.titleLabel.modify : Swift.Optional&lt;__C.UILabel&gt; with unmangled suffix &quot;.resume.0&quot;"
+                  moduleName = "Audiobooks"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Julia/spotify_app/spotify-audiobooks/Audiobooks/Audiobooks/PlayerViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "24"
+                  endingLineNumber = "24"
+                  offsetFromSymbolStart = "80">
+               </Location>
+               <Location
+                  uuid = "FDAD326E-D037-4800-8196-F294A1DF559A - 42f23864cc5c6a70"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Audiobooks.PlayerViewController.init(nibName: Swift.Optional&lt;Swift.String&gt;, bundle: Swift.Optional&lt;__C.NSBundle&gt;) -&gt; Audiobooks.PlayerViewController"
+                  moduleName = "Audiobooks"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Julia/spotify_app/spotify-audiobooks/Audiobooks/Audiobooks/PlayerViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "24"
+                  endingLineNumber = "24"
+                  offsetFromSymbolStart = "952">
+               </Location>
+               <Location
+                  uuid = "FDAD326E-D037-4800-8196-F294A1DF559A - 49d157dc9a24736b"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Audiobooks.PlayerViewController.init(coder: __C.NSCoder) -&gt; Swift.Optional&lt;Audiobooks.PlayerViewController&gt;"
+                  moduleName = "Audiobooks"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Julia/spotify_app/spotify-audiobooks/Audiobooks/Audiobooks/PlayerViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "24"
+                  endingLineNumber = "24"
+                  offsetFromSymbolStart = "896">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
