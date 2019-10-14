@@ -23,6 +23,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTAppRemoteDelegate {
     var currentQueue: [Track]?
     var timeElapsed: Float?
     var tabBarHeight: CGFloat?
+    var playerTimer: Timer?
+    var sliderTimer: Timer?
     
     // keys
     static private let kAccessTokenKey = "access-token-key"
