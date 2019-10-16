@@ -26,16 +26,12 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
     var newIdentifier: String?
     static var timeElapsed: Float?
     private var trackIdentifier: String?
-   
-    //static var position: Float?
-    //var previousSliderValue: Float = 0
     
     static var newIndexOfTrackInAlbum: Int?
     static var oldIndexOfTrackInAlbum: Int?
     static var audiobook: Audiobook?
     static var albumIdentifier = audiobook?.uri
     static var currentTrack: Track?
-    //static var queue: [Track]?
     var statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView
  
     
@@ -87,25 +83,9 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         oldTrackIdentifier = AppDelegate.sharedInstance.currentTrack?.uri
         oldAudioBook = AppDelegate.sharedInstance.currentAlbum?.uri
        
-        self.updateCurrentAlbumAndTrack()
-    
-        print("Der AlbumIdentifier: \(PlayerViewController.albumIdentifier)")
-        if oldTrackIdentifier == nil || oldAudioBook != PlayerViewController.audiobook!.uri  {
-            print("Old track Identifier was nil")
-            PlayerViewController.oldIndexOfTrackInAlbum = PlayerViewController.newIndexOfTrackInAlbum!
-            playTrackWithIdentifier(PlayerViewController.albumIdentifier!)
-        }
+        updateCurrentAlbumAndTrack()
+        skipToRightSong()
         
-        //check if new song title was clicked or just player opened
-       else if !(oldTrackIdentifier == AppDelegate.sharedInstance.currentTrack?.uri) {
-            print("NewIndex: \(PlayerViewController.newIndexOfTrackInAlbum!)")
-            print("Old Index: \(PlayerViewController.oldIndexOfTrackInAlbum!)")
-        for _ in 0..<(PlayerViewController.newIndexOfTrackInAlbum! - PlayerViewController.oldIndexOfTrackInAlbum!) {
-            print("inside second loop")
-            skipNext()
-            PlayerViewController.oldIndexOfTrackInAlbum! += 1
-            }
-        }
         activatePlayAndSliderTimer()
         adjustBackground()
         guard PlayerViewController.audiobook != nil else {return}
@@ -113,16 +93,36 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         updateTrackInfo()
     }
     
-    func checkNotFirstSongWasClicked(){
-    if  PlayerViewController.newIndexOfTrackInAlbum! != 0{
+    //Checks where the user came from and skips to the right index in the queue
+    func skipToRightSong(){
+        //if it's the first time opening the player or a new album was selected and therefore the uri changed
+        if oldTrackIdentifier == nil || oldAudioBook != PlayerViewController.audiobook!.uri  {
+             PlayerViewController.oldIndexOfTrackInAlbum = PlayerViewController.newIndexOfTrackInAlbum!
+             playTrackWithIdentifier(PlayerViewController.albumIdentifier!)
+         }
+         //check if new song title was clicked or just player opened
+        else if !(oldTrackIdentifier == AppDelegate.sharedInstance.currentTrack?.uri) {
+             //Skip forwards
+             if (PlayerViewController.newIndexOfTrackInAlbum! > PlayerViewController.oldIndexOfTrackInAlbum!){
+                 for _ in 0..<(PlayerViewController.newIndexOfTrackInAlbum! - PlayerViewController.oldIndexOfTrackInAlbum!) {
+                     skipNext()
+                     PlayerViewController.oldIndexOfTrackInAlbum! += 1
+                     }
+             } else { //Skip backwards
+                 for _ in 0..<(PlayerViewController.oldIndexOfTrackInAlbum! - PlayerViewController.newIndexOfTrackInAlbum! ) {
+                 skipPrevious()
+                 PlayerViewController.oldIndexOfTrackInAlbum! -= 1
+                 }
+             }
+         }
+    }
     
-         print("Index was not 0")
-         print("NewIndex: \(PlayerViewController.newIndexOfTrackInAlbum!)")
-         print("Old Index before first loop: \(PlayerViewController.oldIndexOfTrackInAlbum!)")
-        for _ in 0..<(PlayerViewController.newIndexOfTrackInAlbum!) {
-            print("Inside first loop")
-            skipNext()
-            }
+    //checks whether the album has to start at a different track than the first one if another title was selected from the list
+    func checkNotFirstSongWasClicked(){
+        if PlayerViewController.newIndexOfTrackInAlbum! != 0{
+            for _ in 0..<(PlayerViewController.newIndexOfTrackInAlbum!) {
+                skipNext()
+                }
         }
     }
     
