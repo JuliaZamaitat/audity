@@ -19,15 +19,19 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
     var playTimer: Timer!
     var sliderTimer: Timer!
     
-    var songFinished = false
-    static var timeElapsed: Float?
-    private var trackIdentifier = ""
-    //static var position: Float?
-    //var previousSliderValue: Float = 0
+    var oldTrackIdentifier: String?
+    var oldAudioBook: String?
     
+    var songFinished = false
+    var newIdentifier: String?
+    static var timeElapsed: Float?
+    private var trackIdentifier: String?
+    
+    static var newIndexOfTrackInAlbum: Int?
+    static var oldIndexOfTrackInAlbum: Int?
     static var audiobook: Audiobook?
+    static var albumIdentifier = audiobook?.uri
     static var currentTrack: Track?
-    static var queue: [Track]?
     var statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView
  
     
@@ -69,87 +73,125 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
     
     override func viewWillAppear(_ animated: Bool) {
        NotificationCenter.default.post(name: NSNotification.Name("viewLoaded"), object: nil)
-        playTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updatePlayButton), userInfo: nil, repeats: true)
-        sliderTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateSlider), userInfo: nil, repeats: true)
+        //make sure the timer does not get duplicated
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         getPlayerState()
         isPlaying = true
+        oldTrackIdentifier = AppDelegate.sharedInstance.currentTrack?.uri
+        oldAudioBook = AppDelegate.sharedInstance.currentAlbum?.uri
+       
+        updateCurrentAlbumAndTrack()
+        skipToRightSong()
+        
+        activatePlayAndSliderTimer()
+        adjustBackground()
+        guard PlayerViewController.audiobook != nil else {return}
+        updateInterface()
+        updateTrackInfo()
+    }
+    
+    //Checks where the user came from and skips to the right index in the queue
+    func skipToRightSong(){
+        //if it's the first time opening the player or a new album was selected and therefore the uri changed
+        if oldTrackIdentifier == nil || oldAudioBook != PlayerViewController.audiobook!.uri  {
+             PlayerViewController.oldIndexOfTrackInAlbum = PlayerViewController.newIndexOfTrackInAlbum!
+             playTrackWithIdentifier(PlayerViewController.albumIdentifier!)
+         }
+         //check if new song title was clicked or just player opened
+        else if !(oldTrackIdentifier == AppDelegate.sharedInstance.currentTrack?.uri) {
+             //Skip forwards
+             if (PlayerViewController.newIndexOfTrackInAlbum! > PlayerViewController.oldIndexOfTrackInAlbum!){
+                 for _ in 0..<(PlayerViewController.newIndexOfTrackInAlbum! - PlayerViewController.oldIndexOfTrackInAlbum!) {
+                     skipNext()
+                     PlayerViewController.oldIndexOfTrackInAlbum! += 1
+                     }
+             } else { //Skip backwards
+                 for _ in 0..<(PlayerViewController.oldIndexOfTrackInAlbum! - PlayerViewController.newIndexOfTrackInAlbum! ) {
+                 skipPrevious()
+                 PlayerViewController.oldIndexOfTrackInAlbum! -= 1
+                 }
+             }
+         }
+    }
+    
+    //checks whether the album has to start at a different track than the first one if another title was selected from the list
+    func checkNotFirstSongWasClicked(){
+        if PlayerViewController.newIndexOfTrackInAlbum! != 0{
+            for _ in 0..<(PlayerViewController.newIndexOfTrackInAlbum!) {
+                skipNext()
+                }
+        }
+    }
+    
+    func updateCurrentAlbumAndTrack(){
+        //wenn ein Song aus einem Album ausgewählt wurde
         if (PlayerViewController.currentTrack != nil){
+            print("Current track is not nil")
             trackIdentifier = PlayerViewController.currentTrack!.uri
             AppDelegate.sharedInstance.currentTrack = PlayerViewController.currentTrack
             AppDelegate.sharedInstance.currentAlbum = PlayerViewController.audiobook
             AppDelegate.sharedInstance.timeElapsed = PlayerViewController.timeElapsed
-            AppDelegate.sharedInstance.currentQueue = PlayerViewController.queue
-            print("Mein Identifier: \(trackIdentifier)")
-            print("im viewDidLoad: \(PlayerViewController.queue!.count)")
-        } else {
+            AppDelegate.sharedInstance.albumIndentifier = PlayerViewController.albumIdentifier
+            
+           
+        } else { //wenn der Mini Player gedrückt wurde
             PlayerViewController.currentTrack = AppDelegate.sharedInstance.currentTrack
             PlayerViewController.audiobook = AppDelegate.sharedInstance.currentAlbum
             PlayerViewController.timeElapsed = AppDelegate.sharedInstance.timeElapsed
-            print("Count der Audiobook Trackliste: \(PlayerViewController.audiobook!.trackList.count)")
-            trackIdentifier = PlayerViewController.currentTrack!.uri
-            PlayerViewController.queue = AppDelegate.sharedInstance.currentQueue
+            PlayerViewController.albumIdentifier = AppDelegate.sharedInstance.albumIndentifier
         }
-       
-        //check if new song title was clicked or just player opened
-        if !(trackIdentifier == PlayerViewController.myPlayerState?.track.uri) {
-             playTrack()
-        }
-       
-        
-        /*for track in audiobook!.trackList {
-            enqueueTrack(identifier: track.uri)
-        }*/
-        //NotificationCenter.default.addObserver(self, selector: #selector(activateTimer), name: NSNotification.Name("playerStateChanged"), object: nil)
-        adjustBackground()
-        guard let audiobook = PlayerViewController.audiobook else {return}
-        let url = audiobook.image
-        let data = try? Data(contentsOf: url)
+    }
+    
+    func activatePlayAndSliderTimer(){
+        playTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updatePlayButton), userInfo: nil, repeats: true)
+               sliderTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateSlider), userInfo: nil, repeats: true)
+    }
+    
+    func updateInterface(){
+        let url = PlayerViewController.audiobook?.image
+        let data = try? Data(contentsOf: url!)
         coverImage.image = UIImage(data: data!)
-        authorLabel.text = audiobook.author
+        authorLabel.text = PlayerViewController.audiobook?.author
         progressSlider.isContinuous = false
-        //timerQueue = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(self.updateQueue), userInfo: nil , repeats: true)
-       
-        
-        updateTrackInfo()
     }
     
     func updateTrackInfo(){
         titleLabel.text = PlayerViewController.currentTrack?.title
         duration_ms = Float(PlayerViewController.currentTrack!.duration)
         durationInSeconds = duration_ms!/Float(1000)
-        print("Die Dauer in Sekunden ist: \(durationInSeconds)")
         let artistNames = PlayerViewController.currentTrack?.artists
         let joinedArtistNames = artistNames?.joined(separator: ", ")
         descriptionLabel.text = joinedArtistNames
     }
+    
+    
 
     @objc func updatePlayButton(){
         if (progressSlider.value > 0.99 || (Int(PlayerViewController.timeElapsed!) == Int(durationInSeconds!))) { //somewhat timeElapsed is behind by one or two seconds sometimes
-            songFinished = true
-            print("Song if finished: \(songFinished)")
-            playTimer.invalidate()
-            sliderTimer.invalidate()
-            pausePlayback()
-            updateQueue()
-            print("time elapsed: \(Int(PlayerViewController.timeElapsed!))")
-            print("Duration in seconds: \(Int(durationInSeconds!))")
+//            songFinished = true
+//            print("Song if finished: \(songFinished)")
+//            playTimer.invalidate()
+//            sliderTimer.invalidate()
+//            pausePlayback()
+//            updateQueue()
+            //print("time elapsed: \(Int(PlayerViewController.timeElapsed!))")
+            //print("Duration in seconds: \(Int(durationInSeconds!))")
         } else {
             playPauseButton?.setImage(UIImage(named:"round-pause-button-white")!, for: .normal)
             let remainingTimeInSeconds = durationInSeconds! - PlayerViewController.timeElapsed!
             timeRemainingLabel.text = "-\(getFormattedTime(timeInterval: Double(remainingTimeInSeconds)))"
             timeElapsedLabel.text = getFormattedTime(timeInterval: Double(PlayerViewController.timeElapsed!))
-            print("time elapsed: \(Int(PlayerViewController.timeElapsed!))")
+            //print("time elapsed: \(Int(PlayerViewController.timeElapsed!))")
         }
     }
     
     @objc func updateSlider() {
         PlayerViewController.timeElapsed! += 1
         progressSlider.value = Float(PlayerViewController.timeElapsed!) / Float(durationInSeconds!)
-        print("***\(progressSlider.value)")
+        //print("***\(progressSlider.value)")
     }
     
     
@@ -158,57 +200,11 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         playTimer.invalidate()
         sliderTimer.invalidate()
     }
-   
-  
-    func updateQueue(){
-            if !(PlayerViewController.queue!.isEmpty){
-                print("Titel in queue: \(PlayerViewController.queue![0].title)")
-                PlayerViewController.currentTrack = PlayerViewController.queue![0]
-                trackIdentifier =  PlayerViewController.currentTrack!.uri
-                print("neuer identifier: \(trackIdentifier)")
-                AppDelegate.sharedInstance.currentTrack = PlayerViewController.currentTrack
-                PlayerViewController.queue = []
-                let start = PlayerViewController.audiobook!.trackList.firstIndex(of: PlayerViewController.currentTrack!)!
-                let end = PlayerViewController.audiobook!.trackList.count
-                for i in start+1..<end {
-                    PlayerViewController.queue!.append(PlayerViewController.audiobook!.trackList[i])
-                    }
-                AppDelegate.sharedInstance.currentQueue = PlayerViewController.queue
-                playTrack()
-                PlayerViewController.timeElapsed = 0
-                getPlayerState()
-                progressSlider.value = 0
-                playTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updatePlayButton), userInfo: nil, repeats: true)
-                sliderTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateSlider), userInfo: nil, repeats: true)
-                updateTrackInfo()
-                /*appRemote.playerAPI?.enqueueTrackUri(PlayerViewController.currentTrack!.uri, callback: { (result, error) in
-                    self.appRemote.playerAPI?.skip(toNext: { (result, errro) in
-                               //todo
-                            print("Here")
-                        self.pausePlayback()
-                        self.startPlayback()
-                              })
-               })*/
-                //skipNext()
-                //startPlayback()
-                
-                //enqueueTrack()
-                
-                
-                
-               //startPlayback()
-                
-            } else {
-                //pausePlayback()
-                //timerQueue?.invalidate()
-                print("The queue is empty.")
-            }
-    }
     
     @IBAction func sliderDragged(_ sender: UISlider) {
         let newPosition = Int(progressSlider.value * duration_ms!)
         if songFinished {
-            playTrack()
+            //playTrack()
             self.appRemote.playerAPI?.seek(toPosition: newPosition, callback: nil)
             self.songFinished = false
             if !playTimer.isValid && !sliderTimer.isValid {
@@ -294,11 +290,6 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
     }
     
    
- 
-    
-    
-        
-
     private func startPlayback() {
         appRemote.playerAPI?.resume(defaultCallback)
          //appRemote.playerAPI?.play(trackIdentifier, callback: defaultCallback)
@@ -308,10 +299,9 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         appRemote.playerAPI?.pause(defaultCallback)
     }
     
+   
     
-    
-    
-    private func playTrack() {
+    /*private func playTrack() {
         appRemote.playerAPI?.play(trackIdentifier, callback: defaultCallback)
         print("Position vom Player im Play Track: \(PlayerViewController.myPlayerState!.playbackPosition)")
       
@@ -320,21 +310,21 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         //NotificationCenter.default.post(name: NSNotification.Name("colorTitle"), object: nil)
         //print("Neue Warteschlange: \(PlayerViewController.queue)")
         //Noti//ficationCenter.default.post(name: NSNotification.Name("playerStateChanged"), object: nil)
-    }
-    
-    
-    
-    /*private func playTrackWithIdentifier(_ identifier: String) {
-        if (PlayerViewController.queue![0].uri == identifier){
-            appRemote.playerAPI?.play(identifier, callback: defaultCallback)
-            print("Position vom Player im Play Track: \(PlayerViewController.myPlayerState!.playbackPosition)")
-             print("That's the uri of the track currently passed in method: \(identifier)")
-              print("That's the uri of the track currently in trackIdentifier: \(trackIdentifier)")
-            //print("Neue Warteschlange: \(PlayerViewController.queue)")
-            NotificationCenter.default.post(name: NSNotification.Name("trackChanged"), object: nil)
-            //NotificationCenter.default.post(name: NSNotification.Name("playerStateChanged"), object: nil)
-        }
     }*/
+    
+    private func playTrackWithIdentifier(_ identifier: String) {
+        if let result = appRemote.playerAPI?.play(identifier, callback: defaultCallback){
+            if oldTrackIdentifier == nil || oldAudioBook != PlayerViewController.audiobook!.uri {
+                let seconds = 0.001
+                DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
+                    self.checkNotFirstSongWasClicked() //IS HERE BEFORE PLAY WAS PERFORMED
+                }
+           
+            }
+         NotificationCenter.default.post(name: NSNotification.Name("trackChanged"), object: nil)
+        }
+        
+    }
     
     func animateCover(){
         if isPlaying! {
@@ -348,7 +338,6 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         }
         isPlaying! = !isPlaying!
     }
-    
     
     func adjustBackground(){
         view.layer.cornerRadius = 20.0
@@ -412,7 +401,7 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
     
     
     private func enqueueTrack() {
-         appRemote.playerAPI?.enqueueTrackUri(trackIdentifier, callback: defaultCallback)
+         appRemote.playerAPI?.enqueueTrackUri(newIdentifier!, callback: defaultCallback)
         
     }
     

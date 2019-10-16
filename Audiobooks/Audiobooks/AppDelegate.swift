@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTAppRemoteDelegate {
     
     var currentTrack: Track?
     var currentAlbum: Audiobook?
-    var currentQueue: [Track]?
+    var albumIndentifier: String?
     var timeElapsed: Float?
     var tabBarHeight: CGFloat?
     var playerTimer: Timer?
