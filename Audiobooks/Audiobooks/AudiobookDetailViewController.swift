@@ -178,11 +178,13 @@ func asyncTracks(audiobook: Audiobook, offset: Int){
                     PlayerViewController.timeElapsed = 0
                 } 
                 PlayerViewController.currentTrack = self.audiobook.trackList[indexPath.row]
-                    PlayerViewController.queue = []
+                PlayerViewController.albumIdentifier = self.audiobook.uri
+                PlayerViewController.newIndexOfTrackInAlbum = indexPath.row
+                /*PlayerViewController.queue = []
                     for i in indexPath.row+1..<audiobook.trackList.count{
                         PlayerViewController.queue?.append(audiobook.trackList[i])
                         print("Added: \(audiobook.trackList[i])")
-                    }
+                    }*/
             }
         }
     }
