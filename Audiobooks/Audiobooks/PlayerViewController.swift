@@ -117,8 +117,6 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
                 }
                
              } else { //Skip backwards
-                
-                
                  for _ in 0..<(oldIndex - newIndex) {
                  skipPrevious()
                  print("looped backwards")
@@ -172,13 +170,13 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
     }
     
     func updateTrackInfo(){
-        titleLabel.text = PlayerViewController.currentTrack?.title
-        duration_ms = Float(PlayerViewController.currentTrack!.duration)
+        guard let currentTrack = PlayerViewController.currentTrack else { return }
+        titleLabel?.text = currentTrack.title
+        duration_ms = Float(currentTrack.duration)
         durationInSeconds = duration_ms!/Float(1000)
-        let artistNames = PlayerViewController.currentTrack?.artists
-        let joinedArtistNames = artistNames?.joined(separator: ", ")
-        descriptionLabel.text = joinedArtistNames
-       
+        let artistNames = currentTrack.artists
+        let joinedArtistNames = artistNames.joined(separator: ", ")
+        descriptionLabel?.text = joinedArtistNames
     }
     
     
@@ -399,34 +397,42 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
     
     @IBAction func didPressPreviousButton(_ sender: AnyObject) {
         skipPrevious()
+        configurePreviousSong()
+    }
+    
+    @IBAction func didPressNextButton(_ sender: AnyObject) {
+        skipNext()
+        configureNextSong()
+     
+    }
+    
+    func configurePreviousSong(){
         if PlayerViewController.indexOfTrackInTracklist! - 1 >= 0 {
-            PlayerViewController.currentTrack = PlayerViewController.helperTracklist![PlayerViewController.indexOfTrackInTracklist! - 1 ]
+        PlayerViewController.currentTrack = PlayerViewController.helperTracklist![PlayerViewController.indexOfTrackInTracklist! - 1 ]
             AppDelegate.sharedInstance.currentTrack = PlayerViewController.currentTrack
             PlayerViewController.timeElapsed = 0
             AppDelegate.sharedInstance.timeElapsed = PlayerViewController.timeElapsed
             PlayerViewController.indexOfTrackInTracklist! -= 1
-            progressSlider.value = 0
+            progressSlider?.value = 0
             PlayerViewController.newIndexOfTrackInAlbum! -= 1
-             PlayerViewController.oldIndexOfTrackInAlbum! -= 1
+            PlayerViewController.oldIndexOfTrackInAlbum! -= 1
             NotificationCenter.default.post(name: NSNotification.Name("trackChanged"), object: nil)
-            
         }
         DispatchQueue.main.async {
             self.updateTrackInfo()
         }
     }
     
-    @IBAction func didPressNextButton(_ sender: AnyObject) {
-        skipNext()
+    func configureNextSong(){
         if PlayerViewController.helperTracklist!.count > PlayerViewController.indexOfTrackInTracklist! + 1 {
-            PlayerViewController.currentTrack = PlayerViewController.helperTracklist![PlayerViewController.indexOfTrackInTracklist! + 1]
+        PlayerViewController.currentTrack = PlayerViewController.helperTracklist![PlayerViewController.indexOfTrackInTracklist! + 1]
             AppDelegate.sharedInstance.currentTrack = PlayerViewController.currentTrack
             PlayerViewController.timeElapsed = 0
             AppDelegate.sharedInstance.timeElapsed = PlayerViewController.timeElapsed
             PlayerViewController.indexOfTrackInTracklist! += 1
             PlayerViewController.newIndexOfTrackInAlbum! += 1
              PlayerViewController.oldIndexOfTrackInAlbum! += 1
-            progressSlider.value = 0
+            progressSlider?.value = 0
             NotificationCenter.default.post(name: NSNotification.Name("trackChanged"), object: nil)
         }
         DispatchQueue.main.async {
@@ -466,6 +472,25 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         print("playbackOptions.isShuffling", playerState.playbackOptions.isShuffling)
         print("playbackOptions.repeatMode", playerState.playbackOptions.repeatMode.hashValue)
         print("playbackPosition", playerState.playbackPosition)
+        
+        guard let helperTrackList = PlayerViewController.helperTracklist else { return }
+        if playerState.track.uri != PlayerViewController.currentTrack?.uri { //TODO: wie unterscheiden, ob neuer Song geklickt oder automatisch geskipped
+            var index = 0
+            for track in helperTrackList {
+                index += 1
+                if track!.uri == playerState.track.uri {
+                    if index < PlayerViewController.indexOfTrackInTracklist! { //probably not gonna happen anyway
+                        configurePreviousSong()
+                    } else {
+                        configureNextSong()
+                    }
+                    DispatchQueue.main.async {
+                        self.updateTrackInfo()
+                    }
+                }
+            }
+    
+        }
 
     }
  
