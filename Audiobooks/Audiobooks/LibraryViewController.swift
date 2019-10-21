@@ -63,6 +63,12 @@ class LibraryViewController: UIViewController, UISearchBarDelegate, UITableViewD
         searchBar.barTintColor = UIColor.SpotifyColor.Black
         searchBar.isTranslucent = false
         
+        
+        if #available(iOS 13, *) {
+            self.searchBar.searchTextField.backgroundColor = .white
+             self.searchBar.tintColor = .black
+        }
+        
         if let textfield = searchBar.value(forKey: "searchField") as? UITextField {
             if let backgroundview = textfield.subviews.first {
                 // Background color
@@ -80,6 +86,14 @@ class LibraryViewController: UIViewController, UISearchBarDelegate, UITableViewD
     }
     
     private func adjustStyle() {
+        if #available(iOS 13.0, *) {
+                   let navBarAppearance = UINavigationBarAppearance()
+                   navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+                   navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+                   navBarAppearance.backgroundColor = UIColor.SpotifyColor.Black
+                   navigationController?.navigationBar.standardAppearance = navBarAppearance
+                   navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
+               }
         //Sets up header
         title = "Bibliothek"
         navigationController?.navigationBar.barStyle = .black //to keep the white system controls and titles

@@ -34,8 +34,12 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
     static var currentTrack: Track?
     static var helperTracklist: [Track?]?
     static var indexOfTrackInTracklist: Int?
-    var statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView
+    //var statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView
+    //var statusBar: NSObject?
  
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
     
     @IBOutlet weak var coverImage: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
@@ -167,6 +171,7 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         coverImage.image = UIImage(data: data!)
         authorLabel.text = PlayerViewController.audiobook?.author
         progressSlider.isContinuous = false
+        
     }
     
     func updateTrackInfo(){
@@ -356,11 +361,19 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         view.layer.cornerRadius = 20.0
         view.clipsToBounds = true
         view.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
-        statusBar?.isHidden = true
+//       if #available(iOS 13.0, *) {
+//            let statusBar = view.window?.windowScene?.statusBarManager
+//        statusBar?.prefers
+//
+//        } else {
+//            let statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView
+//            statusBar?.isHidden = true
+//        }
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        statusBar?.isHidden = false
+        //statusBar?.isHidden = false
     }
     
     

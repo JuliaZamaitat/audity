@@ -25,15 +25,14 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
     override func viewDidLoad() {
         super.viewDidLoad()
         //setUpAudiobooks()
-        setUpSearchBar()
-        adjustStyle()
+        DispatchQueue.main.async {
+            self.setUpSearchBar()
+            self.adjustStyle()
+        }
         collection.delegate = self
         collection.dataSource = self
         collection.keyboardDismissMode = .onDrag
         AppDelegate.sharedInstance.tabBarHeight = tabBarController?.tabBar.frame.size.height
-        
-        
-        
     }
     
     //In order to hide navigation bar after clicked on search result
@@ -42,10 +41,9 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
         if searchActive {
             navigationController?.setNavigationBarHidden(true, animated: false)
         }
-        
     }
  
-    //To hide navigation bar when collectionView is crolled
+    //To hide navigation bar when collectionView is scrolled
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView.panGestureRecognizer.translation(in: scrollView).y < 0 {
             navigationController?.setNavigationBarHidden(true, animated: true)
@@ -60,8 +58,13 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
         searchBar.backgroundImage = UIImage() //needs to be added in order for the color to work
         searchBar.barTintColor = UIColor.SpotifyColor.Black
         searchBar.isTranslucent = false
-        searchBar.tintColor = .black
+        searchBar.tintColor = .white
        
+        if #available(iOS 13, *) {
+            self.searchBar.searchTextField.backgroundColor = .white
+            self.searchBar.tintColor = .black
+        }
+        
         if let textfield = searchBar.value(forKey: "searchField") as? UITextField {
             if let backgroundview = textfield.subviews.first {
                 // Background color
@@ -79,6 +82,15 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
     }
     
     private func adjustStyle() {
+        if #available(iOS 13.0, *) {
+            let navBarAppearance = UINavigationBarAppearance()
+            navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+            navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+            navBarAppearance.backgroundColor = UIColor.SpotifyColor.Black
+            navigationController?.navigationBar.standardAppearance = navBarAppearance
+            navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
+        }
+        
         //Sets up header
         title = "Suche"
         navigationController?.navigationBar.barStyle = .black //to keep the white system controls and titles
@@ -95,6 +107,8 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
         tabBarController?.tabBar.tintColor = .white
         
     }
+    
+    
     
     func fetchAudiobooks(keywords: String, completion: @escaping (Audiobook?) -> Void){
         let baseURL = URL(string: "https://api.spotify.com/v1/search")!
@@ -189,7 +203,7 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         navigationController?.setNavigationBarHidden(true, animated: true)
          //searchBar.barTintColor = UIColor.init(netHex: 0x1b1b1b)
-       searchActive = true
+        searchActive = true
         searchBar.showsCancelButton = true
         accessToken = AppDelegate.sharedInstance.accessToken
         audiobookArray = []
@@ -213,6 +227,7 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
         searchBar.resignFirstResponder()
         self.view.endEditing(true)
         searchBar.barTintColor = UIColor.SpotifyColor.Black
+        
         searchActive = false
         searchBar.showsCancelButton = false
         let keywords = searchBar.text
