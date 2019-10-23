@@ -182,6 +182,7 @@ func asyncTracks(audiobook: Audiobook, offset: Int){
                 PlayerViewController.newIndexOfTrackInAlbum = indexPath.row
                 PlayerViewController.helperTracklist = self.audiobook.trackList
                 PlayerViewController.indexOfTrackInTracklist = indexPath.row
+                PlayerViewController.wasSelectedOrSkipped = true
                 
                 /*PlayerViewController.queue = []
                     for i in indexPath.row+1..<audiobook.trackList.count{
