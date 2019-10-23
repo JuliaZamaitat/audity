@@ -416,7 +416,10 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
     
     @IBAction func didPressPreviousButton(_ sender: AnyObject) {
         skipPrevious()
-        configurePreviousSong()
+        let seconds = 0.5
+        DispatchQueue.main.asyncAfter(deadline: .now() + seconds) { //Workaraound so the player state can be updated first
+            self.configurePreviousSong()
+        }
         PlayerViewController.wasSelectedOrSkipped = true
     }
     
@@ -428,19 +431,22 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
     }
     
     func configurePreviousSong(){
+       // getPlayerState()
         if PlayerViewController.indexOfTrackInTracklist! - 1 >= 0 {
-        PlayerViewController.currentTrack = PlayerViewController.helperTracklist![PlayerViewController.indexOfTrackInTracklist! - 1 ]
-            AppDelegate.sharedInstance.currentTrack = PlayerViewController.currentTrack
+            if PlayerViewController.myPlayerState!.track.name == PlayerViewController.helperTracklist![PlayerViewController.indexOfTrackInTracklist! - 1 ]!.title { //check if it not just jumped to the beginning of the track
+                PlayerViewController.currentTrack = PlayerViewController.helperTracklist![PlayerViewController.indexOfTrackInTracklist! - 1 ]
+                AppDelegate.sharedInstance.currentTrack = PlayerViewController.currentTrack
+                PlayerViewController.indexOfTrackInTracklist! -= 1
+                PlayerViewController.newIndexOfTrackInAlbum! -= 1
+                PlayerViewController.oldIndexOfTrackInAlbum! -= 1
+                NotificationCenter.default.post(name: NSNotification.Name("trackChanged"), object: nil)
+            }
             PlayerViewController.timeElapsed = 0
             AppDelegate.sharedInstance.timeElapsed = PlayerViewController.timeElapsed
-            PlayerViewController.indexOfTrackInTracklist! -= 1
             progressSlider?.value = 0
-            PlayerViewController.newIndexOfTrackInAlbum! -= 1
-            PlayerViewController.oldIndexOfTrackInAlbum! -= 1
-            NotificationCenter.default.post(name: NSNotification.Name("trackChanged"), object: nil)
-        }
-        DispatchQueue.main.async {
-            self.updateTrackInfo()
+            DispatchQueue.main.async {
+                self.updateTrackInfo()
+            }
         }
     }
     
