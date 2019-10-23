@@ -59,7 +59,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTAppRemoteDelegate {
     
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        setStatusBarBackgroundColor(color: UIColor.SpotifyColor.Black)
+        //setStatusBarBackgroundColor(color: UIColor.SpotifyColor.Black)
         MyLibrary.myBooks = MyLibrary.loadFromFile() ?? []
         
         return true
@@ -141,12 +141,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTAppRemoteDelegate {
     }
 
     
-    func setStatusBarBackgroundColor(color: UIColor) {
-        
-        guard let statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView else { return }
-        
-        statusBar.backgroundColor = color
-    }
+//    func setStatusBarBackgroundColor(color: UIColor) {
+//
+//        guard let statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView else { return }
+//
+//        statusBar.backgroundColor = color
+//    }
     
     
     

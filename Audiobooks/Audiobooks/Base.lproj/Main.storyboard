@@ -11,7 +11,7 @@
         <!--Login View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="LoginViewController" customModule="Audiobooks" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" id="BYZ-38-t0r" customClass="LoginViewController" customModule="Audiobooks" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -42,9 +42,9 @@
         <!--Suche-->
         <scene sceneID="HDE-do-wz8">
             <objects>
-                <viewController id="ds2-zc-6ag" customClass="SearchViewController" customModule="Audiobooks" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" id="ds2-zc-6ag" customClass="SearchViewController" customModule="Audiobooks" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="3ak-f2-MJL">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="716"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="iWk-Bb-rj3">
@@ -56,7 +56,7 @@
                                 </connections>
                             </searchBar>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="pVT-W0-bMb">
-                                <rect key="frame" x="0.0" y="152" width="414" height="564"/>
+                                <rect key="frame" x="0.0" y="152" width="414" height="584"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="t0i-Gf-Hp6">
                                     <size key="itemSize" width="250" height="327"/>
@@ -145,19 +145,19 @@
         <!--Audiobook Detail View Controller-->
         <scene sceneID="TFS-wc-wSP">
             <objects>
-                <viewController id="Yf9-G9-h25" userLabel="Audiobook Detail View Controller" customClass="AudiobookDetailViewController" customModule="Audiobooks" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" id="Yf9-G9-h25" userLabel="Audiobook Detail View Controller" customClass="AudiobookDetailViewController" customModule="Audiobooks" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ErL-3d-X4B">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="672"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fyh-sf-ghP">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="302"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="322"/>
                                 <connections>
                                     <segue destination="MsD-wq-swK" kind="embed" id="ofB-1f-qNC"/>
                                 </connections>
                             </containerView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="WaZ-C3-Wim">
-                                <rect key="frame" x="0.0" y="302" width="414" height="321"/>
+                                <rect key="frame" x="0.0" y="366" width="414" height="321"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="321" id="75j-FG-i5l">
@@ -197,7 +197,7 @@
                                         <connections>
                                             <outlet property="descriptionLabel" destination="vzM-hd-m9a" id="Omy-hp-LA6"/>
                                             <outlet property="titelLabel" destination="3V5-FR-NTl" id="TFa-la-u5m"/>
-                                            <segue destination="wrJ-nK-Nxr" kind="presentation" modalPresentationStyle="overFullScreen" id="CKw-KI-x4f"/>
+                                            <segue destination="wrJ-nK-Nxr" kind="presentation" modalPresentationStyle="fullScreen" id="CKw-KI-x4f"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -243,7 +243,7 @@
         <!--Detail Cover View Controller-->
         <scene sceneID="1hp-Is-6Jg">
             <objects>
-                <viewController storyboardIdentifier="cover" id="SFn-go-Lxg" customClass="DetailCoverViewController" customModule="Audiobooks" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="cover" modalPresentationStyle="fullScreen" id="SFn-go-Lxg" customClass="DetailCoverViewController" customModule="Audiobooks" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="3Yh-PT-m2h">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -315,25 +315,25 @@
         <!--Song Control View Controller-->
         <scene sceneID="bAS-ze-lJ9">
             <objects>
-                <viewController id="pnp-I0-s69" customClass="SongControlViewController" customModule="Audiobooks" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" id="pnp-I0-s69" customClass="SongControlViewController" customModule="Audiobooks" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="uIi-ht-aHO">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="716"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vsm-gu-TA7">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="716"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                                 <connections>
                                     <segue destination="bqv-bX-J3O" kind="embed" id="YX5-Lz-QfK"/>
                                 </connections>
                             </containerView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="in1-vM-lPu" customClass="MiniPlayerView" customModule="Audiobooks" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="622" width="414" height="45"/>
+                                <rect key="frame" x="0.0" y="642" width="414" height="45"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l1u-o5-qej">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="45"/>
                                         <state key="normal" title="Button"/>
                                         <connections>
-                                            <segue destination="wrJ-nK-Nxr" kind="presentation" identifier="showMaxiPlayerSegue" id="S49-g2-0ge"/>
+                                            <segue destination="wrJ-nK-Nxr" kind="presentation" identifier="showMaxiPlayerSegue" modalPresentationStyle="fullScreen" id="S49-g2-0ge"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Sj-vf-V0T" userLabel="Up">
@@ -403,7 +403,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="OOT-kv-w6J">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="bqv-bX-J3O" sceneMemberID="viewController">
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="fullScreen" id="bqv-bX-J3O" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="XvF-uw-VJt">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
@@ -442,9 +442,9 @@
         <!--Player View Controller-->
         <scene sceneID="HfS-hz-tkk">
             <objects>
-                <viewController storyboardIdentifier="playerViewID" id="wrJ-nK-Nxr" userLabel="Player View Controller" customClass="PlayerViewController" customModule="Audiobooks" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="playerViewID" modalPresentationStyle="fullScreen" id="wrJ-nK-Nxr" userLabel="Player View Controller" customClass="PlayerViewController" customModule="Audiobooks" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="oSD-iI-bRt">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="716"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Titel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1bD-YU-y9k">
@@ -489,7 +489,7 @@
                                 <state key="normal" title="..."/>
                             </button>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="zzt-Ck-4mS">
-                                <rect key="frame" x="18" y="500.33333333333331" width="378" height="33.666666666666686"/>
+                                <rect key="frame" x="18" y="500.33333333333331" width="378" height="53.666666666666686"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" adjustable="YES"/>
                                 </accessibility>
@@ -498,7 +498,7 @@
                                 </connections>
                             </slider>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="40" translatesAutoresizingMaskIntoConstraints="NO" id="itu-rM-j94">
-                                <rect key="frame" x="77" y="574" width="260" height="60"/>
+                                <rect key="frame" x="77" y="594" width="260" height="60"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dfO-uc-cig" userLabel="Reverse">
                                         <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
@@ -560,7 +560,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bi4-0J-gve">
-                                <rect key="frame" x="358" y="586" width="35" height="35"/>
+                                <rect key="frame" x="358" y="606" width="35" height="35"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="35" id="jWj-3Z-oAe"/>
                                     <constraint firstAttribute="width" constant="35" id="k4y-SD-sop"/>
@@ -571,7 +571,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PAp-2f-9FI">
-                                <rect key="frame" x="19" y="586" width="35" height="35"/>
+                                <rect key="frame" x="19" y="606" width="35" height="35"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="35" id="234-RH-ocj"/>
                                     <constraint firstAttribute="width" constant="35" id="ETh-rx-ZZT"/>
@@ -641,7 +641,7 @@
             <objects>
                 <viewController id="DfV-m3-piN" customClass="LibraryViewController" customModule="Audiobooks" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="kbB-z4-zcO">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="620"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="640"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="9DU-Az-RQI">
@@ -649,7 +649,7 @@
                                 <textInputTraits key="textInputTraits" keyboardAppearance="alert"/>
                             </searchBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="OpJ-lx-jpd">
-                                <rect key="frame" x="0.0" y="56" width="414" height="515"/>
+                                <rect key="frame" x="0.0" y="56" width="414" height="535"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="libraryCell" rowHeight="198" id="gKZ-9V-GKf" customClass="LibraryTableViewCell" customModule="Audiobooks" customModuleProvider="target">
@@ -750,7 +750,7 @@
         <!--Navigation Controller-->
         <scene sceneID="Y3b-Jn-0Kj">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="TrD-KJ-Bn1" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="fullScreen" id="TrD-KJ-Bn1" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" systemItem="search" id="z9F-dy-STw"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="Wi5-5k-iX5">
@@ -769,7 +769,7 @@
         <!--Detail Description View Controller-->
         <scene sceneID="eIc-Ne-cAT">
             <objects>
-                <viewController storyboardIdentifier="description" id="Pze-i1-UwB" customClass="DetailDescriptionViewController" customModule="Audiobooks" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="description" modalPresentationStyle="fullScreen" id="Pze-i1-UwB" customClass="DetailDescriptionViewController" customModule="Audiobooks" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="MQ1-Sr-KdE">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -836,8 +836,8 @@
         <image name="up-arrow-white" width="64" height="64"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="S49-g2-0ge"/>
-        <segue reference="XoC-0G-ZTv"/>
+        <segue reference="CKw-KI-x4f"/>
+        <segue reference="VSw-T4-2Qg"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
 </document>
