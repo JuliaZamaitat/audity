@@ -18,6 +18,7 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
     
     static var playTimer: Timer!
     static var sliderTimer: Timer!
+    static var timeElapsedBeforeDisappear: Float?
     
     var oldTrackIdentifier: String?
     var oldAudioBook: String?
@@ -173,6 +174,14 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
                 PlayerViewController.playTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updatePlayButton), userInfo: nil, repeats: true)
                 PlayerViewController.sliderTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateSlider), userInfo: nil, repeats: true)
                 print("Timers were not valid, are now newly created")
+            } else {
+                //PlayerViewController.timeElapsed = PlayerViewController.timeElapsedBeforeDisappear
+                PlayerViewController.playTimer.invalidate()
+                PlayerViewController.sliderTimer.invalidate()
+                PlayerViewController.playTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updatePlayButton), userInfo: nil, repeats: true)
+                PlayerViewController.sliderTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateSlider), userInfo: nil, repeats: true)
+                updateTrackInfo()
+                updateSlider()
             }
         }else {
             PlayerViewController.playTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updatePlayButton), userInfo: nil, repeats: true)
@@ -215,6 +224,7 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
 //            updateQueue()
             //print("time elapsed: \(Int(PlayerViewController.timeElapsed!))")
             //print("Duration in seconds: \(Int(durationInSeconds!))")
+            
         } else {
             playPauseButton?.setImage(UIImage(named:"round-pause-button-white")!, for: .normal)
             let remainingTimeInSeconds = durationInSeconds! - PlayerViewController.timeElapsed!
@@ -229,14 +239,15 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         PlayerViewController.timeElapsed! += 1
         AppDelegate.sharedInstance.timeElapsed! += 1
         progressSlider.value = Float(PlayerViewController.timeElapsed!) / Float(durationInSeconds!)
-//        print("***\(progressSlider.value)")
+        print("***\(progressSlider.value)")
     }
     
     
     override func viewDidDisappear(_ animated: Bool) {
         //stop both timers if we go back to the list of songs
-        PlayerViewController.playTimer.invalidate()
-        PlayerViewController.sliderTimer.invalidate()
+//        PlayerViewController.playTimer.invalidate()
+//        PlayerViewController.sliderTimer.invalidate()
+         PlayerViewController.timeElapsedBeforeDisappear = PlayerViewController.timeElapsed
     }
     
     @IBAction func sliderDragged(_ sender: UISlider) {
