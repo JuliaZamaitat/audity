@@ -69,6 +69,7 @@ class SongControlViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
          if (segue.identifier == "showMaxiPlayerSegue") {
             NotificationCenter.default.post(name: NSNotification.Name("miniPlayerPressed"), object: nil)
+            PlayerViewController.wasSelectedOrSkipped = false
     }
     }
     

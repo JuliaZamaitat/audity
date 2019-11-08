@@ -110,7 +110,7 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
          }
          //check if new song title was clicked or just player opened
         else if !(oldTrackIdentifier == AppDelegate.sharedInstance.currentTrack?.uri) { //doesn't go in here becaue configureNExtSong updates AppDelegate
-            PlayerViewController.wasSelectedOrSkipped = true
+            //PlayerViewController.wasSelectedOrSkipped = true
             let newIndex = PlayerViewController.newIndexOfTrackInAlbum!
             let oldIndex = PlayerViewController.oldIndexOfTrackInAlbum!
             //Skip forwards
@@ -430,13 +430,13 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         DispatchQueue.main.asyncAfter(deadline: .now() + seconds) { //Workaraound so the player state can be updated first
             self.configurePreviousSong()
         }
-        PlayerViewController.wasSelectedOrSkipped = true
+        //PlayerViewController.wasSelectedOrSkipped = true
     }
     
     @IBAction func didPressNextButton(_ sender: AnyObject) {
         skipNext()
         configureNextSong()
-        PlayerViewController.wasSelectedOrSkipped = true
+        //PlayerViewController.wasSelectedOrSkipped = true
      
     }
     
@@ -513,33 +513,34 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         print(PlayerViewController.currentTrack!.title)
         print(playerState.track.name)
         
-        //ONLY DO THAT BELOW HERE IF I DIDN'T ACTIVELY CHOSE THE NEW SONG OR IT COMES NEAR TO THE END --> HOW?
-        if playerState.track.uri != PlayerViewController.currentTrack?.uri {
-           
-            //if !PlayerViewController.wasSelectedOrSkipped { //is always false
-           
-            PlayerViewController.wasSelectedOrSkipped = !PlayerViewController.wasSelectedOrSkipped
+        
+            if !PlayerViewController.wasSelectedOrSkipped {
+           if playerState.track.uri != PlayerViewController.currentTrack?.uri {
+            
             var index = 0
             for track in helperTrackList {
-                if track!.uri == playerState.track.uri && index == PlayerViewController.newIndexOfTrackInAlbum! + 1 { //TODO: not right yet
+                if track!.uri == playerState.track.uri && index == PlayerViewController.newIndexOfTrackInAlbum! + 1 {
                     print("Index inside match: \(index)")
                      print(PlayerViewController.indexOfTrackInTracklist!)
                     if index < PlayerViewController.newIndexOfTrackInAlbum! { //probably not gonna happen anyway
                         configurePreviousSong()
                         print("configure previous")
+                        PlayerViewController.wasSelectedOrSkipped = false
                         break
                     } else if index > PlayerViewController.newIndexOfTrackInAlbum! {
                         configureNextSong()
                         print("configure next")
+                        PlayerViewController.wasSelectedOrSkipped = false
                         break
                     }
                 } else {
                     print("not configured")
                 }
                 index += 1
-            //}
+             }
             }
         }
+         
     }
  
     
