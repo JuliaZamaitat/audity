@@ -85,7 +85,7 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        getPlayerState()
+        //getPlayerState()
         isPlaying = true
         oldTrackIdentifier = AppDelegate.sharedInstance.currentTrack?.uri
         oldAudioBook = AppDelegate.sharedInstance.currentAlbum?.uri
@@ -93,7 +93,7 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         updateCurrentAlbumAndTrack()
         self.skipToRightSong()
         
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(updateTrackInfo), name: NSNotification.Name("trackChanged"), object: nil)
         activatePlayAndSliderTimer()
         adjustBackground()
         guard PlayerViewController.audiobook != nil else {return}
@@ -191,7 +191,7 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         
     }
     
-    func updateTrackInfo(){
+    @objc func updateTrackInfo(){
         guard let currentTrack = PlayerViewController.currentTrack else { return }
         print("Title of the currentTrack: \(currentTrack.title)")
         titleLabel?.text = currentTrack.title
@@ -454,14 +454,10 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
             PlayerViewController.timeElapsed = 0
             AppDelegate.sharedInstance.timeElapsed = PlayerViewController.timeElapsed
             progressSlider?.value = 0
-            DispatchQueue.main.async {
-                self.updateTrackInfo()
-            }
         }
     }
     
     func configureNextSong(){
-        
         if PlayerViewController.helperTracklist!.count > PlayerViewController.indexOfTrackInTracklist! + 1 {
         PlayerViewController.currentTrack = PlayerViewController.helperTracklist![PlayerViewController.indexOfTrackInTracklist! + 1]
             AppDelegate.sharedInstance.currentTrack = PlayerViewController.currentTrack
@@ -474,9 +470,6 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
             print("The old index is: \(PlayerViewController.oldIndexOfTrackInAlbum!)")
             progressSlider?.value = 0
             NotificationCenter.default.post(name: NSNotification.Name("trackChanged"), object: nil)
-        }
-        DispatchQueue.main.async {
-            self.updateTrackInfo()
         }
     }
     
@@ -522,14 +515,14 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         
         //ONLY DO THAT BELOW HERE IF I DIDN'T ACTIVELY CHOSE THE NEW SONG OR IT COMES NEAR TO THE END --> HOW?
         if playerState.track.uri != PlayerViewController.currentTrack?.uri {
-            print("inside first if")
+           
             //if !PlayerViewController.wasSelectedOrSkipped { //is always false
-            print("Inside second if")
+           
             PlayerViewController.wasSelectedOrSkipped = !PlayerViewController.wasSelectedOrSkipped
             var index = 0
             for track in helperTrackList {
-                if track!.uri == playerState.track.uri && track!.uri != PlayerViewController.currentTrack?.uri {
-                    print("Index: \(index)")
+                if track!.uri == playerState.track.uri && index == PlayerViewController.newIndexOfTrackInAlbum! + 1 { //TODO: not right yet
+                    print("Index inside match: \(index)")
                      print(PlayerViewController.indexOfTrackInTracklist!)
                     if index < PlayerViewController.newIndexOfTrackInAlbum! { //probably not gonna happen anyway
                         configurePreviousSong()
@@ -540,6 +533,8 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
                         print("configure next")
                         break
                     }
+                } else {
+                    print("not configured")
                 }
                 index += 1
             //}
