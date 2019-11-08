@@ -32,8 +32,19 @@ class SongControlViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(showMiniPlayer), name: NSNotification.Name("viewLoaded"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateMiniPlayer), name: NSNotification.Name("trackChanged"), object: nil)
         
-
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if PlayerViewController.isPlaying != nil {
+            if PlayerViewController.isPlaying! {
+                playPauseButton.setImage(UIImage(named:"pause_button_white")!, for: .normal)
+                isPlaying = true
+            } else {
+                playPauseButton.setImage(UIImage(named: "play_button_white"), for: .normal)
+                 isPlaying = false
+            }
+        }
     }
     
     @objc private func showMiniPlayer(){
@@ -48,8 +59,6 @@ class SongControlViewController: UIViewController {
         let spacing: CGFloat = 50.0
         expandPlayerButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: spacing, bottom: 0, right: spacing)
        
-
-        
         let tabBarHeight = AppDelegate.sharedInstance.tabBarHeight
         //let height = CGFloat(view.frame.height) - tabBarHeight!
      
@@ -77,7 +86,7 @@ class SongControlViewController: UIViewController {
          if (segue.identifier == "showMaxiPlayerSegue") {
             NotificationCenter.default.post(name: NSNotification.Name("miniPlayerPressed"), object: nil)
             PlayerViewController.wasSelectedOrSkipped = false
-    }
+        }
     }
     
     
