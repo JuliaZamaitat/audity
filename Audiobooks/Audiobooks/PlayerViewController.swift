@@ -13,11 +13,12 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
     static var myPlayerState: SPTAppRemotePlayerState?
     var duration_ms: Float?
     var durationInSeconds: Float?
-    var timer: Timer?
+    //var timer: Timer?
     var timerQueue: Timer?
     
-    var playTimer: Timer!
-    var sliderTimer: Timer!
+    static var playTimer: Timer!
+    static var sliderTimer: Timer!
+    static var timeElapsedBeforeDisappear: Float?
     
     var oldTrackIdentifier: String?
     var oldAudioBook: String?
@@ -80,11 +81,12 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
     override func viewWillAppear(_ animated: Bool) {
        NotificationCenter.default.post(name: NSNotification.Name("viewLoaded"), object: nil)
         //make sure the timer does not get duplicated
+        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        getPlayerState()
+        //getPlayerState()
         isPlaying = true
         oldTrackIdentifier = AppDelegate.sharedInstance.currentTrack?.uri
         oldAudioBook = AppDelegate.sharedInstance.currentAlbum?.uri
@@ -92,7 +94,7 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         updateCurrentAlbumAndTrack()
         self.skipToRightSong()
         
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(updateTrackInfo), name: NSNotification.Name("trackChanged"), object: nil)
         activatePlayAndSliderTimer()
         adjustBackground()
         guard PlayerViewController.audiobook != nil else {return}
@@ -102,7 +104,6 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
     
     //Checks where the user came from and skips to the right index in the queue
     func skipToRightSong(){
-       
         //if it's the first time opening the player or a new album was selected and therefore the uri changed
         if oldTrackIdentifier == nil || oldAudioBook != PlayerViewController.audiobook!.uri  {
              PlayerViewController.oldIndexOfTrackInAlbum = PlayerViewController.newIndexOfTrackInAlbum!
@@ -110,7 +111,7 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
          }
          //check if new song title was clicked or just player opened
         else if !(oldTrackIdentifier == AppDelegate.sharedInstance.currentTrack?.uri) { //doesn't go in here becaue configureNExtSong updates AppDelegate
-            PlayerViewController.wasSelectedOrSkipped = true
+            //PlayerViewController.wasSelectedOrSkipped = true
             let newIndex = PlayerViewController.newIndexOfTrackInAlbum!
             let oldIndex = PlayerViewController.oldIndexOfTrackInAlbum!
             //Skip forwards
@@ -133,7 +134,7 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
              }
             
          }
-        PlayerViewController.wasSelectedOrSkipped = true
+       
     }
     
     //checks whether the album has to start at a different track than the first one if another title was selected from the list
@@ -166,8 +167,28 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
     }
     
     func activatePlayAndSliderTimer(){
-        playTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updatePlayButton), userInfo: nil, repeats: true)
-        sliderTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateSlider), userInfo: nil, repeats: true)
+        if let timer1 = PlayerViewController.playTimer, let timer2 = PlayerViewController.sliderTimer {
+            print("Timer was not nil")
+            print("Ist timer1 valid?: \(timer1.isValid)")
+            if !timer1.isValid && !timer2.isValid {
+                PlayerViewController.playTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updatePlayButton), userInfo: nil, repeats: true)
+                PlayerViewController.sliderTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateSlider), userInfo: nil, repeats: true)
+                print("Timers were not valid, are now newly created")
+            } else {
+                //PlayerViewController.timeElapsed = PlayerViewController.timeElapsedBeforeDisappear
+                PlayerViewController.playTimer.invalidate()
+                PlayerViewController.sliderTimer.invalidate()
+                PlayerViewController.playTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updatePlayButton), userInfo: nil, repeats: true)
+                PlayerViewController.sliderTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateSlider), userInfo: nil, repeats: true)
+                updateTrackInfo()
+                updateSlider()
+            }
+        }else {
+            PlayerViewController.playTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updatePlayButton), userInfo: nil, repeats: true)
+            PlayerViewController.sliderTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateSlider), userInfo: nil, repeats: true)
+            print("timer was nil")
+        }
+        
     }
     
     func updateInterface(){
@@ -179,8 +200,9 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         
     }
     
-    func updateTrackInfo(){
+    @objc func updateTrackInfo(){
         guard let currentTrack = PlayerViewController.currentTrack else { return }
+        print("Title of the currentTrack: \(currentTrack.title)")
         titleLabel?.text = currentTrack.title
         duration_ms = Float(currentTrack.duration)
         durationInSeconds = duration_ms!/Float(1000)
@@ -202,6 +224,7 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
 //            updateQueue()
             //print("time elapsed: \(Int(PlayerViewController.timeElapsed!))")
             //print("Duration in seconds: \(Int(durationInSeconds!))")
+            
         } else {
             playPauseButton?.setImage(UIImage(named:"round-pause-button-white")!, for: .normal)
             let remainingTimeInSeconds = durationInSeconds! - PlayerViewController.timeElapsed!
@@ -209,20 +232,22 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
             timeElapsedLabel.text = getFormattedTime(timeInterval: Double(PlayerViewController.timeElapsed!))
             //print("time elapsed: \(Int(PlayerViewController.timeElapsed!))")
         }
+        //print("updated")
     }
     
     @objc func updateSlider() {
         PlayerViewController.timeElapsed! += 1
         AppDelegate.sharedInstance.timeElapsed! += 1
         progressSlider.value = Float(PlayerViewController.timeElapsed!) / Float(durationInSeconds!)
-        //print("***\(progressSlider.value)")
+        print("***\(progressSlider.value)")
     }
     
     
     override func viewDidDisappear(_ animated: Bool) {
         //stop both timers if we go back to the list of songs
-        //playTimer.invalidate()
-        //sliderTimer.invalidate()
+//        PlayerViewController.playTimer.invalidate()
+//        PlayerViewController.sliderTimer.invalidate()
+         PlayerViewController.timeElapsedBeforeDisappear = PlayerViewController.timeElapsed
     }
     
     @IBAction func sliderDragged(_ sender: UISlider) {
@@ -231,11 +256,7 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
             //playTrack()
             self.appRemote.playerAPI?.seek(toPosition: newPosition, callback: nil)
             self.songFinished = false
-            if !playTimer.isValid && !sliderTimer.isValid {
-                print("Song finished but slider dragged - turn timers back on.")
-                playTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.updatePlayButton), userInfo: nil, repeats: true)
-                sliderTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.updateSlider), userInfo: nil, repeats: true)
-            }
+            activatePlayAndSliderTimer()
         } else {
             self.appRemote.playerAPI?.seek(toPosition: newPosition, callback: nil)
         }
@@ -258,10 +279,10 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
              startPlayback()
              isPlaying = true
              playPauseButton?.setImage(UIImage(named: "round-pause-button-white"), for: .normal)
-             if !playTimer.isValid && !sliderTimer.isValid {
+             if !PlayerViewController.playTimer.isValid && !PlayerViewController.sliderTimer.isValid {
                 print("Turn timers on after play button tapped.")
-                playTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updatePlayButton), userInfo: nil, repeats: true)
-                sliderTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateSlider), userInfo: nil, repeats: true)
+                PlayerViewController.playTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updatePlayButton), userInfo: nil, repeats: true)
+                PlayerViewController.sliderTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateSlider), userInfo: nil, repeats: true)
             }
              
          } else {
@@ -269,10 +290,10 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
              pausePlayback()
              isPlaying = false
              playPauseButton?.setImage(UIImage(named: "play-button-round-white"), for: .normal)
-             if playTimer.isValid && sliderTimer.isValid {
+             if PlayerViewController.playTimer.isValid && PlayerViewController.sliderTimer.isValid {
                 print("Turn timers off after pause button tapped.")
-                playTimer?.invalidate()
-                sliderTimer?.invalidate()
+                PlayerViewController.playTimer?.invalidate()
+                PlayerViewController.sliderTimer?.invalidate()
             
          }
       }
@@ -420,13 +441,13 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         DispatchQueue.main.asyncAfter(deadline: .now() + seconds) { //Workaraound so the player state can be updated first
             self.configurePreviousSong()
         }
-        PlayerViewController.wasSelectedOrSkipped = true
+        //PlayerViewController.wasSelectedOrSkipped = true
     }
     
     @IBAction func didPressNextButton(_ sender: AnyObject) {
         skipNext()
         configureNextSong()
-        PlayerViewController.wasSelectedOrSkipped = true
+        //PlayerViewController.wasSelectedOrSkipped = true
      
     }
     
@@ -444,14 +465,10 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
             PlayerViewController.timeElapsed = 0
             AppDelegate.sharedInstance.timeElapsed = PlayerViewController.timeElapsed
             progressSlider?.value = 0
-            DispatchQueue.main.async {
-                self.updateTrackInfo()
-            }
         }
     }
     
     func configureNextSong(){
-        print("Inside configureNextSong")
         if PlayerViewController.helperTracklist!.count > PlayerViewController.indexOfTrackInTracklist! + 1 {
         PlayerViewController.currentTrack = PlayerViewController.helperTracklist![PlayerViewController.indexOfTrackInTracklist! + 1]
             AppDelegate.sharedInstance.currentTrack = PlayerViewController.currentTrack
@@ -464,9 +481,6 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
             print("The old index is: \(PlayerViewController.oldIndexOfTrackInAlbum!)")
             progressSlider?.value = 0
             NotificationCenter.default.post(name: NSNotification.Name("trackChanged"), object: nil)
-        }
-        DispatchQueue.main.async {
-            self.updateTrackInfo()
         }
     }
     
@@ -503,31 +517,41 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         print("playbackOptions.repeatMode", playerState.playbackOptions.repeatMode.hashValue)
         print("playbackPosition", playerState.playbackPosition)
         print("IndexOFTrackInTracklist: \(PlayerViewController.indexOfTrackInTracklist)")
-       
+       print("Was selected or skipped: \(PlayerViewController.wasSelectedOrSkipped)")
         
         guard let helperTrackList = PlayerViewController.helperTracklist else { return }
        
         print(PlayerViewController.currentTrack!.title)
         print(playerState.track.name)
         
-        if playerState.track.uri != PlayerViewController.currentTrack?.uri && PlayerViewController.currentTrack!.title != playerState.track.name && !PlayerViewController.wasSelectedOrSkipped { //TODO: wie unterscheiden, ob neuer Song geklickt oder automatisch geskipped
-            print("Inside player state changed")
+        
+            if !PlayerViewController.wasSelectedOrSkipped {
+           if playerState.track.uri != PlayerViewController.currentTrack?.uri {
+            
             var index = 0
             for track in helperTrackList {
-                index += 1
-                if track!.uri == playerState.track.uri {
-                    print("Index: \(index)")
-                    if index < PlayerViewController.indexOfTrackInTracklist! { //probably not gonna happen anyway
+                if track!.uri == playerState.track.uri && index == PlayerViewController.newIndexOfTrackInAlbum! + 1 {
+                    print("Index inside match: \(index)")
+                     print(PlayerViewController.indexOfTrackInTracklist!)
+                    if index < PlayerViewController.newIndexOfTrackInAlbum! { //probably not gonna happen anyway
                         configurePreviousSong()
-                    } else if index > PlayerViewController.indexOfTrackInTracklist! {
+                        print("configure previous")
+                        PlayerViewController.wasSelectedOrSkipped = false
+                        break
+                    } else if index > PlayerViewController.newIndexOfTrackInAlbum! {
                         configureNextSong()
+                        print("configure next")
+                        PlayerViewController.wasSelectedOrSkipped = false
+                        break
                     }
-                    DispatchQueue.main.async {
-                        self.updateTrackInfo()
-                    }
+                } else {
+                    print("not configured")
                 }
+                index += 1
+             }
             }
         }
+         
     }
  
     
