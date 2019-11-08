@@ -249,17 +249,17 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JFB-0c-Uvr">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="274"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="254"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="GVA-3v-641">
-                                        <rect key="frame" x="115.33333333333333" y="0.0" width="183.33333333333337" height="170"/>
+                                        <rect key="frame" x="122" y="0.0" width="170" height="170"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="170" id="2rN-I0-nQA"/>
                                             <constraint firstAttribute="height" constant="170" id="VQt-30-dDb"/>
                                         </constraints>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qn5-4F-F5b">
-                                        <rect key="frame" x="119.66666666666669" y="222.66666666666666" width="179" height="31"/>
+                                        <rect key="frame" x="126" y="222.66666666666666" width="166" height="31"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <inset key="contentEdgeInsets" minX="12" minY="8" maxX="8" maxY="8"/>
                                         <state key="normal" title="Zur Bibliothek hinzufügen"/>
@@ -836,7 +836,7 @@
         <image name="up-arrow-white" width="64" height="64"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="CKw-KI-x4f"/>
+        <segue reference="S49-g2-0ge"/>
         <segue reference="VSw-T4-2Qg"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

@@ -31,6 +31,7 @@ class SongControlViewController: UIViewController {
         view.backgroundColor = UIColor.SpotifyColor.Black
         NotificationCenter.default.addObserver(self, selector: #selector(showMiniPlayer), name: NSNotification.Name("viewLoaded"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updateMiniPlayer), name: NSNotification.Name("trackChanged"), object: nil)
+        
 
         // Do any additional setup after loading the view.
     }
@@ -43,6 +44,12 @@ class SongControlViewController: UIViewController {
         let author = AppDelegate.sharedInstance.currentAlbum?.author
         
         expandPlayerButton.setTitle("\(title!) - \(author!)", for: .normal)
+        //expandPlayerButton.titleLabel?.backgroundColor = .yellow
+        let spacing: CGFloat = 50.0
+        expandPlayerButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: spacing, bottom: 0, right: spacing)
+       
+
+        
         let tabBarHeight = AppDelegate.sharedInstance.tabBarHeight
         //let height = CGFloat(view.frame.height) - tabBarHeight!
      
