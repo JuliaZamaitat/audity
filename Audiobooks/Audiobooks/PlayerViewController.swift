@@ -39,9 +39,11 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
     //var statusBar: NSObject?
  
     override var prefersStatusBarHidden: Bool {
+        setNeedsStatusBarAppearanceUpdate()
         return true
     }
     
+   
     @IBOutlet weak var coverImage: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
@@ -66,6 +68,7 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         }
     }
     
+   
     
     var defaultCallback: SPTAppRemoteCallback {
         get {
@@ -80,6 +83,7 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
     
     override func viewWillAppear(_ animated: Bool) {
        NotificationCenter.default.post(name: NSNotification.Name("viewLoaded"), object: nil)
+        
         //make sure the timer does not get duplicated
         
     }
@@ -259,7 +263,7 @@ class PlayerViewController: ViewControllerPannable, SPTAppRemotePlayerStateDeleg
         PlayerViewController.timeElapsed! += 1
         AppDelegate.sharedInstance.timeElapsed! += 1
         progressSlider.value = Float(PlayerViewController.timeElapsed!) / Float(durationInSeconds!)
-//        print("***\(progressSlider.value)")
+//      print("***\(progressSlider.value)")
         }
     }
         

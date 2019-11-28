@@ -103,6 +103,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SPTAppRemoteDelegate {
     
      func connect(){
         self.appRemote.authorizeAndPlayURI("")
+        self.appRemote.connect()
+        print("connecting")
         
     }
     

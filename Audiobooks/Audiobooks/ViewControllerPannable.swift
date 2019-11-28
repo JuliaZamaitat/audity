@@ -24,6 +24,8 @@ class ViewControllerPannable: UIViewController {
         self.view.addGestureRecognizer(panGesture)
     }
     
+   
+    
     @objc func onPan(_ panGesture: UIPanGestureRecognizer) {
         
         func slideViewVerticallyTo(_ y: CGFloat) {
