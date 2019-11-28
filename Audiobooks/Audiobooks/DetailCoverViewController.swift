@@ -49,6 +49,7 @@ class DetailCoverViewController: UIViewController {
     }
 
     @IBAction func addToLibraryButtonTapped(_ sender: Any) {
+        print("tapped")
         if MyLibrary.myBooks.contains(audiobook!) {
             if let index = MyLibrary.myBooks.firstIndex(of: audiobook!){
                 MyLibrary.myBooks.remove(at: index)
