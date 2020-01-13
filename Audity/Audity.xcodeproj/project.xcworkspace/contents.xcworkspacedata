@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:Audiobooks.xcodeproj">
+      location = "self:/Users/Julia/spotify_app/spotify-audiobooks/Audiobooks/Audity.xcodeproj">
    </FileRef>
 </Workspace>

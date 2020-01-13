@@ -50,7 +50,7 @@
 		A3B5A17A232297DC00E97290 /* LibraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewController.swift; sourceTree = "<group>"; };
 		A3B5A17C232297FC00E97290 /* PlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
 		A3B5A17E2322A18B00E97290 /* UIColor+SpotifyColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+SpotifyColor.swift"; sourceTree = "<group>"; };
-		A3C1D2992322648300977415 /* Audiobooks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Audiobooks.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A3C1D2992322648300977415 /* Audity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Audity.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3C1D29C2322648300977415 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A3C1D29E2322648300977415 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		A3C1D2A12322648300977415 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -59,7 +59,7 @@
 		A3C1D2A92322648600977415 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A3C1D2AB2322648600977415 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A3C1D2B3232268E000977415 /* SpotifyiOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SpotifyiOS.framework; sourceTree = SOURCE_ROOT; };
-		A3C1D2B923226EB700977415 /* audiobooks-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "audiobooks-Bridging-Header.h"; sourceTree = "<group>"; };
+		A3C1D2B923226EB700977415 /* audity-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "audity-Bridging-Header.h"; sourceTree = "<group>"; };
 		A3C1D2C023228C5000977415 /* AudiobookDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudiobookDetailViewController.swift; sourceTree = "<group>"; };
 		A3DA621823254964003A049C /* Track.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
 		A3DA621A23254BED003A049C /* TrackTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTableViewCell.swift; sourceTree = "<group>"; };
@@ -83,7 +83,7 @@
 			isa = PBXGroup;
 			children = (
 				A3C1D2B3232268E000977415 /* SpotifyiOS.framework */,
-				A3C1D29B2322648300977415 /* Audiobooks */,
+				A3C1D29B2322648300977415 /* Audity */,
 				A3C1D29A2322648300977415 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -91,18 +91,18 @@
 		A3C1D29A2322648300977415 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A3C1D2992322648300977415 /* Audiobooks.app */,
+				A3C1D2992322648300977415 /* Audity.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		A3C1D29B2322648300977415 /* Audiobooks */ = {
+		A3C1D29B2322648300977415 /* Audity */ = {
 			isa = PBXGroup;
 			children = (
 				A3543A5C2323DACA00916B50 /* SearchCollectionViewCell.swift */,
 				A3543A582323D9EC00916B50 /* SearchViewController.swift */,
 				A37A7F272326486500FBD8DE /* LibraryTableViewCell.swift */,
-				A3C1D2B923226EB700977415 /* audiobooks-Bridging-Header.h */,
+				A3C1D2B923226EB700977415 /* audity-Bridging-Header.h */,
 				A3C1D29C2322648300977415 /* AppDelegate.swift */,
 				A3C1D29E2322648300977415 /* LoginViewController.swift */,
 				A3503D6123338156006F6AC5 /* MiniPlayerView.swift */,
@@ -127,15 +127,15 @@
 				A3C1D2AB2322648600977415 /* Info.plist */,
 				A3C1D2A32322648300977415 /* Audiobooks.xcdatamodeld */,
 			);
-			path = Audiobooks;
+			path = Audity;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		A3C1D2982322648300977415 /* Audiobooks */ = {
+		A3C1D2982322648300977415 /* Audity */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A3C1D2AE2322648600977415 /* Build configuration list for PBXNativeTarget "Audiobooks" */;
+			buildConfigurationList = A3C1D2AE2322648600977415 /* Build configuration list for PBXNativeTarget "Audity" */;
 			buildPhases = (
 				A3C1D2952322648300977415 /* Sources */,
 				A3C1D2962322648300977415 /* Frameworks */,
@@ -145,9 +145,9 @@
 			);
 			dependencies = (
 			);
-			name = Audiobooks;
+			name = Audity;
 			productName = Audiobooks;
-			productReference = A3C1D2992322648300977415 /* Audiobooks.app */;
+			productReference = A3C1D2992322648300977415 /* Audity.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -170,7 +170,7 @@
 					};
 				};
 			};
-			buildConfigurationList = A3C1D2942322648300977415 /* Build configuration list for PBXProject "Audiobooks" */;
+			buildConfigurationList = A3C1D2942322648300977415 /* Build configuration list for PBXProject "Audity" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = German;
 			hasScannedForEncodings = 0;
@@ -184,7 +184,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				A3C1D2982322648300977415 /* Audiobooks */,
+				A3C1D2982322648300977415 /* Audity */,
 			);
 		};
 /* End PBXProject section */
@@ -380,7 +380,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				INFOPLIST_FILE = Audiobooks/Info.plist;
+				INFOPLIST_FILE = Audity/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -388,7 +388,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.AudiobooksMiau;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Audiobooks/audiobooks-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Audity/audity-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -404,7 +404,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				INFOPLIST_FILE = Audiobooks/Info.plist;
+				INFOPLIST_FILE = Audity/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -412,7 +412,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.AudiobooksMiau;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "Audiobooks/audiobooks-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Audity/audity-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -421,7 +421,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		A3C1D2942322648300977415 /* Build configuration list for PBXProject "Audiobooks" */ = {
+		A3C1D2942322648300977415 /* Build configuration list for PBXProject "Audity" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A3C1D2AC2322648600977415 /* Debug */,
@@ -430,7 +430,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A3C1D2AE2322648600977415 /* Build configuration list for PBXNativeTarget "Audiobooks" */ = {
+		A3C1D2AE2322648600977415 /* Build configuration list for PBXNativeTarget "Audity" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A3C1D2AF2322648600977415 /* Debug */,

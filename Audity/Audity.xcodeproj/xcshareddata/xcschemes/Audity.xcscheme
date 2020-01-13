@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "A3C1D2982322648300977415"
-               BuildableName = "Audiobooks.app"
-               BlueprintName = "Audiobooks"
-               ReferencedContainer = "container:Audiobooks.xcodeproj">
+               BuildableName = "Audity.app"
+               BlueprintName = "Audity"
+               ReferencedContainer = "container:Audity.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -31,9 +31,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "A3C1D2982322648300977415"
-            BuildableName = "Audiobooks.app"
-            BlueprintName = "Audiobooks"
-            ReferencedContainer = "container:Audiobooks.xcodeproj">
+            BuildableName = "Audity.app"
+            BlueprintName = "Audity"
+            ReferencedContainer = "container:Audity.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <Testables>
@@ -54,9 +54,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "A3C1D2982322648300977415"
-            BuildableName = "Audiobooks.app"
-            BlueprintName = "Audiobooks"
-            ReferencedContainer = "container:Audiobooks.xcodeproj">
+            BuildableName = "Audity.app"
+            BlueprintName = "Audity"
+            ReferencedContainer = "container:Audity.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -71,9 +71,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "A3C1D2982322648300977415"
-            BuildableName = "Audiobooks.app"
-            BlueprintName = "Audiobooks"
-            ReferencedContainer = "container:Audiobooks.xcodeproj">
+            BuildableName = "Audity.app"
+            BlueprintName = "Audity"
+            ReferencedContainer = "container:Audity.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
