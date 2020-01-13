@@ -26,6 +26,7 @@ class DetailCoverViewController: UIViewController {
         let url = audiobook.image
         let data = try? Data(contentsOf: url) //make sure your image in this url does exist, otherwise unwrap in a if let check / try-catch
         coverImage.image = UIImage(data: data!)
+        coverImage.contentMode = .scaleAspectFit
         titelLabel.text = audiobook.title
         // Do any additional setup after loading the view.
     }
