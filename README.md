@@ -9,3 +9,5 @@ When it's finished it will fetch tracks and artworks from the Spotify API, let y
 
 <img src= "https://github.com/JuliaZamaitat/audity/blob/master/Audity/screenshots/search.png" width="300">  <img src= "https://github.com/JuliaZamaitat/audity/blob/master/Audity/screenshots/searchResults2.png" width="300"> 
 <img src= "https://github.com/JuliaZamaitat/audity/blob/master/Audity/screenshots/detailView.png" width="300">  <img src= "https://github.com/JuliaZamaitat/audity/blob/master/Audity/screenshots/library.png" width="300"> 
+<img src= "https://github.com/JuliaZamaitat/audity/blob/master/Audity/screenshots/player.jpeg" width="300"> 
+
