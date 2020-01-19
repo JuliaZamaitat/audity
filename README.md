@@ -6,5 +6,6 @@ This is an ongoing project built with Swift5 with the ultimate goal that the use
 
 When it's finished it will fetch tracks and artworks from the Spotify API, let you add audiobooks to your library, and shows progress indication and also remembers where you left off. 
 
-<img src= "https://github.com/JuliaZamaitat/audity/blob/master/Audity/screenshots/search.png" width="300">
 
+<img src= "https://github.com/JuliaZamaitat/audity/blob/master/Audity/screenshots/search.png" width="300">  <img src= "https://github.com/JuliaZamaitat/audity/blob/master/Audity/screenshots/searchResults2.png" width="300"> 
+<img src= "https://github.com/JuliaZamaitat/audity/blob/master/Audity/screenshots/detailView.png" width="300">  <img src= "https://github.com/JuliaZamaitat/audity/blob/master/Audity/screenshots/library.png" width="300"> 
