@@ -1,5 +1,5 @@
 # Audity
-An iOS app that uses the Spotify API to simplify listening to audiobooks. 
+<h2>An iOS app that uses the Spotify API to simplify listening to audiobooks.</h2> 
 
 
 This is an ongoing project built with Swift5 with the ultimate goal that the user will be able to bookmark his/her progress when listening to audiobooks. 
