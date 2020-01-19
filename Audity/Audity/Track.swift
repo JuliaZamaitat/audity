@@ -1,6 +1,6 @@
 //
 //  Track.swift
-//  Audiobooks
+//  Audity
 //
 //  Created by Julia Zamaitat on 08.09.19.
 //  Copyright © 2019 Julia Zamaitat. All rights reserved.
@@ -11,7 +11,6 @@ import UIKit
 
 struct Track: Codable, Equatable {
     var title: String = ""
-    //ar length: String = ""
     var artists: [String] = []
     var duration: Int = 0
     var uri: String
@@ -21,6 +20,5 @@ struct Track: Codable, Equatable {
         self.artists = artists
         self.duration = duration
         self.uri = uri
-       
     }
 }
