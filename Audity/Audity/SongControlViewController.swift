@@ -50,23 +50,13 @@ class SongControlViewController: UIViewController {
     @objc private func showMiniPlayer(){
         miniPlayerView.isHidden = false
         miniPlayerView.translatesAutoresizingMaskIntoConstraints = false
-        //view.addSubview(miniPlayerView)
         let title = AppDelegate.sharedInstance.currentTrack?.title
         let author = AppDelegate.sharedInstance.currentAlbum?.author
-        
         expandPlayerButton.setTitle("\(title!) - \(author!)", for: .normal)
         //expandPlayerButton.titleLabel?.backgroundColor = .yellow
         let spacing: CGFloat = 50.0
         expandPlayerButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: spacing, bottom: 0, right: spacing)
-       
         let tabBarHeight = AppDelegate.sharedInstance.tabBarHeight
-        //let height = CGFloat(view.frame.height) - tabBarHeight!
-     
-        //let topConstraint = NSLayoutConstraint(item: miniPlayerView, attribute: .top, relatedBy: .equal, toItem: view, attribute: .top, multiplier: 1, constant: height)
-        
-        /*let bottomConstraint = NSLayoutConstraint(item: miniPlayerView, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 300)
-        view.addConstraints([bottomConstraint])*/
-       
     }
     
     @objc func updateMiniPlayer(){
