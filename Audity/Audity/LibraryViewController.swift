@@ -25,11 +25,6 @@ class LibraryViewController: UIViewController, UISearchBarDelegate, UITableViewD
         tableView.delegate = self
         tableView.dataSource = self
         tableView.keyboardDismissMode = .onDrag
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
     
     
@@ -44,7 +39,6 @@ class LibraryViewController: UIViewController, UISearchBarDelegate, UITableViewD
         }
          
     }
-    
     
     //To hide navigation bar when collectionView is crolled
      func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -63,7 +57,6 @@ class LibraryViewController: UIViewController, UISearchBarDelegate, UITableViewD
         searchBar.barTintColor = UIColor.SpotifyColor.Black
         searchBar.isTranslucent = false
         
-        
         if #available(iOS 13, *) {
             self.searchBar.searchTextField.backgroundColor = .white
              self.searchBar.tintColor = .black
@@ -78,34 +71,30 @@ class LibraryViewController: UIViewController, UISearchBarDelegate, UITableViewD
                 backgroundview.clipsToBounds = true;
             }
         }
-        
         //sets up the cancel button
         let cancelButtonAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         UIBarButtonItem.appearance().setTitleTextAttributes(cancelButtonAttributes , for: .normal)
-        
     }
     
     private func adjustStyle() {
         if #available(iOS 13.0, *) {
-                   let navBarAppearance = UINavigationBarAppearance()
-                   navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
-                   navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
-                   navBarAppearance.backgroundColor = UIColor.SpotifyColor.Black
-                   navigationController?.navigationBar.standardAppearance = navBarAppearance
-                   navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
-               }
+            let navBarAppearance = UINavigationBarAppearance()
+            navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+            navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+            navBarAppearance.backgroundColor = UIColor.SpotifyColor.Black
+            navigationController?.navigationBar.standardAppearance = navBarAppearance
+            navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
+        }
         //Sets up header
         title = "Bibliothek"
         navigationController?.navigationBar.barStyle = .black //to keep the white system controls and titles
         navigationController?.navigationBar.barTintColor = UIColor.SpotifyColor.Black
-        
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.shadowImage = UIImage() //to make the border disappear
         
         //Sets up content view
         tableView.backgroundColor = UIColor.SpotifyColor.Black
         tableView.separatorStyle = .none
-        
         
         //Sets up tab bar
         tabBarController?.tabBar.barTintColor = UIColor.SpotifyColor.Black
@@ -125,7 +114,7 @@ class LibraryViewController: UIViewController, UISearchBarDelegate, UITableViewD
         })
         tableView.reloadData()
     }
-    
+
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         navigationController?.setNavigationBarHidden(true, animated: true)
         //searchBar.barTintColor = UIColor.init(netHex: 0x1b1b1b)
@@ -151,7 +140,6 @@ class LibraryViewController: UIViewController, UISearchBarDelegate, UITableViewD
         searchBar.showsCancelButton = false
     }
     
-
     // MARK: - Table view data source
 
      func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -170,8 +158,9 @@ class LibraryViewController: UIViewController, UISearchBarDelegate, UITableViewD
         cell.titleLabel.text = currentAudiobookArray[indexPath.row].title
         cell.authorLabel.text = currentAudiobookArray[indexPath.row].author
         let url = currentAudiobookArray[indexPath.row].image
-        let data = try? Data(contentsOf: url) //make sure your image in this url does exist, otherwise unwrap in a if let check / try-catch
-        cell.coverImage.image = UIImage(data: data!)
+        if let image = try? Data(contentsOf: url) {//make sure your image in this url does exist, otherwise unwrap in a if let check / try-catch
+            cell.coverImage.image = UIImage(data: image)
+        }
         cell.lengthLabel.text = "\(currentAudiobookArray[indexPath.row].duration) min"
         cell.releaseYearLabel.text = currentAudiobookArray[indexPath.row].releaseDate
         cell.backgroundColor = UIColor.SpotifyColor.Black
@@ -211,36 +200,7 @@ class LibraryViewController: UIViewController, UISearchBarDelegate, UITableViewD
             tableView.reloadData()
         }
     }
-    
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    
+      
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
