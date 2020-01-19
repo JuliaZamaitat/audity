@@ -1,6 +1,6 @@
 //
 //  SearchViewController.swift
-//  Audiobooks
+//  Audity
 //
 //  Created by Julia Zamaitat on 07.09.19.
 //  Copyright © 2019 Julia Zamaitat. All rights reserved.
@@ -12,8 +12,6 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
      let group = DispatchGroup()
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var collection: UICollectionView!
-    
-   
     
     var searchActive = false
     var audiobookArray = [Audiobook]()
@@ -108,8 +106,6 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
         
     }
     
-    
-    
     func fetchAudiobooks(keywords: String, completion: @escaping (Audiobook?) -> Void){
         let baseURL = URL(string: "https://api.spotify.com/v1/search")!
         let query: [String: String] = [
@@ -147,8 +143,9 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
                         let totalTracks = item["total_tracks"] as! Int
                         if let images = item["images"] as? [JSONStandard] {
                             let imageData = images[1]
-                            let mainImageURL =  URL(string: imageData["url"] as! String)
-                            image = mainImageURL!
+                            if let mainImageURL =  URL(string: imageData["url"] as! String) {
+                                image = mainImageURL
+                            }
                         }
                         if let artists = item["artists"] as? [JSONStandard] {
                             let artist = artists[0]
@@ -183,9 +180,9 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
         cell.titleLabel.text = currentAudiobookArray[indexPath.row].title
         cell.authorLabel.text = currentAudiobookArray[indexPath.row].author
         let url = currentAudiobookArray[indexPath.row].image
-        let data = try? Data(contentsOf: url) //make sure your image in this url does exist, otherwise unwrap in a if let check / try-catch
-        cell.coverImage.image = UIImage(data: data!)
-       
+        if let data = try? Data(contentsOf: url){ //make sure your image in this url does exist, otherwise unwrap in a if let check / try-catch
+            cell.coverImage.image = UIImage(data: data)
+        }
         return cell
     }
     
@@ -231,13 +228,14 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
         searchActive = false
         searchBar.showsCancelButton = false
         let keywords = searchBar.text
-        let finalKeywords = keywords?.replacingOccurrences(of: " ", with: "+")
-        fetchAudiobooks(keywords: finalKeywords!) {(audiobook) in
-            if let audiobook = audiobook {
-                /*print("here")
-                 DispatchQueue.main.async {
-                 self.collection.reloadData()*/
-                
+        if let finalKeywords = keywords?.replacingOccurrences(of: " ", with: "+") {
+            fetchAudiobooks(keywords: finalKeywords) {(audiobook) in
+                if let audiobook = audiobook {
+                    /*print("here")
+                     DispatchQueue.main.async {
+                     self.collection.reloadData()*/
+                    
+                }
             }
         }
     }

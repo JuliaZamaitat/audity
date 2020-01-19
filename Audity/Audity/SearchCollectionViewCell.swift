@@ -1,6 +1,6 @@
 //
 //  SearchCollectionViewCell.swift
-//  Audiobooks
+//  Audity
 //
 //  Created by Julia Zamaitat on 07.09.19.
 //  Copyright © 2019 Julia Zamaitat. All rights reserved.

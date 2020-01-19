@@ -17,7 +17,6 @@
 		A37585FD2325272300B3CE09 /* DetailCoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37585FC2325272300B3CE09 /* DetailCoverViewController.swift */; };
 		A37585FF232527C600B3CE09 /* DetailDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37585FE232527C600B3CE09 /* DetailDescriptionViewController.swift */; };
 		A37A7F282326486500FBD8DE /* LibraryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37A7F272326486500FBD8DE /* LibraryTableViewCell.swift */; };
-		A384B8B12322C8B700F9D07A /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A384B8B02322C8B700F9D07A /* Helper.swift */; };
 		A3B5A17B232297DC00E97290 /* LibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B5A17A232297DC00E97290 /* LibraryViewController.swift */; };
 		A3B5A17D232297FC00E97290 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B5A17C232297FC00E97290 /* PlayerViewController.swift */; };
 		A3B5A17F2322A18B00E97290 /* UIColor+SpotifyColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B5A17E2322A18B00E97290 /* UIColor+SpotifyColor.swift */; };
@@ -46,7 +45,6 @@
 		A37585FC2325272300B3CE09 /* DetailCoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCoverViewController.swift; sourceTree = "<group>"; };
 		A37585FE232527C600B3CE09 /* DetailDescriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailDescriptionViewController.swift; sourceTree = "<group>"; };
 		A37A7F272326486500FBD8DE /* LibraryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryTableViewCell.swift; sourceTree = "<group>"; };
-		A384B8B02322C8B700F9D07A /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		A3B5A17A232297DC00E97290 /* LibraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewController.swift; sourceTree = "<group>"; };
 		A3B5A17C232297FC00E97290 /* PlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
 		A3B5A17E2322A18B00E97290 /* UIColor+SpotifyColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+SpotifyColor.swift"; sourceTree = "<group>"; };
@@ -119,7 +117,6 @@
 				A3B5A17C232297FC00E97290 /* PlayerViewController.swift */,
 				A3B5A17A232297DC00E97290 /* LibraryViewController.swift */,
 				A30A7AFB232ABD6500515DE2 /* Constants.swift */,
-				A384B8B02322C8B700F9D07A /* Helper.swift */,
 				A3C1D2C023228C5000977415 /* AudiobookDetailViewController.swift */,
 				A3B5A17E2322A18B00E97290 /* UIColor+SpotifyColor.swift */,
 				A3C1D2A62322648600977415 /* Assets.xcassets */,
@@ -220,7 +217,6 @@
 				A3B5A17F2322A18B00E97290 /* UIColor+SpotifyColor.swift in Sources */,
 				A3C1D29F2322648300977415 /* LoginViewController.swift in Sources */,
 				A3B5A17D232297FC00E97290 /* PlayerViewController.swift in Sources */,
-				A384B8B12322C8B700F9D07A /* Helper.swift in Sources */,
 				A3543A5D2323DACA00916B50 /* SearchCollectionViewCell.swift in Sources */,
 				A3DA621B23254BED003A049C /* TrackTableViewCell.swift in Sources */,
 				A37585FF232527C600B3CE09 /* DetailDescriptionViewController.swift in Sources */,
